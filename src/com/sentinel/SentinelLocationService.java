@@ -31,12 +31,10 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Dave
- * Date: 05/12/12
- * Time: 19:58
- * To change this template use File | Settings | File Templates.
- */
+ * David Russell
+ * 05/12/12
+ * Service to send regular location updates to the web services
+ * */
 public class SentinelLocationService extends Service {
 
     private static final String TAG;
@@ -75,7 +73,7 @@ public class SentinelLocationService extends Service {
     /**
      * David Russell
      * 05/12/12
-     * Function that brings the location service to the foreground.
+     * Function to bring the location service to the foreground.
      */
     private void startSentinelLocationForegroundService() {
         int NOTIFICATION_ID = 1;
@@ -95,7 +93,8 @@ public class SentinelLocationService extends Service {
      * 05/12/2012
      * Private function called by location listener to handle the location changed event
      *
-     * @param oLocation - Location object parameter. Contains all GPS information
+     * @param oLocation
+     * Location object parameter. Contains all GPS information
      */
     public void handleLocationChanged(Location oLocation) {
 
@@ -150,7 +149,8 @@ public class SentinelLocationService extends Service {
      * 05/12/12
      * Private function that reads a JSON string from a private application file
      *
-     * @return - if the file is found, the buffered JSON string
+     * @return
+     * If the file is found, the buffered JSON string
      */
     public String readJSONStringFromBuffer() {
         try {
@@ -182,6 +182,7 @@ public class SentinelLocationService extends Service {
      * Writes a JSON string to a private file for use later
      *
      * @param strJSON
+     * The JSON to write to the buffer
      */
     public void writeJSONStringToBuffer(String strJSON) {
         try {
@@ -199,7 +200,8 @@ public class SentinelLocationService extends Service {
      * 05/12/2012
      * Private function to check for connectivity.
      *
-     * @return boolean value indicating if the device has connection
+     * @return
+     * Boolean value indicating if the device has connection
      */
     private boolean isConnected() {
         ConnectivityManager oConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -216,8 +218,10 @@ public class SentinelLocationService extends Service {
      * 05/12/12
      * private function that stringifies a GIS object
      *
-     * @param oGis - geographical data encapsulated in an object
-     * @return - the JSON string for the GIS object
+     * @param oGis
+     * Geographical data encapsulated in an object
+     * @return
+     * The JSON string for the GIS object
      */
     public String GISToJSONString(GIS oGis) {
 

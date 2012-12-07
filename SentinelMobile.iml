@@ -38,9 +38,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Android 4.2 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android 4.2 Google APIs" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/google-gson-2.2.1" />
@@ -51,15 +51,6 @@
         </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$/google-gson-2.2.1" recursive="false" />
         <jarDirectory url="file://$MODULE_DIR$/google-gson-2.2.1" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://C:/AndroidSDK/adt-bundle-windows/sdk/add-ons/addon-google_apis-google-17/libs/maps.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
       </library>
     </orderEntry>
   </component>

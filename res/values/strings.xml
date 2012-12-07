@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SentinelMobile</string>
+    <string name="maps_api_key">0tckJfSKIwhBX--Tq5kRYrb9d6g_xH6iaeuS7hw</string>
 </resources>
