@@ -6,10 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-/**
- * David Russell
- * 09/12/12
- */
 public class SentinelLogin extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,8 +16,8 @@ public class SentinelLogin extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SentinelLogin.this, Sentinel.class);
-                startActivity(intent);
+                Intent sentinelIntent = new Intent(SentinelLogin.this, Sentinel.class);
+                startActivity(sentinelIntent);
             }
         });
     }

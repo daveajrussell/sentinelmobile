@@ -2,7 +2,6 @@ package com.sentinel;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -11,18 +10,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import com.google.gson.Gson;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
@@ -30,30 +20,19 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-/**
- * David Russell
- * 05/12/12
- * Service to send regular location updates to the web services
- * */
 public class SentinelLocationService extends Service {
 
-    private static final String TAG;
     private static final String FILE_NAME;
     private static final int TIME;
     private static final int DISTANCE;
 
     static {
-        TAG = "LOCATION_UPDATE_SERVICE";
         FILE_NAME = "geodata.tmp";
         TIME = 5000;
         DISTANCE = 5;
     }
 
-    private LocationManager oLocationManager;
-    private GIS oGIS;
-    private Gson oGson;
-    private NotificationManager oNotificationManager;
-    private Notification.Builder oNotifyBuilder;
+    private Notification.Builder oLocationServiceNotificationBuilder;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -62,96 +41,65 @@ public class SentinelLocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID) {
-        oLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        oLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationListener);
+        LocationManager oLocationServiceLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        oLocationServiceLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationServiceLocationListener);
 
         startSentinelLocationForegroundService();
 
         return Service.START_STICKY;
     }
 
-    /**
-     * David Russell
-     * 05/12/12
-     * Function to bring the location service to the foreground.
-     */
     private void startSentinelLocationForegroundService() {
         int NOTIFICATION_ID = 1;
 
-        Intent intent = new Intent(this, Sentinel.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, 0);
-
-        oNotifyBuilder = new Notification.Builder(this)
+        oLocationServiceNotificationBuilder = new Notification.Builder(this)
                 .setContentText("Location Service Running")
                 .setSmallIcon(R.drawable.ic_launcher);
 
-        startForeground(NOTIFICATION_ID, oNotifyBuilder.build());
+        startForeground(NOTIFICATION_ID, oLocationServiceNotificationBuilder.build());
     }
 
-    /**
-     * David Russell
-     * 05/12/2012
-     * Private function called by location listener to handle the location changed event
-     *
-     * @param oLocation
-     * Location object parameter. Contains all GPS information
-     */
-    public void handleLocationChanged(Location oLocation) {
+    public void handleLocationChanged(Location oCurrentLocationData) {
 
-        // create an object with the location data
-        oGIS = new GIS();
-        oGIS.setDateTimeStamp(Calendar.getInstance(TimeZone.getTimeZone("gmt+1")).getTimeInMillis());
-        oGIS.setLongitude(oLocation.getLongitude());
-        oGIS.setLatitude(oLocation.getLatitude());
-        oGIS.setOrientation(getResources().getConfiguration().orientation);
-        oGIS.setSpeed(oLocation.getSpeed());
+        GIS oGeoData = buildGeoDataObject(oCurrentLocationData);
 
-        oNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager oLocationServiceNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        oNotifyBuilder = new Notification.Builder(this)
-                .setContentText("Location updated: " + oGIS.getLatitude() + " " + oGIS.getLongitude())
+        oLocationServiceNotificationBuilder = new Notification.Builder(this)
+                .setContentText("Location updated: " + oGeoData.getLatitude() + " " + oGeoData.getLongitude())
                 .setSmallIcon(R.drawable.ic_launcher);
 
-        oNotificationManager.notify(1, oNotifyBuilder.build());
+        oLocationServiceNotificationManager.notify(1, oLocationServiceNotificationBuilder.build());
 
-        String strJSON = GISToJSONString(oGIS);
-        String strBufferedJSON = readJSONStringFromBuffer();
+        String strGeoDataJSON = convertGeoDataObjectToJSONString(oGeoData);
+        String strBufferedGeoDataJSON = readJSONStringFromBuffer();
 
-        // call function to check for connectivity
-        if (isConnected()) {
-            // check for unsent data
-            if (strBufferedJSON != null) {
-                // call function to consume webservice with buffered data
-                sendGISToLocationService(strBufferedJSON + strJSON);
+        if (deviceIsConnected()) {
+
+            if (strBufferedGeoDataJSON != null) {
+                sendGISToLocationService(strBufferedGeoDataJSON + strGeoDataJSON);
             } else {
-                // call function to consume webservice
-                sendGISToLocationService(strJSON);
+                sendGISToLocationService(strGeoDataJSON);
             }
         } else {
-            // if there is no connectivity, write to a buffer
-            writeJSONStringToBuffer(strBufferedJSON + strJSON);
+            writeJSONStringToBuffer(strBufferedGeoDataJSON + strGeoDataJSON);
         }
     }
 
-    /**
-     * David Russell
-     * 05/12/12
-     * Consumes a web service, sending data to a location service
-     *
-     * @param strJSON - JSON representation of a GIS object, encapsulating geographical data
-     */
+    private GIS buildGeoDataObject(Location oCurrentLocationData) {
+        return new GIS(
+            Calendar.getInstance(TimeZone.getTimeZone("gmt+1")).getTimeInMillis(),
+            oCurrentLocationData.getLongitude(),
+            oCurrentLocationData.getLatitude(),
+            getResources().getConfiguration().orientation,
+            oCurrentLocationData.getSpeed()
+        );
+    }
+
     private void sendGISToLocationService(String strJSON) {
         new LocationServiceAsyncTask().execute(strJSON);
     }
 
-    /**
-     * David Russell
-     * 05/12/12
-     * Private function that reads a JSON string from a private application file
-     *
-     * @return
-     * If the file is found, the buffered JSON string
-     */
     public String readJSONStringFromBuffer() {
         try {
             File oBufferedJSONFile = new File(FILE_NAME);
@@ -176,14 +124,6 @@ public class SentinelLocationService extends Service {
         return null;
     }
 
-    /**
-     * David Russell
-     * 05/12/12
-     * Writes a JSON string to a private file for use later
-     *
-     * @param strJSON
-     * The JSON to write to the buffer
-     */
     public void writeJSONStringToBuffer(String strJSON) {
         try {
             FileOutputStream oOutputStream = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
@@ -195,40 +135,10 @@ public class SentinelLocationService extends Service {
         }
     }
 
-    /**
-     * David Russell
-     * 05/12/2012
-     * Private function to check for connectivity.
-     *
-     * @return
-     * Boolean value indicating if the device has connection
-     */
-    private boolean isConnected() {
-        ConnectivityManager oConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo oNetInfo = oConnectivityManager.getActiveNetworkInfo();
+    public String convertGeoDataObjectToJSONString(GIS oGis) {
 
-        if (oNetInfo != null && oNetInfo.isConnectedOrConnecting())
-            return true;
-        else
-            return false;
-    }
+        Gson oGson = new Gson();
 
-    /**
-     * David Russell
-     * 05/12/12
-     * private function that stringifies a GIS object
-     *
-     * @param oGis
-     * Geographical data encapsulated in an object
-     * @return
-     * The JSON string for the GIS object
-     */
-    public String GISToJSONString(GIS oGis) {
-
-        // Create a Gson object
-        oGson = new Gson();
-
-        // Create a json string
         JSONStringer geoLocation;
         String strGeoObjectJSON = null;
 
@@ -242,7 +152,6 @@ public class SentinelLocationService extends Service {
                     .key("m_dSpeed").value(oGis.getSpeed())
                     .endObject();
 
-            // wrap the json string
             strGeoObjectJSON = oGson.toJson(geoLocation.toString());
 
         } catch (JSONException e) {
@@ -251,7 +160,14 @@ public class SentinelLocationService extends Service {
         return strGeoObjectJSON;
     }
 
-    LocationListener oLocationListener = new LocationListener() {
+    private boolean deviceIsConnected() {
+        ConnectivityManager oConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo oNetInfo = oConnectivityManager.getActiveNetworkInfo();
+
+        return oNetInfo != null && oNetInfo.isConnectedOrConnecting();
+    }
+
+    LocationListener oLocationServiceLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             handleLocationChanged(location);

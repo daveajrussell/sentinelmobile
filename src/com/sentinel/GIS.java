@@ -1,12 +1,5 @@
 package com.sentinel;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Dave
- * Date: 05/12/12
- * Time: 19:46
- * To change this template use File | Settings | File Templates.
- */
 public class GIS {
 
     private long m_lngDateTimeStamp;
@@ -14,9 +7,6 @@ public class GIS {
     private double m_dLatitude;
     private int m_intOrientation;
     private double m_dSpeed;
-
-    public GIS() {
-    }
 
     public GIS(long lngDateTimeStamp, double lng, double lat, int orientation, double speed) {
         setDateTimeStamp(lngDateTimeStamp);

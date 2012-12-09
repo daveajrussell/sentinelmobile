@@ -33,7 +33,6 @@
             </intent-filter>
         </activity>
 
-
         <service android:enabled="true" android:name=".SentinelLocationService"
                  android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION">
         </service>
