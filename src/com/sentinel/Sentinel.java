@@ -11,6 +11,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.sentinel.tracking.SentinelLocationService;
 import com.sentinel.preferences.SentinelSharedPreferences;
 
 public class Sentinel extends MapActivity {
@@ -50,26 +51,21 @@ public class Sentinel extends MapActivity {
 
     @Override
     protected boolean isRouteDisplayed() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
     private void startLocationUpdates() {
         LocationManager oLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         oLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationListener);
 
-        // Set Criteria
-        setCriteria();
+        setGeoSpatialCriteria();
 
-        // Set Provider
         String strProvider = oLocationManager.getBestProvider(oCriteria, true);
 
-        // Get the last known location using the provider
         Location oLocation = oLocationManager.getLastKnownLocation(strProvider);
 
-        // Update the location on the map with the last known location
         updateLocation(oLocation);
 
-        // Setup requesting location updates every 5000 milliseconds or 5 metres
         oLocationManager.requestLocationUpdates(strProvider, TIME, DISTANCE, oLocationListener);
     }
 
@@ -82,7 +78,7 @@ public class Sentinel extends MapActivity {
         }
     }
 
-    private void setCriteria() {
+    private void setGeoSpatialCriteria() {
         oCriteria = new Criteria();
         oCriteria.setAccuracy(Criteria.ACCURACY_FINE);
         oCriteria.setPowerRequirement(Criteria.POWER_LOW);

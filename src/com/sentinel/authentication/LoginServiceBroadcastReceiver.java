@@ -1,8 +1,9 @@
-package com.sentinel;
+package com.sentinel.authentication;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import com.sentinel.Sentinel;
 import com.sentinel.preferences.SentinelSharedPreferences;
 
 /**

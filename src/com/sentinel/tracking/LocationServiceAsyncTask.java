@@ -1,4 +1,4 @@
-package com.sentinel;
+package com.sentinel.tracking;
 
 import android.os.AsyncTask;
 import android.util.Log;

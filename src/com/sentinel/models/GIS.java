@@ -1,4 +1,4 @@
-package com.sentinel;
+package com.sentinel.models;
 
 public class GIS {
 

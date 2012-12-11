@@ -16,7 +16,7 @@
 
         <uses-library android:name="com.google.android.maps"/>
 
-        <activity android:name=".SentinelLogin"
+        <activity android:name=".authentication.SentinelLogin"
                   android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -33,14 +33,22 @@
             </intent-filter>
         </activity>
 
-        <service android:enabled="true" android:name=".SentinelLocationService"
+        <service android:enabled="true" android:name=".tracking.SentinelLocationService"
                  android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION">
         </service>
 
-        <receiver android:name=".LoginServiceBroadcastReceiver">
+        <receiver android:name=".authentication.LoginServiceBroadcastReceiver">
                 <intent-filter>
                     <action android:name="com.sentinel.auth.action.CREDENTIALS_AUTHENTICATION"/>
                 </intent-filter>
         </receiver>
+
+        <receiver android:name=".connection.ConnectionChangedBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".tracking.LocationServiceBroadcastReceiver"/>
+
     </application>
 </manifest>

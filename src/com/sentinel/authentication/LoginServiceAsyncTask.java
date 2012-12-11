@@ -1,4 +1,4 @@
-package com.sentinel;
+package com.sentinel.authentication;
 
 import android.content.Context;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.sentinel;
+package com.sentinel.tracking;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -13,6 +13,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import com.google.gson.Gson;
+import com.sentinel.R;
+import com.sentinel.connection.ConnectionManager;
+import com.sentinel.models.GIS;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
@@ -22,17 +25,16 @@ import java.util.TimeZone;
 
 public class SentinelLocationService extends Service {
 
-    private static final String FILE_NAME;
     private static final int TIME;
     private static final int DISTANCE;
 
     static {
-        FILE_NAME = "geodata.tmp";
         TIME = 5000;
         DISTANCE = 5;
     }
 
     private Notification.Builder oLocationServiceNotificationBuilder;
+    private ConnectionManager oSentinelConnectionManager;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -43,6 +45,7 @@ public class SentinelLocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startID) {
         LocationManager oLocationServiceLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         oLocationServiceLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationServiceLocationListener);
+        oSentinelConnectionManager = new ConnectionManager(this);
 
         startSentinelLocationForegroundService();
 
@@ -72,9 +75,9 @@ public class SentinelLocationService extends Service {
         oLocationServiceNotificationManager.notify(1, oLocationServiceNotificationBuilder.build());
 
         String strGeoDataJSON = convertGeoDataObjectToJSONString(oGeoData);
-        String strBufferedGeoDataJSON = readJSONStringFromBuffer();
+        String strBufferedGeoDataJSON = GISDataBuffer.readJSONStringFromBuffer();
 
-        if (deviceIsConnected()) {
+        if (oSentinelConnectionManager.deviceIsConnected()) {
 
             if (strBufferedGeoDataJSON != null) {
                 sendGISToLocationService(strBufferedGeoDataJSON + strGeoDataJSON);
@@ -82,7 +85,7 @@ public class SentinelLocationService extends Service {
                 sendGISToLocationService(strGeoDataJSON);
             }
         } else {
-            writeJSONStringToBuffer(strBufferedGeoDataJSON + strGeoDataJSON);
+            GISDataBuffer.writeJSONStringToBuffer(this, strBufferedGeoDataJSON + strGeoDataJSON);
         }
     }
 
@@ -98,41 +101,6 @@ public class SentinelLocationService extends Service {
 
     private void sendGISToLocationService(String strJSON) {
         new LocationServiceAsyncTask().execute(strJSON);
-    }
-
-    public String readJSONStringFromBuffer() {
-        try {
-            File oBufferedJSONFile = new File(FILE_NAME);
-            InputStream oInputStream = new BufferedInputStream(new FileInputStream(oBufferedJSONFile));
-
-            BufferedReader oReader = new BufferedReader(new InputStreamReader(oInputStream));
-
-            StringBuilder oBufferedJSONString = new StringBuilder();
-            String strLine;
-
-            while ((strLine = oReader.readLine()) != null) {
-                oBufferedJSONString.append(strLine);
-            }
-
-            oReader.close();
-            oBufferedJSONFile.delete();
-
-            return oBufferedJSONString.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void writeJSONStringToBuffer(String strJSON) {
-        try {
-            FileOutputStream oOutputStream = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-            oOutputStream.write(strJSON.getBytes());
-            oOutputStream.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public String convertGeoDataObjectToJSONString(GIS oGis) {
@@ -158,13 +126,6 @@ public class SentinelLocationService extends Service {
             e.printStackTrace();
         }
         return strGeoObjectJSON;
-    }
-
-    private boolean deviceIsConnected() {
-        ConnectivityManager oConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo oNetInfo = oConnectivityManager.getActiveNetworkInfo();
-
-        return oNetInfo != null && oNetInfo.isConnectedOrConnecting();
     }
 
     LocationListener oLocationServiceLocationListener = new LocationListener() {

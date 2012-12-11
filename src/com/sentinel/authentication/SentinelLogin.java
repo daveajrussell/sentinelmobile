@@ -1,4 +1,4 @@
-package com.sentinel;
+package com.sentinel.authentication;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.google.gson.Gson;
+import com.sentinel.models.Credentials;
+import com.sentinel.R;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
