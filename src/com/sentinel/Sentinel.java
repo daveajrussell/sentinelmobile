@@ -11,14 +11,12 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.sentinel.preferences.SentinelSharedPreferences;
 
 public class Sentinel extends MapActivity {
 
-    private MapView oMapView;
     private MapController oMapController;
-    private LocationManager oLocationManager;
     private Criteria oCriteria;
-    private String strProvider;
 
     private static final int TIME;
     private static final int DISTANCE;
@@ -28,31 +26,25 @@ public class Sentinel extends MapActivity {
         DISTANCE = 5;
     }
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // Set MapView object reference
-        oMapView = (MapView)findViewById(R.id.mapview);
+        SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(this);
+        String strTest = oSentinelSharedPreferences.getUserPreferences();
 
-        // Get a reference to the MapView's MapController object
+        MapView oMapView = (MapView) findViewById(R.id.mapview);
+
         oMapController = oMapView.getController();
 
-        // Set MapView settings
         oMapView.setBuiltInZoomControls(true);
 
-        // Set MapController settings
         oMapController.setZoom(17);
 
-        // Start the SentinelLocationService Service
         Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
         startService(intent);
 
-        // Start listening to location updates
         startLocationUpdates();
     }
 
@@ -61,22 +53,15 @@ public class Sentinel extends MapActivity {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * David Russell
-     * 06/12/12
-     * Function to start the location updates
-     * Initially, an attempt to determine the users last location is made
-     * Subsequent updates to the map are made via the LocationListener
-     */
     private void startLocationUpdates() {
-        oLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager oLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         oLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationListener);
 
         // Set Criteria
         setCriteria();
 
         // Set Provider
-        strProvider = oLocationManager.getBestProvider(oCriteria, true);
+        String strProvider = oLocationManager.getBestProvider(oCriteria, true);
 
         // Get the last known location using the provider
         Location oLocation = oLocationManager.getLastKnownLocation(strProvider);
@@ -88,15 +73,6 @@ public class Sentinel extends MapActivity {
         oLocationManager.requestLocationUpdates(strProvider, TIME, DISTANCE, oLocationListener);
     }
 
-    /**
-     * David Russell
-     * 06/12/12
-     * Function to update the location on the map.
-     * Takes the latitude and longitude from the Location object passed
-     * Creates a GeoPoint object that is used as a reference point to animate the map to
-     * @param oLocation
-     * The Location object that is created by the event listener
-     */
     private void updateLocation(Location oLocation) {
         if(oLocation != null) {
             Double dblLatitude = oLocation.getLatitude()*1E6;
@@ -106,14 +82,6 @@ public class Sentinel extends MapActivity {
         }
     }
 
-    /**
-     * David Russell
-     * 06/12/12
-     * Function that sets the Criteria object with settings
-     * Here it is specified that the accuracy needs to be FINE
-     * The power requirement is LOW
-     * There is no need to take Altitude, Bearing or Speed measurements
-     */
     private void setCriteria() {
         oCriteria = new Criteria();
         oCriteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -124,11 +92,6 @@ public class Sentinel extends MapActivity {
         oCriteria.setCostAllowed(true);
     }
 
-    /**
-     * David Russell
-     * 06/12/12
-     * Setup a LocationListener to handle location changed events
-     */
     LocationListener oLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {

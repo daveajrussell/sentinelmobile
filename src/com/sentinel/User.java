@@ -4,20 +4,20 @@ import java.util.UUID;
 
 public class User {
 
-    private UUID m_oUserIdentification;
+    private UUID oUserIdentification;
 
     public User() {
     }
 
     public User(UUID oUserIdentification) {
-        setM_oUserIdentification(oUserIdentification);
+        setUserIdentification(oUserIdentification);
     }
 
-    public UUID getM_oUserIdentification() {
-        return m_oUserIdentification;
+    public UUID getUserIdentification() {
+        return oUserIdentification;
     }
 
-    public void setM_oUserIdentification(UUID m_oUserIdentification) {
-        this.m_oUserIdentification = m_oUserIdentification;
+    public void setUserIdentification(UUID oUserIdentification) {
+        this.oUserIdentification = oUserIdentification;
     }
 }

@@ -145,11 +145,11 @@ public class SentinelLocationService extends Service {
         try {
             geoLocation = new JSONStringer()
                     .object()
-                    .key("m_lngTimeStamp").value(oGis.getDateTimeStamp())
-                    .key("m_dLatitude").value(oGis.getLatitude())
-                    .key("m_dLongitude").value(oGis.getLongitude())
-                    .key("m_intOrientation").value(oGis.getOrientation())
-                    .key("m_dSpeed").value(oGis.getSpeed())
+                    .key("lngTimeStamp").value(oGis.getDateTimeStamp())
+                    .key("dblLatitude").value(oGis.getLatitude())
+                    .key("dblLongitude").value(oGis.getLongitude())
+                    .key("intOrientation").value(oGis.getOrientation())
+                    .key("dblSpeed").value(oGis.getSpeed())
                     .endObject();
 
             strGeoObjectJSON = oGson.toJson(geoLocation.toString());

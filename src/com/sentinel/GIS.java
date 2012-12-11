@@ -2,57 +2,57 @@ package com.sentinel;
 
 public class GIS {
 
-    private long m_lngDateTimeStamp;
-    private double m_dLongitude;
-    private double m_dLatitude;
-    private int m_intOrientation;
-    private double m_dSpeed;
+    private long lngDateTimeStamp;
+    private double dblLongitude;
+    private double dblLatitude;
+    private int intOrientation;
+    private double dblSpeed;
 
     public GIS(long lngDateTimeStamp, double lng, double lat, int orientation, double speed) {
         setDateTimeStamp(lngDateTimeStamp);
-        m_dLongitude = lng;
-        m_dLatitude = lat;
-        m_intOrientation = orientation;
-        m_dSpeed = speed;
+        dblLongitude = lng;
+        dblLatitude = lat;
+        intOrientation = orientation;
+        dblSpeed = speed;
     }
 
     public double getSpeed() {
-        return m_dSpeed;
+        return dblSpeed;
     }
 
-    public void setSpeed(double m_dblSpeed) {
-        this.m_dSpeed = m_dblSpeed;
+    public void setSpeed(double dblSpeed) {
+        this.dblSpeed = dblSpeed;
     }
 
     public int getOrientation() {
-        return m_intOrientation;
+        return intOrientation;
     }
 
-    public void setOrientation(int m_intOrientation) {
-        this.m_intOrientation = m_intOrientation;
+    public void setOrientation(int intOrientation) {
+        this.intOrientation = intOrientation;
     }
 
     public double getLongitude() {
-        return m_dLongitude;
+        return dblLongitude;
     }
 
-    public void setLongitude(double m_dLongitude) {
-        this.m_dLongitude = m_dLongitude;
+    public void setLongitude(double dblLongitude) {
+        this.dblLongitude = dblLongitude;
     }
 
     public double getLatitude() {
-        return m_dLatitude;
+        return dblLatitude;
     }
 
-    public void setLatitude(double m_dLatitude) {
-        this.m_dLatitude = m_dLatitude;
+    public void setLatitude(double dblLatitude) {
+        this.dblLatitude = dblLatitude;
     }
 
     public long getDateTimeStamp() {
-        return m_lngDateTimeStamp;
+        return lngDateTimeStamp;
     }
 
-    public void setDateTimeStamp(long m_lngDateTimeStamp) {
-        this.m_lngDateTimeStamp = m_lngDateTimeStamp;
+    public void setDateTimeStamp(long lngDateTimeStamp) {
+        this.lngDateTimeStamp = lngDateTimeStamp;
     }
 }

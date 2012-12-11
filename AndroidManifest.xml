@@ -37,5 +37,10 @@
                  android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION">
         </service>
 
+        <receiver android:name=".LoginServiceBroadcastReceiver">
+                <intent-filter>
+                    <action android:name="com.sentinel.auth.action.CREDENTIALS_AUTHENTICATION"/>
+                </intent-filter>
+        </receiver>
     </application>
 </manifest>

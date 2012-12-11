@@ -11,11 +11,8 @@ import org.json.JSONStringer;
 
 public class SentinelLogin extends Activity {
 
-    private static final int LOGIN_REQUEST_CODE;
-
-    static  {
-        LOGIN_REQUEST_CODE = 1;
-    }
+    private Credentials oUserCredentials;
+    private String strCredentialsJSONString;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,20 +21,23 @@ public class SentinelLogin extends Activity {
         Button btnLogin = (Button)findViewById(R.id.btn_login);
         final EditText txtUsername = (EditText)findViewById(R.id.txt_username);
         final EditText txtPassword = (EditText)findViewById(R.id.txt_password);
-        final View pgLoginProgress = (View)findViewById(R.id.pb_login);
+        final View pgLoginProgress = findViewById(R.id.pb_login);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent sentinelIntent = new Intent(SentinelLogin.this, Sentinel.class);
-                //startActivity(sentinelIntent);
+                    if ((txtUsername.getText().length() > 0) && (txtPassword.getText().length() > 0)) {
 
-                //pgLoginProgress.setVisibility(View.VISIBLE);
-                //txtUsername.setEnabled(false);
-                //txtPassword.setEnabled(false);
+                    oUserCredentials = new Credentials(txtUsername.getText().toString(),txtPassword.getText().toString());
 
+                    pgLoginProgress.setVisibility(View.VISIBLE);
+                    txtUsername.setEnabled(false);
+                    txtPassword.setEnabled(false);
 
+                        strCredentialsJSONString = convertCredentialsObjectToJSONString(oUserCredentials);
+                }
 
+                new LoginServiceAsyncTask(SentinelLogin.this).execute(strCredentialsJSONString);
             }
         });
     }
@@ -51,8 +51,8 @@ public class SentinelLogin extends Activity {
         try {
             oCredentialsStringer = new JSONStringer()
                     .object()
-                        .key("").value(oCredentials.getUsername())
-                        .key("").value(oCredentials.getPassword())
+                        .key("strUsername").value(oCredentials.getUsername())
+                        .key("strPassword").value(oCredentials.getPassword())
                     .endObject();
 
             strCredentialsJSON = oGson.toJson(oCredentialsStringer.toString());

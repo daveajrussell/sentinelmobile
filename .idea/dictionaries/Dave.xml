@@ -4,6 +4,7 @@
       <w>async</w>
       <w>geodata</w>
       <w>gson</w>
+      <w>prefs</w>
     </words>
   </dictionary>
 </component>
