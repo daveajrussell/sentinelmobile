@@ -3,25 +3,25 @@ package com.sentinel.models;
 public class GIS {
 
     private long lngDateTimeStamp;
-    private double dblLongitude;
-    private double dblLatitude;
+    private double dLongitude;
+    private double dLatitude;
     private int intOrientation;
-    private double dblSpeed;
+    private double dSpeed;
 
     public GIS(long lngDateTimeStamp, double lng, double lat, int orientation, double speed) {
         setDateTimeStamp(lngDateTimeStamp);
-        dblLongitude = lng;
-        dblLatitude = lat;
+        dLongitude = lng;
+        dLatitude = lat;
         intOrientation = orientation;
-        dblSpeed = speed;
+        dSpeed = speed;
     }
 
     public double getSpeed() {
-        return dblSpeed;
+        return dSpeed;
     }
 
-    public void setSpeed(double dblSpeed) {
-        this.dblSpeed = dblSpeed;
+    public void setSpeed(double dSpeed) {
+        this.dSpeed = dSpeed;
     }
 
     public int getOrientation() {
@@ -33,19 +33,19 @@ public class GIS {
     }
 
     public double getLongitude() {
-        return dblLongitude;
+        return dLongitude;
     }
 
-    public void setLongitude(double dblLongitude) {
-        this.dblLongitude = dblLongitude;
+    public void setLongitude(double dLongitude) {
+        this.dLongitude = dLongitude;
     }
 
     public double getLatitude() {
-        return dblLatitude;
+        return dLatitude;
     }
 
-    public void setLatitude(double dblLatitude) {
-        this.dblLatitude = dblLatitude;
+    public void setLatitude(double dLatitude) {
+        this.dLatitude = dLatitude;
     }
 
     public long getDateTimeStamp() {

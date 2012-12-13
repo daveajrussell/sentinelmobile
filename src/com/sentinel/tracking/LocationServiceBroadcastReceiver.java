@@ -12,12 +12,12 @@ public class LocationServiceBroadcastReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
 
-        String strJSON = readGISDataFromBuffer();
+        String strJSON = readGISDataFromBuffer(context);
         if(!strJSON.isEmpty())
             new LocationServiceAsyncTask().execute(strJSON);
     }
 
-    private String readGISDataFromBuffer() {
-        return GISDataBuffer.readJSONStringFromBuffer();
+    private String readGISDataFromBuffer(Context context) {
+        return GISDataBuffer.readJSONStringFromBuffer(context);
     }
 }

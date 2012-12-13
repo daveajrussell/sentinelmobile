@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
  */
 public class SentinelSharedPreferences {
 
-    private Context m_oContext;
     private SharedPreferences oSentinelSharedPreferences;
     private static final String SENTINEL_SHARED_PREFS;
     private static final String USER_IDENTIFICATION;
@@ -21,8 +20,7 @@ public class SentinelSharedPreferences {
     }
 
     public SentinelSharedPreferences(Context context) {
-        m_oContext = context;
-        oSentinelSharedPreferences = m_oContext.getSharedPreferences(SENTINEL_SHARED_PREFS, Activity.MODE_PRIVATE);
+        oSentinelSharedPreferences = context.getSharedPreferences(SENTINEL_SHARED_PREFS, Activity.MODE_PRIVATE);
     }
 
     public void setUserPreferences(String strUserIdentification) {

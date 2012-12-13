@@ -1,6 +1,7 @@
 package com.sentinel.tracking;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.*;
 
@@ -13,25 +14,25 @@ public class GISDataBuffer {
     private static final String FILE_NAME;
 
     static {
-        FILE_NAME = "geodata.tmp";
+        FILE_NAME = "geodata.txt";
     }
 
-    public static String readJSONStringFromBuffer() {
+    public static String readJSONStringFromBuffer(Context context) {
         try {
-            File oBufferedJSONFile = new File(FILE_NAME);
-            InputStream oInputStream = new BufferedInputStream(new FileInputStream(oBufferedJSONFile));
-
-            BufferedReader oReader = new BufferedReader(new InputStreamReader(oInputStream));
+            FileInputStream oInputStream = context.openFileInput(FILE_NAME);
+            InputStreamReader oInputStreamReader = new InputStreamReader(oInputStream);
+            BufferedReader oBufferedReader = new BufferedReader(oInputStreamReader);
 
             StringBuilder oBufferedJSONString = new StringBuilder();
             String strLine;
 
-            while ((strLine = oReader.readLine()) != null) {
+            while ((strLine = oBufferedReader.readLine()) != null) {
                 oBufferedJSONString.append(strLine);
             }
 
-            oReader.close();
-            oBufferedJSONFile.delete();
+            oBufferedReader.close();
+
+            writeNull(context);
 
             return oBufferedJSONString.toString();
         } catch (Exception e) {
@@ -44,6 +45,17 @@ public class GISDataBuffer {
         try {
             FileOutputStream oOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             oOutputStream.write(strJSON.getBytes());
+            oOutputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void writeNull(Context context) {
+        try {
+            FileOutputStream oOutputStream = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
+            oOutputStream.write(null);
             oOutputStream.close();
 
         } catch (IOException e) {

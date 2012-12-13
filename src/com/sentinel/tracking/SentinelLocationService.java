@@ -12,13 +12,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.Toast;
 import com.google.gson.Gson;
 import com.sentinel.R;
 import com.sentinel.connection.ConnectionManager;
 import com.sentinel.models.GIS;
+import com.sentinel.preferences.SentinelSharedPreferences;
 import org.json.JSONException;
 import org.json.JSONStringer;
 
+import javax.xml.datatype.Duration;
 import java.io.*;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -35,6 +39,7 @@ public class SentinelLocationService extends Service {
 
     private Notification.Builder oLocationServiceNotificationBuilder;
     private ConnectionManager oSentinelConnectionManager;
+    private SentinelSharedPreferences oSentinelSharedPreferences;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -46,6 +51,7 @@ public class SentinelLocationService extends Service {
         LocationManager oLocationServiceLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         oLocationServiceLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationServiceLocationListener);
         oSentinelConnectionManager = new ConnectionManager(this);
+        oSentinelSharedPreferences = new SentinelSharedPreferences(this);
 
         startSentinelLocationForegroundService();
 
@@ -75,10 +81,9 @@ public class SentinelLocationService extends Service {
         oLocationServiceNotificationManager.notify(1, oLocationServiceNotificationBuilder.build());
 
         String strGeoDataJSON = convertGeoDataObjectToJSONString(oGeoData);
-        String strBufferedGeoDataJSON = GISDataBuffer.readJSONStringFromBuffer();
+        String strBufferedGeoDataJSON = GISDataBuffer.readJSONStringFromBuffer(this);
 
         if (oSentinelConnectionManager.deviceIsConnected()) {
-
             if (strBufferedGeoDataJSON != null) {
                 sendGISToLocationService(strBufferedGeoDataJSON + strGeoDataJSON);
             } else {
@@ -114,10 +119,11 @@ public class SentinelLocationService extends Service {
             geoLocation = new JSONStringer()
                     .object()
                     .key("lngTimeStamp").value(oGis.getDateTimeStamp())
-                    .key("dblLatitude").value(oGis.getLatitude())
-                    .key("dblLongitude").value(oGis.getLongitude())
+                    .key("oUserIdentification").value(oSentinelSharedPreferences.getUserPreferences())
+                    .key("dLatitude").value(oGis.getLatitude())
+                    .key("dLongitude").value(oGis.getLongitude())
                     .key("intOrientation").value(oGis.getOrientation())
-                    .key("dblSpeed").value(oGis.getSpeed())
+                    .key("dSpeed").value(oGis.getSpeed())
                     .endObject();
 
             strGeoObjectJSON = oGson.toJson(geoLocation.toString());
