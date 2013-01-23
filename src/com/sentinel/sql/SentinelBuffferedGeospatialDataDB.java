@@ -85,8 +85,8 @@ public class SentinelBuffferedGeospatialDataDB
         int TIMESTAMP_COLUMN_INDEX = oCursor.getColumnIndex(KEY_TIMESTAMP_COLUMN);
         int LATITUDE_COLUMN_INDEX = oCursor.getColumnIndex(KEY_LATITUDE_COLUMN);
         int LONGITUDE_COLUMN_INDEX = oCursor.getColumnIndex(KEY_LONGITUDE_COLUMN);
-        int SPEED_COLUMN_INDEX = oCursor.getColumnIndex(KEY_ORIENTATION_COLUMN);
-        int ORIENTATION_COLUMN_INDEX = oCursor.getColumnIndex(KEY_SPEED_COLUMN);
+        int SPEED_COLUMN_INDEX = oCursor.getColumnIndex(KEY_SPEED_COLUMN);
+        int ORIENTATION_COLUMN_INDEX = oCursor.getColumnIndex(KEY_ORIENTATION_COLUMN);
 
         String strJsonString = "";
 
@@ -102,7 +102,7 @@ public class SentinelBuffferedGeospatialDataDB
             {
                 strBufferedData = new JSONStringer()
                         .object()
-                        .key("oSessionID").value(oCursor.getInt(SESSION_ID_COLUMN_INDEX))
+                        .key("iSessionID").value(oCursor.getInt(SESSION_ID_COLUMN_INDEX))
                         .key("oUserIdentification").value(oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
                         .key("lTimeStamp").value(oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
                         .key("dLatitude").value(oCursor.getDouble(LATITUDE_COLUMN_INDEX))
@@ -125,12 +125,10 @@ public class SentinelBuffferedGeospatialDataDB
                     oBufferedDataJsonArray = new JSONArray();
                     oBufferedDataJson = new JSONObject();
 
-                    oBufferedDataJson.put("BufferedData", "Data");
-
                     while (oCursor.moveToNext())
                     {
                         oBufferedDataJsonElement = new JSONObject()
-                                .put("oSessionID", oCursor.getInt(SESSION_ID_COLUMN_INDEX))
+                                .put("iSessionID", oCursor.getInt(SESSION_ID_COLUMN_INDEX))
                                 .put("oUserIdentification", oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
                                 .put("lTimeStamp", oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
                                 .put("dLatitude", oCursor.getDouble(LATITUDE_COLUMN_INDEX))
@@ -152,6 +150,7 @@ public class SentinelBuffferedGeospatialDataDB
                 // no collection
             }
 
+        oCursor.close();
         return strJsonString;
     }
 
