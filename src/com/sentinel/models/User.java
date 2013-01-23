@@ -4,20 +4,30 @@ import java.util.UUID;
 
 public class User {
 
-    private UUID oUserIdentification;
+    private String UserKey;
+    private int SessionID;
 
     public User() {
     }
 
-    public User(UUID oUserIdentification) {
-        setUserIdentification(oUserIdentification);
+    public User(String oUserIdentification, int iSessionID) {
+        this.UserKey = oUserIdentification;
+        this.SessionID = iSessionID;
     }
 
-    public UUID getUserIdentification() {
-        return oUserIdentification;
+    public String getUserIdentification() {
+        return UserKey;
     }
 
-    public void setUserIdentification(UUID oUserIdentification) {
-        this.oUserIdentification = oUserIdentification;
+    public void setUserIdentification(String oUserIdentification) {
+        this.UserKey = oUserIdentification;
+    }
+
+    public int getSessionID() {
+        return SessionID;
+    }
+
+    public void setSessionID(int iSessionID) {
+        this.SessionID = iSessionID;
     }
 }

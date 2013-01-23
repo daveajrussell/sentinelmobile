@@ -32,9 +32,6 @@ public class Sentinel extends MapActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(this);
-        String strTest = oSentinelSharedPreferences.getUserPreferences();
-
         MapView oMapView = (MapView) findViewById(R.id.mapview);
 
         oMapController = oMapView.getController();

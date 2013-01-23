@@ -7,6 +7,7 @@ import android.content.Intent;
 /**
  * David Russell
  * 11/12/12
+ * Does this even get used?
  */
 public class LocationServiceBroadcastReceiver extends BroadcastReceiver {
 

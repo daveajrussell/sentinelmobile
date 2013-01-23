@@ -13,22 +13,25 @@ import com.sentinel.preferences.SentinelSharedPreferences;
 public class LoginServiceBroadcastReceiver extends BroadcastReceiver {
 
     public static final String USER_IDENTIFICATION;
+    public static final String SESSION_ID;
     public static final String CREDENTIALS_AUTHENTICATION;
 
 
     static {
         USER_IDENTIFICATION = "USER_IDENTIFICATION";
+        SESSION_ID = "SESSION_ID";
         CREDENTIALS_AUTHENTICATION = "com.sentinel.auth.action.CREDENTIALS_AUTHENTICATION";
     }
 
     public void onReceive(Context context, Intent intent) {
-            SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(context);
-            String strUserIdentification = intent.getStringExtra(USER_IDENTIFICATION);
+        SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(context);
+        String strUserIdentification = intent.getStringExtra(USER_IDENTIFICATION);
+        int iSessionID = intent.getIntExtra(SESSION_ID, 0);
 
-            oSentinelSharedPreferences.setUserPreferences(strUserIdentification);
+        oSentinelSharedPreferences.setUserPreferences(strUserIdentification, iSessionID);
 
-            Intent sentinelIntent = new Intent(context, Sentinel.class);
-            sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(sentinelIntent);
+        Intent sentinelIntent = new Intent(context, Sentinel.class);
+        sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(sentinelIntent);
     }
 }

@@ -32,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".tracking.BufferedGeospatialDataAsyncTask"/>
 
         <service android:enabled="true" android:name=".tracking.SentinelLocationService"
                  android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION">

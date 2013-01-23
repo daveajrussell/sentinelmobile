@@ -9,13 +9,17 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 
-public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String> {
+/**
+ * David Russell
+ * 22/01/13
+ */
+public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     private static final String METHOD_NAME;
     private static final String URL;
 
     static {
-        METHOD_NAME = "/PostGeospatialData";
+        METHOD_NAME = "/PostBufferedGeospatialDataSet";
         URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
     }
 
@@ -43,5 +47,6 @@ public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String>
             }
         }
         return "";
+
     }
 }

@@ -25,6 +25,11 @@ public class SentinelLogin extends Activity {
         final EditText txtPassword = (EditText)findViewById(R.id.txt_password);
         final View pgLoginProgress = findViewById(R.id.pb_login);
 
+        /* DEBUG */
+        txtUsername.setText("DR_ARCHITECT");
+        txtPassword.setText("randomness");
+        /* DEBUG */
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
