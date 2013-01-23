@@ -94,6 +94,8 @@ public class SentinelLocationService extends Service
     {
         GeospatialInformation oGeospatialInformation = buildGeoDataObject(oCurrentLocationData);
         oSentinelDB.addGeospatialData(oGeospatialInformation);
+        oSentinelDB.addGeospatialData(oGeospatialInformation);
+        oSentinelDB.addGeospatialData(oGeospatialInformation);
         String strGeospatialInformationJson;
 
         NotificationManager oLocationServiceNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -146,34 +148,4 @@ public class SentinelLocationService extends Service
     {
         new BufferedGeospatialDataAsyncTask().execute(strGeospatialJsonSet);
     }
-
-    /*
-    public String convertGeoDataObjectToJSONString(GeospatialInformation oGeoInfo)
-    {
-        Gson oGson = new Gson();
-
-        JSONStringer geoLocation;
-        String strGeoObjectJSON = null;
-
-        try
-        {
-            geoLocation = new JSONStringer()
-                    .object()
-                        .key("oUserIdentification").value(oGeoInfo.getUserIndentification())
-                        .key("lTimeStamp").value(oGeoInfo.getDateTimeStamp())
-                        .key("dLatitude").value(oGeoInfo.getLatitude())
-                        .key("dLongitude").value(oGeoInfo.getLongitude())
-                        .key("dSpeed").value(oGeoInfo.getSpeed())
-                        .key("iOrientation").value(oGeoInfo.getOrientation())
-                    .endObject();
-
-            strGeoObjectJSON = oGson.toJson(geoLocation.toString());
-
-        } catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-        return strGeoObjectJSON;
-    }
-    */
 }

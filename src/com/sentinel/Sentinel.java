@@ -12,23 +12,46 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.sentinel.tracking.SentinelLocationService;
-import com.sentinel.preferences.SentinelSharedPreferences;
 
-public class Sentinel extends MapActivity {
-
-    private MapController oMapController;
-    private Criteria oCriteria;
+public class Sentinel extends MapActivity
+{
 
     private static final int TIME;
     private static final int DISTANCE;
-
-    static {
+    static
+    {
         TIME = 5000;
         DISTANCE = 5;
     }
+    LocationListener oLocationListener = new LocationListener()
+    {
+        @Override
+        public void onLocationChanged(Location location)
+        {
+            updateLocation(location);
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle)
+        {
+        }
+
+        @Override
+        public void onProviderEnabled(String s)
+        {
+        }
+
+        @Override
+        public void onProviderDisabled(String s)
+        {
+        }
+    };
+    private MapController oMapController;
+    private Criteria oCriteria;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -47,11 +70,13 @@ public class Sentinel extends MapActivity {
     }
 
     @Override
-    protected boolean isRouteDisplayed() {
+    protected boolean isRouteDisplayed()
+    {
         return false;
     }
 
-    private void startLocationUpdates() {
+    private void startLocationUpdates()
+    {
         LocationManager oLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         oLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationListener);
 
@@ -66,16 +91,19 @@ public class Sentinel extends MapActivity {
         oLocationManager.requestLocationUpdates(strProvider, TIME, DISTANCE, oLocationListener);
     }
 
-    private void updateLocation(Location oLocation) {
-        if(oLocation != null) {
-            Double dblLatitude = oLocation.getLatitude()*1E6;
-            Double dblLongitude = oLocation.getLongitude()*1E6;
+    private void updateLocation(Location oLocation)
+    {
+        if (oLocation != null)
+        {
+            Double dblLatitude = oLocation.getLatitude() * 1E6;
+            Double dblLongitude = oLocation.getLongitude() * 1E6;
             GeoPoint oPoint = new GeoPoint(dblLatitude.intValue(), dblLongitude.intValue());
             oMapController.animateTo(oPoint);
         }
     }
 
-    private void setGeoSpatialCriteria() {
+    private void setGeoSpatialCriteria()
+    {
         oCriteria = new Criteria();
         oCriteria.setAccuracy(Criteria.ACCURACY_FINE);
         oCriteria.setPowerRequirement(Criteria.POWER_LOW);
@@ -84,23 +112,4 @@ public class Sentinel extends MapActivity {
         oCriteria.setSpeedRequired(false);
         oCriteria.setCostAllowed(true);
     }
-
-    LocationListener oLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            updateLocation(location);
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-        }
-    };
 }

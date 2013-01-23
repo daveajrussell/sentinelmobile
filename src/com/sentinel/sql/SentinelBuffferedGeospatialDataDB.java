@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.sentinel.models.GeospatialInformation;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONStringer;
 
 /**
@@ -15,15 +17,13 @@ import org.json.JSONStringer;
 public class SentinelBuffferedGeospatialDataDB
 {
     public static final String KEY_ID = "_id";
-
-    public static final String KEY_SESSION_ID_COLUMN    = "SESSION_ID_COLUMN";
+    public static final String KEY_SESSION_ID_COLUMN = "SESSION_ID_COLUMN";
     public static final String KEY_USER_IDENTITY_COLUMN = "USER_IDENTITY_COLUMN";
-    public static final String KEY_TIMESTAMP_COLUMN     = "TIMESTAMP_COLUMN";
-    public static final String KEY_LATITUDE_COLUMN      = "LATITUDE_COLUMN";
-    public static final String KEY_LONGITUDE_COLUMN     = "LONGITUDE_COLUMN";
-    public static final String KEY_ORIENTATION_COLUMN   = "ORIENTATION_COLUMN";
-    public static final String KEY_SPEED_COLUMN         = "SPEED_COLUMN";
-
+    public static final String KEY_TIMESTAMP_COLUMN = "TIMESTAMP_COLUMN";
+    public static final String KEY_LATITUDE_COLUMN = "LATITUDE_COLUMN";
+    public static final String KEY_LONGITUDE_COLUMN = "LONGITUDE_COLUMN";
+    public static final String KEY_ORIENTATION_COLUMN = "ORIENTATION_COLUMN";
+    public static final String KEY_SPEED_COLUMN = "SPEED_COLUMN";
     private SentinelDBOpenHelper sentinelDBOpenHelper;
 
     public SentinelBuffferedGeospatialDataDB(Context context)
@@ -38,7 +38,7 @@ public class SentinelBuffferedGeospatialDataDB
 
     private Cursor getBufferedSentinelGeospatialDataCursor()
     {
-        String[] result_columns = new String[] {
+        String[] result_columns = new String[]{
                 KEY_ID,
                 KEY_SESSION_ID_COLUMN,
                 KEY_USER_IDENTITY_COLUMN,
@@ -59,11 +59,10 @@ public class SentinelBuffferedGeospatialDataDB
 
         try
         {
-        SQLiteDatabase oSentinelDB = sentinelDBOpenHelper.getWritableDatabase();
-        oCursor = oSentinelDB.query(SentinelDBOpenHelper.DATABASE_TABLE,
-                result_columns, where, whereArgs, groupBy, having, order);
-        }
-        catch (Exception ex)
+            SQLiteDatabase oSentinelDB = sentinelDBOpenHelper.getWritableDatabase();
+            oCursor = oSentinelDB.query(SentinelDBOpenHelper.DATABASE_TABLE,
+                    result_columns, where, whereArgs, groupBy, having, order);
+        } catch (Exception ex)
         {
             ex.printStackTrace();
         }
@@ -77,7 +76,6 @@ public class SentinelBuffferedGeospatialDataDB
         return oCursor.getCount();
     }
 
-
     public String getBufferedGeospatialDataJsonString()
     {
         Cursor oCursor = getBufferedSentinelGeospatialDataCursor();
@@ -90,7 +88,12 @@ public class SentinelBuffferedGeospatialDataDB
         int SPEED_COLUMN_INDEX = oCursor.getColumnIndex(KEY_ORIENTATION_COLUMN);
         int ORIENTATION_COLUMN_INDEX = oCursor.getColumnIndex(KEY_SPEED_COLUMN);
 
-        JSONStringer strBufferedData = new JSONStringer();
+        String strJsonString = "";
+
+        JSONStringer strBufferedData;
+        JSONObject oBufferedDataJson;
+        JSONObject oBufferedDataJsonElement;
+        JSONArray oBufferedDataJsonArray;
 
         if (oCursor.getCount() == 1)
         {
@@ -99,51 +102,57 @@ public class SentinelBuffferedGeospatialDataDB
             {
                 strBufferedData = new JSONStringer()
                         .object()
-                            .key("oSessionID").value(oCursor.getInt(SESSION_ID_COLUMN_INDEX))
-                            .key("oUserIdentification").value(oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
-                            .key("lTimeStamp").value(oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
-                            .key("dLatitude").value(oCursor.getDouble(LATITUDE_COLUMN_INDEX))
-                            .key("dLongitude").value(oCursor.getDouble(LONGITUDE_COLUMN_INDEX))
-                            .key("dSpeed").value(oCursor.getDouble(SPEED_COLUMN_INDEX))
-                            .key("iOrientation").value(oCursor.getInt(ORIENTATION_COLUMN_INDEX))
+                        .key("oSessionID").value(oCursor.getInt(SESSION_ID_COLUMN_INDEX))
+                        .key("oUserIdentification").value(oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
+                        .key("lTimeStamp").value(oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
+                        .key("dLatitude").value(oCursor.getDouble(LATITUDE_COLUMN_INDEX))
+                        .key("dLongitude").value(oCursor.getDouble(LONGITUDE_COLUMN_INDEX))
+                        .key("dSpeed").value(oCursor.getDouble(SPEED_COLUMN_INDEX))
+                        .key("iOrientation").value(oCursor.getInt(ORIENTATION_COLUMN_INDEX))
                         .endObject();
-            }
-            catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
-        }
-        else if(oCursor.getCount() > 1)
-        {
-            try
-            {
-                strBufferedData = new JSONStringer().object();
-                while (oCursor.moveToNext())
-                {
-                    strBufferedData
-                        .object()
-                            .key("oSessionID").value(oCursor.getInt(SESSION_ID_COLUMN_INDEX))
-                            .key("oUserIdentification").value(oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
-                            .key("lTimeStamp").value(oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
-                            .key("dLatitude").value(oCursor.getDouble(LATITUDE_COLUMN_INDEX))
-                            .key("dLongitude").value(oCursor.getDouble(LONGITUDE_COLUMN_INDEX))
-                            .key("dSpeed").value(oCursor.getDouble(SPEED_COLUMN_INDEX))
-                            .key("iOrientation").value(oCursor.getInt(ORIENTATION_COLUMN_INDEX))
-                        .endObject();
-                }
-                strBufferedData.endObject();
-            }
-            catch (Exception ex)
+
+                strJsonString = strBufferedData.toString();
+            } catch (Exception ex)
             {
                 ex.printStackTrace();
             }
         }
         else
-        {
-            // no collection
-        }
+            if (oCursor.getCount() > 1)
+            {
+                try
+                {
+                    oBufferedDataJsonArray = new JSONArray();
+                    oBufferedDataJson = new JSONObject();
 
-        return strBufferedData.toString();
+                    oBufferedDataJson.put("BufferedData", "Data");
+
+                    while (oCursor.moveToNext())
+                    {
+                        oBufferedDataJsonElement = new JSONObject()
+                                .put("oSessionID", oCursor.getInt(SESSION_ID_COLUMN_INDEX))
+                                .put("oUserIdentification", oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
+                                .put("lTimeStamp", oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
+                                .put("dLatitude", oCursor.getDouble(LATITUDE_COLUMN_INDEX))
+                                .put("dLongitude", oCursor.getDouble(LONGITUDE_COLUMN_INDEX))
+                                .put("dSpeed", oCursor.getDouble(SPEED_COLUMN_INDEX))
+                                .put("iOrientation", oCursor.getInt(ORIENTATION_COLUMN_INDEX));
+                        oBufferedDataJsonArray.put(oBufferedDataJsonElement);
+                    }
+
+                    oBufferedDataJson.put("BufferedData", oBufferedDataJsonArray);
+                    strJsonString = oBufferedDataJson.toString();
+                } catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+            else
+            {
+                // no collection
+            }
+
+        return strJsonString;
     }
 
     public void addGeospatialData(GeospatialInformation oGeoInformation)
@@ -173,7 +182,6 @@ public class SentinelBuffferedGeospatialDataDB
         private static final String DATABASE_NAME = "SentinelDB.db";
         private static final String DATABASE_TABLE = "SentinelDB";
         private static final int DATABASE_VERSION = 3;
-
         private static final String DATABASE_CREATE =
                 "create table " + DATABASE_TABLE + " (" +
                         KEY_ID + " integer primary key autoincrement, " +

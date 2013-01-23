@@ -32,24 +32,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".tracking.BufferedGeospatialDataAsyncTask"/>
 
         <service android:enabled="true" android:name=".tracking.SentinelLocationService"
                  android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION">
         </service>
-
-        <receiver android:name=".authentication.LoginServiceBroadcastReceiver">
-                <intent-filter>
-                    <action android:name="com.sentinel.auth.action.CREDENTIALS_AUTHENTICATION"/>
-                </intent-filter>
-        </receiver>
 
         <receiver android:name=".connection.ConnectionChangedBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".tracking.LocationServiceBroadcastReceiver"/>
 
     </application>
 </manifest>

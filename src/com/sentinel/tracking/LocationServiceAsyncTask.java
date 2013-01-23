@@ -9,23 +9,28 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 
-public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String> {
+public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String>
+{
 
     private static final String METHOD_NAME;
     private static final String URL;
 
-    static {
+    static
+    {
         METHOD_NAME = "/PostGeospatialData";
         URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected String doInBackground(String... strings)
+    {
 
-        if(!strings[0].isEmpty()) {
+        if (!strings[0].isEmpty())
+        {
             String strGeoDataJSON = strings[0];
 
-            try {
+            try
+            {
                 HttpClient oLocationServiceHttpClient = new DefaultHttpClient();
                 HttpPost oLocationServiceHttpPost = new HttpPost(URL + METHOD_NAME);
                 oLocationServiceHttpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -38,7 +43,8 @@ public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String>
                 HttpResponse oLocationServiceResponseCode = oLocationServiceHttpClient.execute(oLocationServiceHttpPost);
 
                 Log.i("SentinelWebService", "Response Status: " + oLocationServiceResponseCode.getStatusLine());
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }

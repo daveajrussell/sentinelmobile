@@ -13,23 +13,27 @@ import org.apache.http.protocol.HTTP;
  * David Russell
  * 22/01/13
  */
-public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, String> {
+public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, String>
+{
 
     private static final String METHOD_NAME;
     private static final String URL;
-
-    static {
+    static
+    {
         METHOD_NAME = "/PostBufferedGeospatialDataSet";
         URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected String doInBackground(String... strings)
+    {
 
-        if(!strings[0].isEmpty()) {
+        if (!strings[0].isEmpty())
+        {
             String strGeoDataJSON = strings[0];
 
-            try {
+            try
+            {
                 HttpClient oLocationServiceHttpClient = new DefaultHttpClient();
                 HttpPost oLocationServiceHttpPost = new HttpPost(URL + METHOD_NAME);
                 oLocationServiceHttpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -42,7 +46,8 @@ public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, 
                 HttpResponse oLocationServiceResponseCode = oLocationServiceHttpClient.execute(oLocationServiceHttpPost);
 
                 Log.i("SentinelWebService", "Response Status: " + oLocationServiceResponseCode.getStatusLine());
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }

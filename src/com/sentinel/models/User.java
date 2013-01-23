@@ -1,33 +1,38 @@
 package com.sentinel.models;
 
-import java.util.UUID;
-
-public class User {
+public class User
+{
 
     private String UserKey;
     private int SessionID;
 
-    public User() {
+    public User()
+    {
     }
 
-    public User(String oUserIdentification, int iSessionID) {
+    public User(String oUserIdentification, int iSessionID)
+    {
         this.UserKey = oUserIdentification;
         this.SessionID = iSessionID;
     }
 
-    public String getUserIdentification() {
+    public String getUserIdentification()
+    {
         return UserKey;
     }
 
-    public void setUserIdentification(String oUserIdentification) {
+    public void setUserIdentification(String oUserIdentification)
+    {
         this.UserKey = oUserIdentification;
     }
 
-    public int getSessionID() {
+    public int getSessionID()
+    {
         return SessionID;
     }
 
-    public void setSessionID(int iSessionID) {
+    public void setSessionID(int iSessionID)
+    {
         this.SessionID = iSessionID;
     }
 }
