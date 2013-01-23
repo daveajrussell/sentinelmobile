@@ -181,12 +181,6 @@ public class SentinelLogin extends Activity
         }
 
         @Override
-        protected void onProgressUpdate(Integer... progress)
-        {
-
-        }
-
-        @Override
         protected void onPostExecute(String result)
         {
 

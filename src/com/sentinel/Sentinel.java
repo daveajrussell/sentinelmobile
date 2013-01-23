@@ -7,10 +7,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.sentinel.asset.ZXingTestActivity;
 import com.sentinel.tracking.SentinelLocationService;
 
 public class Sentinel extends MapActivity
@@ -67,6 +71,35 @@ public class Sentinel extends MapActivity
         startService(intent);
 
         startLocationUpdates();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu(menu);
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.sentinel_menu, menu);
+
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        super.onOptionsItemSelected(item);
+
+        switch (item.getItemId())
+        {
+            case R.id.scan_qr_action:
+                Intent zxingIntent = new Intent(this, ZXingTestActivity.class);
+                startActivity(zxingIntent);
+                break;
+            case R.id.logout_action:
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     @Override

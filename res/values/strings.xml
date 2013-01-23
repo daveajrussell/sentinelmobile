@@ -7,4 +7,6 @@
     <string name="username">Username</string>
     <string name="login">Login</string>
     <string name="login_img">login_img</string>
+    <string name="scan_qr_title">Scan Delivery Item</string>
+    <string name="logout_title">Logout</string>
 </resources>

@@ -51,6 +51,15 @@
         <jarDirectory url="file://$MODULE_DIR$/google-gson-2.2.1" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../ZXing/zxing-2.1/android-integration/android-integration.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
