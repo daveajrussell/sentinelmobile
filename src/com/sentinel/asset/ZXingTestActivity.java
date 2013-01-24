@@ -27,13 +27,13 @@ import org.apache.http.protocol.HTTP;
 public class ZXingTestActivity extends Activity
 {
     private String strProcessResult;
-    private String lastKnownGeospatialInformationJson;
+    private String strGeoTaggedAssetJson;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        lastKnownGeospatialInformationJson = TrackingHelper.getLastKnowGeospatialInformationJson(this);
+        //lastKnownGeospatialInformationJson = TrackingHelper.getLastKnowGeospatialInformationJson(this);
 
         IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
         integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
@@ -82,8 +82,9 @@ public class ZXingTestActivity extends Activity
 
     private class AssetServiceAsyncTask extends AsyncTask<String, Integer, String>
     {
-
-        Context oContext;
+        private final String METHOD_NAME = "/GeoTagDelivery";
+        private final String URL = "http://webservices.daveajrussell.com/Services/DeliveryService.svc";
+        private Context oContext;
 
         public AssetServiceAsyncTask(Context context)
         {
@@ -95,19 +96,19 @@ public class ZXingTestActivity extends Activity
         {
             if (!strings[0].isEmpty())
             {
-                String strAssetURL = strings[0];
+                String strAssetID = strings[0];
+                strGeoTaggedAssetJson = AssetHelper.getGeoTaggedAssetJson(oContext, strAssetID);
 
                 try
                 {
                     HttpClient oAssetServiceHttpClient = new DefaultHttpClient();
-                    HttpPost oAssetServiceHttpPost = new HttpPost(strAssetURL);
+                    HttpPost oAssetServiceHttpPost = new HttpPost(URL + METHOD_NAME);
                     oAssetServiceHttpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
 
-                    StringEntity oStringEntity = new StringEntity(lastKnownGeospatialInformationJson);
+                    StringEntity oStringEntity = new StringEntity(strGeoTaggedAssetJson);
                     oAssetServiceHttpPost.setEntity(oStringEntity);
 
-                    Log.i("SENTINEL_INFO", "Calling: " + strAssetURL);
-                    Log.i("SENTINEL_INFO", "Sending: " + lastKnownGeospatialInformationJson);
+                    Log.i("SENTINEL_INFO", "Sending: " + strGeoTaggedAssetJson);
 
                     HttpResponse oAssetServiceResponseCode = oAssetServiceHttpClient.execute(oAssetServiceHttpPost);
 

@@ -28,14 +28,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="4f885cf3-716d-40d4-a340-e0b50c7e2c56" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/sentinel/tracking/TrackingHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" afterPath="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/sentinel/asset/AssetHelper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/sentinel/models/GeotaggedAsset.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/TrackingHelper.java" afterPath="$PROJECT_DIR$/src/com/sentinel/tracking/TrackingHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/asset/ZXingTestActivity.java" afterPath="$PROJECT_DIR$/src/com/sentinel/asset/ZXingTestActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SentinelMobile.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359062283836" ignored="false" />
+    <file path="/Dummy.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359067889922" ignored="false" />
     <file path="/SentinelLocationService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359065966594" ignored="false" />
     <file path="/LoginServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358950199233" ignored="false" />
     <file path="/LocationServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355055228715" ignored="false" />
@@ -68,9 +69,11 @@
     <file path="/ResponseStatusHelper.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358941706906" ignored="false" />
     <file path="$PROJECT_DIR$/../../ZXing/zxing-2.1/android/project.properties" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358969838543" ignored="false" />
     <file path="$PROJECT_DIR$/../../ZXing/zxing-2.1/androidtest/project.properties" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358970586903" ignored="false" />
-    <file path="/ZXingTestActivity.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359067832743" ignored="false" />
+    <file path="/ZXingTestActivity.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359068718105" ignored="false" />
     <file path="/sentinel_menu.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358973642273" ignored="false" />
     <file path="/TrackingHelper.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359066456880" ignored="false" />
+    <file path="/GeotaggedAsset.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359068560457" ignored="false" />
+    <file path="/AssetHelper.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359069320266" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,41 +139,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ZXingTestActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ZXingTestActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/ZXingTestActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="70" selection-start="813" selection-end="813" vertical-scroll-proportion="0.46206117">
+            <state line="118" column="98" selection-start="4541" selection-end="4541" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1925#2255#0" expanded="true" />
-                <element signature="e#2236#2237#0" expanded="true" />
-                <element signature="e#2417#2880#0" expanded="true" />
-                <element signature="e#2861#2862#0" expanded="true" />
-                <element signature="e#6049#6476#0" expanded="true" />
-                <element signature="e#6457#6458#0" expanded="true" />
-                <element signature="e#6707#7170#0" expanded="true" />
-                <element signature="e#7151#7152#0" expanded="true" />
+                <element signature="e#1914#2244#0" expanded="true" />
+                <element signature="e#2225#2226#0" expanded="true" />
+                <element signature="e#2406#2869#0" expanded="true" />
+                <element signature="e#2850#2851#0" expanded="true" />
+                <element signature="e#6216#6643#0" expanded="true" />
+                <element signature="e#6624#6625#0" expanded="true" />
+                <element signature="e#6874#7337#0" expanded="true" />
+                <element signature="e#7318#7319#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SentinelLogin.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
+      <file leaf-file-name="AssetHelper.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/AssetHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="212" column="26" selection-start="7922" selection-end="7922" vertical-scroll-proportion="0.0">
+            <state line="45" column="63" selection-start="1714" selection-end="1714" vertical-scroll-proportion="0.86636466">
               <folding>
-                <element signature="e#7463#7920#0" expanded="true" />
-                <element signature="e#7901#7902#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SentinelLocationService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
+      <file leaf-file-name="GeotaggedAsset.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/models/GeotaggedAsset.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="106" column="64" selection-start="3640" selection-end="3640" vertical-scroll-proportion="0.0">
+            <state line="6" column="13" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -179,10 +181,28 @@
       <file leaf-file-name="TrackingHelper.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/TrackingHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="61" selection-start="449" selection-end="485" vertical-scroll-proportion="0.0">
+            <state line="18" column="13" selection-start="450" selection-end="450" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SentinelLocationService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="106" column="75" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/models/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="13" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -197,8 +217,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/sentinel/models/Credentials.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/models/GeospatialInformation.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/models/User.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/tracking/BufferedGeospatialDataAsyncTask.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java" />
@@ -211,8 +229,10 @@
         <option value="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" />
+        <option value="$PROJECT_DIR$/src/com/sentinel/models/GeotaggedAsset.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/tracking/TrackingHelper.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/asset/ZXingTestActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/sentinel/asset/AssetHelper.java" />
       </list>
     </option>
   </component>
@@ -819,7 +839,11 @@
       <created>1359062294326</created>
       <updated>1359062294326</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="24/01/13&#10;&#10;Added ZXing functionality">
+      <created>1359067902117</created>
+      <updated>1359067902117</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -912,7 +936,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="24/01/13&#10;&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="24/01/13&#10;&#10;Added ZXing functionality" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -932,6 +956,7 @@
     <MESSAGE value="23/01/13&#10;&#10;Lots done&#10;" />
     <MESSAGE value="23/01/13&#10;&#10;Added ZXing functionality&#10;Began adding calls to AssetService to record deliveries&#10;Modified authentication and login functionality&#10;&#10;" />
     <MESSAGE value="24/01/13&#10;&#10;" />
+    <MESSAGE value="24/01/13&#10;&#10;Added ZXing functionality" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -957,34 +982,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/models/Credentials.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="115" selection-start="386" selection-end="386" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="38" selection-start="559" selection-end="559" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/sentinel_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="40" selection-start="156" selection-end="156" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="85" selection-start="1217" selection-end="1217" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/AndroidSDK/adt-bundle-windows/sdk/platforms/android-4.2/android.jar!/org/apache/http/protocol/HTTP.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="41" selection-start="523" selection-end="523" vertical-scroll-proportion="0.33333334" />
@@ -1000,13 +997,6 @@
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/models/GeospatialInformation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="13" selection-start="43" selection-end="43" vertical-scroll-proportion="-0.19252548">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="57" selection-start="4568" selection-end="4568" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1028,10 +1018,60 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/models/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="64" selection-start="3640" selection-end="3640" vertical-scroll-proportion="0.0">
+        <state line="2" column="13" selection-start="43" selection-end="43" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="137" column="83" selection-start="4383" selection-end="4400" vertical-scroll-proportion="-0.23216309">
+          <folding>
+            <element signature="e#7463#7920#0" expanded="true" />
+            <element signature="e#7901#7902#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/AndroidSDK/adt-bundle-windows/sdk/platforms/android-4.2/android.jar!/android/content/Context.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="22" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/models/GeotaggedAsset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/ZXingTestActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="118" column="98" selection-start="4541" selection-end="4541" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1914#2244#0" expanded="true" />
+            <element signature="e#2225#2226#0" expanded="true" />
+            <element signature="e#2406#2869#0" expanded="true" />
+            <element signature="e#2850#2851#0" expanded="true" />
+            <element signature="e#6216#6643#0" expanded="true" />
+            <element signature="e#6624#6625#0" expanded="true" />
+            <element signature="e#6874#7337#0" expanded="true" />
+            <element signature="e#7318#7319#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/TrackingHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="13" selection-start="450" selection-end="450" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1042,38 +1082,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/BufferedGeospatialDataAsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="212" column="26" selection-start="7922" selection-end="7922" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#7463#7920#0" expanded="true" />
-            <element signature="e#7901#7902#0" expanded="true" />
-          </folding>
+        <state line="15" column="13" selection-start="400" selection-end="400" vertical-scroll-proportion="0.15402038">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/TrackingHelper.java">
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="61" selection-start="449" selection-end="485" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="78" column="18" selection-start="2552" selection-end="2552" vertical-scroll-proportion="-0.3601359">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/ZXingTestActivity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="70" selection-start="813" selection-end="813" vertical-scroll-proportion="0.46206117">
+        <state line="106" column="75" selection-start="3651" selection-end="3651" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/AssetHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="63" selection-start="1714" selection-end="1714" vertical-scroll-proportion="0.86636466">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1925#2255#0" expanded="true" />
-            <element signature="e#2236#2237#0" expanded="true" />
-            <element signature="e#2417#2880#0" expanded="true" />
-            <element signature="e#2861#2862#0" expanded="true" />
-            <element signature="e#6049#6476#0" expanded="true" />
-            <element signature="e#6457#6458#0" expanded="true" />
-            <element signature="e#6707#7170#0" expanded="true" />
-            <element signature="e#7151#7152#0" expanded="true" />
           </folding>
         </state>
       </provider>
