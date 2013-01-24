@@ -2,6 +2,7 @@ package com.sentinel.asset;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.sentinel.Sentinel;
 import com.sentinel.helper.ResponseStatusHelper;
+import com.sentinel.tracking.TrackingHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -25,10 +27,13 @@ import org.apache.http.protocol.HTTP;
 public class ZXingTestActivity extends Activity
 {
     private String strProcessResult;
+    private String lastKnownGeospatialInformationJson;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        lastKnownGeospatialInformationJson = TrackingHelper.getLastKnowGeospatialInformationJson(this);
 
         IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
         integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
@@ -43,7 +48,7 @@ public class ZXingTestActivity extends Activity
 
         if (result != null)
         {
-            String strResultContents = result.getContents();
+            final String strResultContents = result.getContents();
             if (strResultContents != null)
             {
                 oResultDialog.setMessage(strResultContents);
@@ -52,7 +57,7 @@ public class ZXingTestActivity extends Activity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
-
+                        new AssetServiceAsyncTask(getApplicationContext()).execute(strResultContents);
                     }
                 });
             }
@@ -64,7 +69,9 @@ public class ZXingTestActivity extends Activity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
-
+                        Intent sentinelIntent = new Intent(getApplicationContext(), Sentinel.class);
+                        sentinelIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(sentinelIntent);
                     }
                 });
             }
@@ -73,27 +80,34 @@ public class ZXingTestActivity extends Activity
         oResultDialog.show();
     }
 
-    // send: URL, json string of Geo data (includes user key to record delivery against)
     private class AssetServiceAsyncTask extends AsyncTask<String, Integer, String>
     {
+
+        Context oContext;
+
+        public AssetServiceAsyncTask(Context context)
+        {
+            oContext = context;
+        }
 
         @Override
         protected String doInBackground(String... strings)
         {
-            if (!strings[0].isEmpty() && !strings[1].isEmpty())
+            if (!strings[0].isEmpty())
             {
                 String strAssetURL = strings[0];
-                String strGeoDataJson = strings[1];
 
                 try
                 {
                     HttpClient oAssetServiceHttpClient = new DefaultHttpClient();
                     HttpPost oAssetServiceHttpPost = new HttpPost(strAssetURL);
+                    oAssetServiceHttpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
 
-                    // define entity
-                    // set header type
+                    StringEntity oStringEntity = new StringEntity(lastKnownGeospatialInformationJson);
+                    oAssetServiceHttpPost.setEntity(oStringEntity);
 
                     Log.i("SENTINEL_INFO", "Calling: " + strAssetURL);
+                    Log.i("SENTINEL_INFO", "Sending: " + lastKnownGeospatialInformationJson);
 
                     HttpResponse oAssetServiceResponseCode = oAssetServiceHttpClient.execute(oAssetServiceHttpPost);
 
@@ -103,7 +117,6 @@ public class ZXingTestActivity extends Activity
                     switch (iStatus)
                     {
                         case ResponseStatusHelper.OK:
-                            // deserialize and return the data
                             strProcessResult = ResponseStatusHelper.OK_RESULT;
                             break;
                         case ResponseStatusHelper.BAD_REQUEST:
@@ -129,6 +142,43 @@ public class ZXingTestActivity extends Activity
             }
 
             return strProcessResult;
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            AlertDialog.Builder oDeliveryAlert;
+
+            if (result == ResponseStatusHelper.OK_RESULT)
+            {
+                oDeliveryAlert = new AlertDialog.Builder(oContext);
+                oDeliveryAlert.setTitle("Delivery Successful");
+                oDeliveryAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        Intent sentinelIntent = new Intent(oContext, Sentinel.class);
+                        sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        oContext.startActivity(sentinelIntent);
+                    }
+                });
+            }
+            else
+            {
+                oDeliveryAlert = new AlertDialog.Builder(oContext);
+                oDeliveryAlert.setTitle("Delivery Failed");
+                oDeliveryAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        Intent qrRetryIntent = new Intent(oContext, ZXingTestActivity.class);
+                        qrRetryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        oContext.startActivity(qrRetryIntent);
+                    }
+                });
+            }
+            oDeliveryAlert.show();
         }
     }
 }

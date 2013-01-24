@@ -56,7 +56,6 @@ public class SentinelLocationService extends Service
     };
     private Notification.Builder oLocationServiceNotificationBuilder;
     private ConnectionManager oSentinelConnectionManager;
-    private SentinelSharedPreferences oSentinelSharedPreferences;
     private SentinelBuffferedGeospatialDataDB oSentinelDB;
 
     @Override
@@ -71,7 +70,6 @@ public class SentinelLocationService extends Service
         LocationManager oLocationServiceLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         oLocationServiceLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationServiceLocationListener);
         oSentinelConnectionManager = new ConnectionManager(this);
-        oSentinelSharedPreferences = new SentinelSharedPreferences(this);
         oSentinelDB = new SentinelBuffferedGeospatialDataDB(this);
 
         startSentinelLocationForegroundService();
@@ -92,7 +90,7 @@ public class SentinelLocationService extends Service
 
     public void handleLocationChanged(Location oCurrentLocationData)
     {
-        GeospatialInformation oGeospatialInformation = buildGeoDataObject(oCurrentLocationData);
+        GeospatialInformation oGeospatialInformation = TrackingHelper.buildGeospatialInformationObject(this, oCurrentLocationData);
         oSentinelDB.addGeospatialData(oGeospatialInformation);
         oSentinelDB.addGeospatialData(oGeospatialInformation);
         oSentinelDB.addGeospatialData(oGeospatialInformation);
@@ -123,20 +121,6 @@ public class SentinelLocationService extends Service
         }
 
         oSentinelDB.closeSentinelDatabase();
-    }
-
-    private GeospatialInformation buildGeoDataObject(Location oCurrentLocationData)
-    {
-        return new GeospatialInformation
-        (
-                oSentinelSharedPreferences.getSessionID(),
-                oSentinelSharedPreferences.getUserIdentification(),
-                Calendar.getInstance(TimeZone.getTimeZone("gmt+1")).getTimeInMillis(),
-                oCurrentLocationData.getLongitude(),
-                oCurrentLocationData.getLatitude(),
-                getResources().getConfiguration().orientation,
-                oCurrentLocationData.getSpeed()
-        );
     }
 
     private void sendGISToLocationService(String strGeospatialJson)
