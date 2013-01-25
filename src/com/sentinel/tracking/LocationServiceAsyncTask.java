@@ -1,7 +1,10 @@
 package com.sentinel.tracking;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.sentinel.helper.ResponseStatusHelper;
+import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -14,12 +17,18 @@ public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String>
 
     private static final String METHOD_NAME;
     private static final String URL;
+    private static String strProcessResult;
+    private SentinelBuffferedGeospatialDataDB oSentinelDB;
 
     static
     {
         METHOD_NAME = "/PostGeospatialData";
         URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
-        //URL = "http://localhost/WebServices/Services/LocationService.svc";
+    }
+
+    public LocationServiceAsyncTask(Context oContext)
+    {
+        oSentinelDB = new SentinelBuffferedGeospatialDataDB(oContext);
     }
 
     @Override
@@ -44,11 +53,32 @@ public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String>
                 HttpResponse oLocationServiceResponseCode = oLocationServiceHttpClient.execute(oLocationServiceHttpPost);
 
                 Log.i("SentinelWebService", "Response Status: " + oLocationServiceResponseCode.getStatusLine());
+
+                int iStatus = oLocationServiceResponseCode.getStatusLine().getStatusCode();
+
+                switch (iStatus)
+                {
+                    case ResponseStatusHelper.OK:
+                        strProcessResult = ResponseStatusHelper.OK_RESULT;
+                        break;
+                    default:
+                        strProcessResult = ResponseStatusHelper.OTHER_ERROR_RESULT;
+                        break;
+                }
             } catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
-        return "";
+        return strProcessResult;
+    }
+
+    @Override
+    protected void onPostExecute(String result)
+    {
+        if (result == ResponseStatusHelper.OK_RESULT)
+        {
+            oSentinelDB.deleteGeospatialData();
+        }
     }
 }

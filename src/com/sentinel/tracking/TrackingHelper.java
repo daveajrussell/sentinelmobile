@@ -4,9 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 import com.sentinel.models.GeospatialInformation;
-import com.sentinel.models.GeotaggedAsset;
 import com.sentinel.preferences.SentinelSharedPreferences;
-import org.json.JSONStringer;
 
 import java.util.Calendar;
 import java.util.List;
@@ -25,10 +23,10 @@ public class TrackingHelper
 
         Location oLocation = null;
 
-        for (int i = arrProviders.size()-1; i >= 0; i--)
+        for (int i = arrProviders.size() - 1; i >= 0; i--)
         {
             oLocation = oLocationManager.getLastKnownLocation(arrProviders.get(i));
-            if(oLocation != null)
+            if (oLocation != null)
                 break;
         }
 

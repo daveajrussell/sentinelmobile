@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.google.gson.Gson;
 import com.sentinel.models.GeospatialInformation;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +26,7 @@ public class SentinelBuffferedGeospatialDataDB
     public static final String KEY_ORIENTATION_COLUMN = "ORIENTATION_COLUMN";
     public static final String KEY_SPEED_COLUMN = "SPEED_COLUMN";
     private SentinelDBOpenHelper sentinelDBOpenHelper;
+    private Gson oGson;
 
     public SentinelBuffferedGeospatialDataDB(Context context)
     {
@@ -78,6 +80,7 @@ public class SentinelBuffferedGeospatialDataDB
 
     public String getBufferedGeospatialDataJsonString()
     {
+        oGson = new Gson();
         Cursor oCursor = getBufferedSentinelGeospatialDataCursor();
 
         int SESSION_ID_COLUMN_INDEX = oCursor.getColumnIndex(KEY_SESSION_ID_COLUMN);
@@ -111,7 +114,7 @@ public class SentinelBuffferedGeospatialDataDB
                         .key("iOrientation").value(oCursor.getInt(ORIENTATION_COLUMN_INDEX))
                         .endObject();
 
-                strJsonString = strBufferedData.toString();
+                strJsonString = oGson.toJson(strBufferedData.toString());
             } catch (Exception ex)
             {
                 ex.printStackTrace();
@@ -139,7 +142,8 @@ public class SentinelBuffferedGeospatialDataDB
                     }
 
                     oBufferedDataJson.put("BufferedData", oBufferedDataJsonArray);
-                    strJsonString = oBufferedDataJson.toString();
+
+                    strJsonString = oGson.toJson(oBufferedDataJson.toString());
                 } catch (Exception ex)
                 {
                     ex.printStackTrace();

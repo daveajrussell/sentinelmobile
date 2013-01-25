@@ -9,14 +9,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sentinel.R;
 import com.sentinel.Sentinel;
 import com.sentinel.helper.ResponseStatusHelper;
 import com.sentinel.models.Credentials;
-import com.sentinel.R;
 import com.sentinel.models.User;
 import com.sentinel.preferences.SentinelSharedPreferences;
 import org.apache.http.HttpEntity;
@@ -212,7 +214,7 @@ public class SentinelLogin extends Activity
                     }
                 });
 
-                if(result == ResponseStatusHelper.UNAUTHORIZED_RESULT)
+                if (result == ResponseStatusHelper.UNAUTHORIZED_RESULT)
                 {
                     oAuthenticationAlert.setMessage("Invalid Login Details.");
                 }

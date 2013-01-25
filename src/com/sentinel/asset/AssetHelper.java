@@ -15,7 +15,7 @@ public class AssetHelper
     {
         GeospatialInformation oLastKnownInformation = TrackingHelper.getLastKnownGeospatialInformation(oContext);
 
-        if(oLastKnownInformation != null)
+        if (oLastKnownInformation != null)
             return buildGeoTaggedAssetJson(oLastKnownInformation, strAssetID);
         else
             return null;
@@ -29,17 +29,16 @@ public class AssetHelper
         {
             strGeoInformationJson = new JSONStringer()
                     .object()
-                        .key("oAssetKey").value("051CD6B1-DE50-465A-8427-04EA267ED442")
-                        .key("iSessionID").value(oLastKnownInformation.getSessionID())
-                        .key("oUserIdentification").value(oLastKnownInformation.getUserIndentification())
-                        .key("lTimeStamp").value(oLastKnownInformation.getDateTimeStamp())
-                        .key("dLatitude").value(oLastKnownInformation.getLatitude())
-                        .key("dLongitude").value(oLastKnownInformation.getLongitude())
-                        .key("dSpeed").value(oLastKnownInformation.getSpeed())
-                        .key("iOrientation").value(oLastKnownInformation.getOrientation())
+                    .key("oAssetKey").value("051CD6B1-DE50-465A-8427-04EA267ED442")
+                    .key("iSessionID").value(oLastKnownInformation.getSessionID())
+                    .key("oUserIdentification").value(oLastKnownInformation.getUserIndentification())
+                    .key("lTimeStamp").value(oLastKnownInformation.getDateTimeStamp())
+                    .key("dLatitude").value(oLastKnownInformation.getLatitude())
+                    .key("dLongitude").value(oLastKnownInformation.getLongitude())
+                    .key("dSpeed").value(oLastKnownInformation.getSpeed())
+                    .key("iOrientation").value(oLastKnownInformation.getOrientation())
                     .endObject().toString();
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             ex.printStackTrace();
             strGeoInformationJson = null;

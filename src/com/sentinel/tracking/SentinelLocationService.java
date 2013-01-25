@@ -13,11 +13,8 @@ import android.os.IBinder;
 import com.sentinel.R;
 import com.sentinel.connection.ConnectionManager;
 import com.sentinel.models.GeospatialInformation;
-import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
 
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public class SentinelLocationService extends Service
 {
@@ -92,8 +89,6 @@ public class SentinelLocationService extends Service
     {
         GeospatialInformation oGeospatialInformation = TrackingHelper.buildGeospatialInformationObject(this, oCurrentLocationData);
         oSentinelDB.addGeospatialData(oGeospatialInformation);
-        oSentinelDB.addGeospatialData(oGeospatialInformation);
-        oSentinelDB.addGeospatialData(oGeospatialInformation);
         String strGeospatialInformationJson;
 
         NotificationManager oLocationServiceNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -116,8 +111,6 @@ public class SentinelLocationService extends Service
             {
                 sendGISToLocationService(strGeospatialInformationJson);
             }
-
-            oSentinelDB.deleteGeospatialData();
         }
 
         oSentinelDB.closeSentinelDatabase();
@@ -125,11 +118,11 @@ public class SentinelLocationService extends Service
 
     private void sendGISToLocationService(String strGeospatialJson)
     {
-        new LocationServiceAsyncTask().execute(strGeospatialJson);
+        new LocationServiceAsyncTask(getApplicationContext()).execute(strGeospatialJson);
     }
 
     private void sendBufferedGeospatialDataToLocationService(String strGeospatialJsonSet)
     {
-        new BufferedGeospatialDataAsyncTask().execute(strGeospatialJsonSet);
+        new BufferedGeospatialDataAsyncTask(getApplicationContext()).execute(strGeospatialJsonSet);
     }
 }

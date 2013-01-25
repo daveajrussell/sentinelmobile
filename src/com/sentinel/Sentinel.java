@@ -22,11 +22,13 @@ public class Sentinel extends MapActivity
 
     private static final int TIME;
     private static final int DISTANCE;
+
     static
     {
         TIME = 5000;
         DISTANCE = 5;
     }
+
     LocationListener oLocationListener = new LocationListener()
     {
         @Override

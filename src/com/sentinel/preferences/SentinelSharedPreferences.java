@@ -14,12 +14,14 @@ public class SentinelSharedPreferences
     private static final String SENTINEL_SHARED_PREFS;
     private static final String USER_IDENTIFICATION;
     private static final String SESSION_ID;
+
     static
     {
         SENTINEL_SHARED_PREFS = "SENTINEL_SHARED_PREFS";
         USER_IDENTIFICATION = "USER_IDENTIFICATION";
         SESSION_ID = "SESSION_ID";
     }
+
     private SharedPreferences oSentinelSharedPreferences;
 
     public SentinelSharedPreferences(Context context)
