@@ -19,6 +19,7 @@ public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String>
     {
         METHOD_NAME = "/PostGeospatialData";
         URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
+        //URL = "http://localhost/WebServices/Services/LocationService.svc";
     }
 
     @Override

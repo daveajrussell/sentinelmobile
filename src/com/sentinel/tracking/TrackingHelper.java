@@ -27,15 +27,15 @@ public class TrackingHelper
 
         for (int i = arrProviders.size()-1; i >= 0; i--)
         {
-
             oLocation = oLocationManager.getLastKnownLocation(arrProviders.get(i));
             if(oLocation != null)
-            {
                 break;
-            }
         }
 
-        return buildGeospatialInformationObject(oContext, oLocation);
+        if (oLocation != null)
+            return buildGeospatialInformationObject(oContext, oLocation);
+        else
+            return null;
     }
 
     public static GeospatialInformation buildGeospatialInformationObject(Context oContext, Location oCurrentLocationData)

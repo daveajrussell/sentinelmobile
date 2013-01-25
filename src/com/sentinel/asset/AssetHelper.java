@@ -14,7 +14,11 @@ public class AssetHelper
     public static String getGeoTaggedAssetJson(Context oContext, String strAssetID)
     {
         GeospatialInformation oLastKnownInformation = TrackingHelper.getLastKnownGeospatialInformation(oContext);
-        return buildGeoTaggedAssetJson(oLastKnownInformation, strAssetID);
+
+        if(oLastKnownInformation != null)
+            return buildGeoTaggedAssetJson(oLastKnownInformation, strAssetID);
+        else
+            return null;
     }
 
     public static String buildGeoTaggedAssetJson(GeospatialInformation oLastKnownInformation, String strAssetID)
@@ -25,7 +29,7 @@ public class AssetHelper
         {
             strGeoInformationJson = new JSONStringer()
                     .object()
-                        .key("oAssetKey").value(strAssetID)
+                        .key("oAssetKey").value("051CD6B1-DE50-465A-8427-04EA267ED442")
                         .key("iSessionID").value(oLastKnownInformation.getSessionID())
                         .key("oUserIdentification").value(oLastKnownInformation.getUserIndentification())
                         .key("lTimeStamp").value(oLastKnownInformation.getDateTimeStamp())
