@@ -7,6 +7,11 @@
         android:showAsAction="ifRoom">
     </item>
     <item
+        android:id="@+id/clock_out"
+        android:title="@string/clock_out_title"
+        android:showAsAction="ifRoom">
+    </item>
+    <item
         android:id="@+id/logout_action"
         android:title="@string/logout_title"
         android:showAsAction="ifRoom">

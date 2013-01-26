@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.sentinel.Sentinel;
+import com.sentinel.app.Sentinel;
 import com.sentinel.helper.ResponseStatusHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

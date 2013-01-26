@@ -21,11 +21,13 @@ public class SentinelLocationService extends Service
 
     private static final int TIME;
     private static final int DISTANCE;
+    private static final int NOTIFICATION_ID;
 
     static
     {
         TIME = 5000;
         DISTANCE = 5;
+        NOTIFICATION_ID = 1;
     }
 
     LocationListener oLocationServiceLocationListener = new LocationListener()
@@ -74,15 +76,24 @@ public class SentinelLocationService extends Service
         return Service.START_STICKY;
     }
 
+    @Override
+    public void onDestroy()
+    {
+        stopSentinelLocationForegroundService();
+    }
+
     private void startSentinelLocationForegroundService()
     {
-        int NOTIFICATION_ID = 1;
-
         oLocationServiceNotificationBuilder = new Notification.Builder(this)
                 .setContentText("Location Service Running")
                 .setSmallIcon(R.drawable.ic_launcher);
 
         startForeground(NOTIFICATION_ID, oLocationServiceNotificationBuilder.build());
+    }
+
+    private void stopSentinelLocationForegroundService()
+    {
+        stopForeground(true);
     }
 
     public void handleLocationChanged(Location oCurrentLocationData)

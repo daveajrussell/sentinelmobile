@@ -1,5 +1,8 @@
-package com.sentinel;
+package com.sentinel.app;
 
+import android.R;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -15,7 +18,10 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.sentinel.asset.ZXingTestActivity;
+import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.tracking.SentinelLocationService;
+
+import java.util.Calendar;
 
 public class Sentinel extends MapActivity
 {
@@ -54,6 +60,9 @@ public class Sentinel extends MapActivity
     };
     private MapController oMapController;
     private Criteria oCriteria;
+    private AlarmManager alarmManager;
+    private MapView oMapView;
+    private SentinelSharedPreferences oSentinelSharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -61,18 +70,39 @@ public class Sentinel extends MapActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        MapView oMapView = (MapView) findViewById(R.id.mapview);
-
+        oMapView = (MapView) findViewById(R.id.mapview);
         oMapController = oMapView.getController();
-
         oMapView.setBuiltInZoomControls(true);
-
         oMapController.setZoom(17);
 
-        Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
-        startService(intent);
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        oSentinelSharedPreferences = new SentinelSharedPreferences(this);
 
+        setAlarms();
+        startLocationService();
         startLocationUpdates();
+    }
+
+    private void setAlarms()
+    {
+        int iAlarmType = AlarmManager.ELAPSED_REALTIME;
+        String ALARM_ACTION;
+        Intent intentToFire;
+        PendingIntent alarmPendingIntent;
+
+        long lngNextBreakAlarm =  oSentinelSharedPreferences.getNextAlarm();
+        ALARM_ACTION = "NEXT_BREAK_ALARM";
+        intentToFire = new Intent(ALARM_ACTION);
+        alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intentToFire, 0);
+
+        alarmManager.set(iAlarmType, lngNextBreakAlarm, alarmPendingIntent);
+
+        long lngEndDrivingAlarm = oSentinelSharedPreferences.getDrivingEndAlarm();
+        ALARM_ACTION = "DRIVING_END_ALARM";
+        intentToFire = new Intent(ALARM_ACTION);
+        alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intentToFire, 0);
+
+        alarmManager.set(iAlarmType,  lngEndDrivingAlarm, alarmPendingIntent);
     }
 
     @Override
@@ -96,6 +126,9 @@ public class Sentinel extends MapActivity
                 Intent zxingIntent = new Intent(this, ZXingTestActivity.class);
                 startActivity(zxingIntent);
                 break;
+            case R.id.clock_out:
+                clockOut();
+                break;
             case R.id.logout_action:
                 break;
             default:
@@ -108,6 +141,28 @@ public class Sentinel extends MapActivity
     protected boolean isRouteDisplayed()
     {
         return false;
+    }
+
+    private void startLocationService()
+    {
+        Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
+        startService(intent);
+    }
+
+    private void clockOut()
+    {
+        stopLocationService();
+        SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(this);
+        oSentinelSharedPreferences.setBreakTakenDateTime(Calendar.getInstance().getTimeInMillis());
+
+        Intent oClockInIntent = new Intent(Sentinel.this, SentinelClockIn.class);
+        startActivity(oClockInIntent);
+    }
+
+    private void stopLocationService()
+    {
+        Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
+        stopService(intent);
     }
 
     private void startLocationUpdates()

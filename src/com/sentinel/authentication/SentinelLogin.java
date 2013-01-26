@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sentinel.R;
-import com.sentinel.Sentinel;
+import com.sentinel.app.Sentinel;
 import com.sentinel.helper.ResponseStatusHelper;
 import com.sentinel.models.Credentials;
 import com.sentinel.models.User;
@@ -193,6 +193,8 @@ public class SentinelLogin extends Activity
                 int iSessionID = oUser.getSessionID();
 
                 oSentinelSharedPreferences.setUserPreferences(strUserIdentification, iSessionID);
+                oSentinelSharedPreferences.setNextAlarm(6900000);
+                oSentinelSharedPreferences.setDrivingEndTime(33900000);
 
                 Intent sentinelIntent = new Intent(oContext, Sentinel.class);
                 sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

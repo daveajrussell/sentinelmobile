@@ -9,4 +9,6 @@
     <string name="login_img">login_img</string>
     <string name="scan_qr_title">Scan Delivery Item</string>
     <string name="logout_title">Logout</string>
+    <string name="clock_out_title">Clock Out</string>
+    <string name="clock_in_title">Clock In</string>
 </resources>
