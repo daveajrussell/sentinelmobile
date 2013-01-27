@@ -17,4 +17,5 @@ public class ResponseStatusHelper
     public static final String NOT_FOUND_RESULT = "NOT_FOUND";
     public static final String INTERNAL_SERVER_ERROR_RESULT = "INTERNAL_SERVER_ERROR";
     public static final String OTHER_ERROR_RESULT = "OTHER_ERROR";
+    public static final String EXCEPTION_THROWN_RESULT = "EXCEPTION_THROWN";
 }

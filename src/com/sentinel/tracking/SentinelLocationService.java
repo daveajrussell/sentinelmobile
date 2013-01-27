@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import com.sentinel.R;
 import com.sentinel.connection.ConnectionManager;
+import com.sentinel.helper.TrackingHelper;
 import com.sentinel.models.GeospatialInformation;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
 

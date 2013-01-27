@@ -64,7 +64,8 @@ public class SentinelBuffferedGeospatialDataDB
             SQLiteDatabase oSentinelDB = sentinelDBOpenHelper.getWritableDatabase();
             oCursor = oSentinelDB.query(SentinelDBOpenHelper.DATABASE_TABLE,
                     result_columns, where, whereArgs, groupBy, having, order);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             ex.printStackTrace();
         }
@@ -115,7 +116,8 @@ public class SentinelBuffferedGeospatialDataDB
                         .endObject();
 
                 strJsonString = oGson.toJson(strBufferedData.toString());
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ex.printStackTrace();
             }
@@ -144,7 +146,8 @@ public class SentinelBuffferedGeospatialDataDB
                     oBufferedDataJson.put("BufferedData", oBufferedDataJsonArray);
 
                     strJsonString = oGson.toJson(oBufferedDataJson.toString());
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     ex.printStackTrace();
                 }

@@ -2,7 +2,6 @@ package com.sentinel.models;
 
 public class User
 {
-
     private String UserKey;
     private int SessionID;
 

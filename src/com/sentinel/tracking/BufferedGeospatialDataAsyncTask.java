@@ -2,15 +2,9 @@ package com.sentinel.tracking;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import com.sentinel.helper.ResponseStatusHelper;
+import com.sentinel.helper.ServiceHelper;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
 
 /**
  * David Russell
@@ -23,6 +17,7 @@ public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, 
     private static final String URL;
 
     private static String strProcessResult;
+    private static String geoDataJson;
 
     private SentinelBuffferedGeospatialDataDB oSentinelDB;
 
@@ -40,41 +35,10 @@ public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, 
     @Override
     protected String doInBackground(String... strings)
     {
-
         if (!strings[0].isEmpty())
         {
-            String strGeoDataJSON = strings[0];
-
-            try
-            {
-                HttpClient oLocationServiceHttpClient = new DefaultHttpClient();
-                HttpPost oLocationServiceHttpPost = new HttpPost(URL + METHOD_NAME);
-                oLocationServiceHttpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
-
-                Log.i("SENTINEL_INFO", "Passing: " + strGeoDataJSON + " to web service");
-
-                StringEntity oStringEntity = new StringEntity(strGeoDataJSON);
-                oLocationServiceHttpPost.setEntity(oStringEntity);
-
-                HttpResponse oLocationServiceResponseCode = oLocationServiceHttpClient.execute(oLocationServiceHttpPost);
-
-                Log.i("SentinelWebService", "Response Status: " + oLocationServiceResponseCode.getStatusLine());
-
-                int iStatus = oLocationServiceResponseCode.getStatusLine().getStatusCode();
-
-                switch (iStatus)
-                {
-                    case ResponseStatusHelper.OK:
-                        strProcessResult = ResponseStatusHelper.OK_RESULT;
-                        break;
-                    default:
-                        strProcessResult = ResponseStatusHelper.OTHER_ERROR_RESULT;
-                        break;
-                }
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            geoDataJson = strings[0];
+            strProcessResult = ServiceHelper.doPost(METHOD_NAME, URL, geoDataJson);
         }
         return strProcessResult;
 

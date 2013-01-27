@@ -7,17 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.sentinel.app.Sentinel;
+import com.sentinel.helper.AssetHelper;
 import com.sentinel.helper.ResponseStatusHelper;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
+import com.sentinel.helper.ServiceHelper;
 
 /**
  * David Russell
@@ -25,14 +20,12 @@ import org.apache.http.protocol.HTTP;
  */
 public class ZXingTestActivity extends Activity
 {
-    private String strProcessResult;
+    private String processResult;
     private String strGeoTaggedAssetJson;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        //lastKnownGeospatialInformationJson = TrackingHelper.getLastKnowGeospatialInformationJson(this);
 
         IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
         integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
@@ -97,51 +90,9 @@ public class ZXingTestActivity extends Activity
             {
                 String strAssetID = strings[0];
                 strGeoTaggedAssetJson = AssetHelper.getGeoTaggedAssetJson(oContext, strAssetID);
-
-                try
-                {
-                    HttpClient oAssetServiceHttpClient = new DefaultHttpClient();
-                    HttpPost oAssetServiceHttpPost = new HttpPost(URL + METHOD_NAME);
-                    oAssetServiceHttpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
-
-                    StringEntity oStringEntity = new StringEntity(strGeoTaggedAssetJson);
-                    oAssetServiceHttpPost.setEntity(oStringEntity);
-
-                    Log.i("SENTINEL_INFO", "Sending: " + strGeoTaggedAssetJson);
-
-                    HttpResponse oAssetServiceResponseCode = oAssetServiceHttpClient.execute(oAssetServiceHttpPost);
-
-                    Log.i("SentinelWebService", "Response Status: " + oAssetServiceResponseCode.getStatusLine());
-
-                    int iStatus = oAssetServiceResponseCode.getStatusLine().getStatusCode();
-                    switch (iStatus)
-                    {
-                        case ResponseStatusHelper.OK:
-                            strProcessResult = ResponseStatusHelper.OK_RESULT;
-                            break;
-                        case ResponseStatusHelper.BAD_REQUEST:
-                            strProcessResult = ResponseStatusHelper.BAD_REQUEST_RESULT;
-                            break;
-                        case ResponseStatusHelper.UNAUTHORIZED:
-                            strProcessResult = ResponseStatusHelper.UNAUTHORIZED_RESULT;
-                            break;
-                        case ResponseStatusHelper.NOT_FOUND:
-                            strProcessResult = ResponseStatusHelper.NOT_FOUND_RESULT;
-                            break;
-                        case ResponseStatusHelper.INTERNAL_SERVER_ERROR:
-                            strProcessResult = ResponseStatusHelper.INTERNAL_SERVER_ERROR_RESULT;
-                            break;
-                        default:
-                            strProcessResult = ResponseStatusHelper.OTHER_ERROR_RESULT;
-                            break;
-                    }
-                } catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
+                processResult = ServiceHelper.doPost(METHOD_NAME, URL, strGeoTaggedAssetJson);
             }
-
-            return strProcessResult;
+            return processResult;
         }
 
         @Override

@@ -20,18 +20,24 @@ import java.util.Calendar;
  * David Russell
  * 26/01/13
  */
-public class SentinelClockIn extends Activity
+public class SentinelOnBreakActivity extends Activity
 {
-    Chronometer countdownTimer;
-    Calendar calendar;
-    Button btnClockIn;
-    NotificationManager notificationManager;
-    SentinelSharedPreferences oSentinelSharedPreferences;
+    public static final String BREAK_LENGTH = "BREAK_LENGTH";
+
+    private Chronometer countdownTimer;
+    private Calendar calendar;
+    private Button btnClockIn;
+    private NotificationManager notificationManager;
+    private SentinelSharedPreferences oSentinelSharedPreferences;
+    private long breakLength;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clockin);
+
+        Intent intent = getIntent();
+        breakLength = intent.getLongExtra(BREAK_LENGTH, 0);
 
         countdownTimer = (Chronometer) findViewById(R.id.countdownTimer);
         btnClockIn = (Button) findViewById(R.id.btnClockIn);
@@ -49,11 +55,6 @@ public class SentinelClockIn extends Activity
 
     private void createCountdownTimer()
     {
-        long lngSessionBegin = oSentinelSharedPreferences.getSessionBeginDateTime();
-        long lngNow = calendar.getTimeInMillis();
-        long lngDiff = lngSessionBegin - lngNow;
-        long lngBreak = calculateBreak(lngDiff);
-
         btnClockIn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -64,34 +65,10 @@ public class SentinelClockIn extends Activity
             }
         });
 
-        setCowndownTimer(lngBreak);
+        oSentinelSharedPreferences.setBreakTakenDateTime(System.currentTimeMillis());
+        setCowndownTimer(breakLength);
     }
 
-    private long calculateBreak(long lngDiff)
-    {
-        // driver has been driving for 2 hours (+- 5 minutes)
-        if (lngDiff >= 6900000 || lngDiff <= 7500000)
-        {
-            // break for 15 minutes, set flat that a break of 30 must be taken 2.5 hours later
-            return 900000;
-        }
-        // driver has been driving for 4.5 hours (+- 5 minutes)
-        else
-            if (lngDiff >= 15900000 || lngDiff <= 16500000)
-            {
-                // break for 45 minutes
-                return 2700000;
-            }
-            // driver has been driving for 4.75 hours (including 15 minute break +- 5 minutes)
-            else
-                if (lngDiff >= 16800000 || lngDiff <= 17400000)
-                {
-                    // break for 30 minutes
-                    return 1800000;
-                }
-                else
-                    return 0;
-    }
 
     private void setCowndownTimer(long lngBreak)
     {

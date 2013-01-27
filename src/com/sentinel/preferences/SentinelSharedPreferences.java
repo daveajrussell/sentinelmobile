@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.Calendar;
-
 /**
  * David Russell
  * 10/12/12

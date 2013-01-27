@@ -1,8 +1,7 @@
-package com.sentinel.asset;
+package com.sentinel.helper;
 
 import android.content.Context;
 import com.sentinel.models.GeospatialInformation;
-import com.sentinel.tracking.TrackingHelper;
 import org.json.JSONStringer;
 
 /**
@@ -38,7 +37,8 @@ public class AssetHelper
                     .key("dSpeed").value(oLastKnownInformation.getSpeed())
                     .key("iOrientation").value(oLastKnownInformation.getOrientation())
                     .endObject().toString();
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             ex.printStackTrace();
             strGeoInformationJson = null;

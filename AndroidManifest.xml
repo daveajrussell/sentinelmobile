@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".app.SentinelClockIn"
+        <activity android:name=".app.SentinelOnBreakActivity"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
@@ -47,9 +47,9 @@
 
         <activity android:name=".asset.ZXingTestActivity"
                   android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:name=".app.SentinelClockIn"/>
+        <activity android:name=".app.SentinelOnBreakActivity"/>
         <activity android:name=".app.SentinelNearingLegalDrivingTimeActivity"/>
-        <activity android:name=".authentication.ClockOutAsyncTask"/>
+        <activity android:name=".app.SentinelNearingBreakTimeActivity"/>
 
         <service android:enabled="true" android:name=".tracking.SentinelLocationService"
                  android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION">

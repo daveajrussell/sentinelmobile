@@ -1,27 +1,23 @@
 package com.sentinel.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import com.google.gson.Gson;
 import com.sentinel.R;
-import com.sentinel.helper.ResponseStatusHelper;
+import com.sentinel.authentication.ClockOutAsyncTask;
+import com.sentinel.helper.ServiceHelper;
+import com.sentinel.helper.TrackingHelper;
 import com.sentinel.models.GeospatialInformation;
-import com.sentinel.tracking.TrackingHelper;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONStringer;
 
 import java.text.SimpleDateFormat;
@@ -33,37 +29,40 @@ import java.util.Calendar;
  */
 public class SentinelNearingLegalDrivingTimeActivity extends Activity
 {
-    private GeospatialInformation oLastKnownLocation;
+    private NotificationManager notificationManager;
+    private GeospatialInformation geospatialInformation;
     private Gson oGson = new Gson();
     private Calendar calendar;
     private Chronometer countdownTimer;
     private Button btnClockOut;
-    NotificationManager notificationManager;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.legaldrivingtimeactivity);
 
-        calendar = Calendar.getInstance();
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        countdownTimer = (Chronometer)findViewById(R.id.countdownTimer);
-        btnClockOut = (Button)findViewById(R.id.btnClockOut);
-        oLastKnownLocation = TrackingHelper.getLastKnownGeospatialInformation(this);
+        countdownTimer = (Chronometer) findViewById(R.id.countdownTimer);
+        btnClockOut = (Button) findViewById(R.id.btnClockOut);
 
-        String strLastKnowLocationJson = getUserLocationJsonString();
-        new NearingLegalDrivingTimeAsyncTask().execute(strLastKnowLocationJson);
+        calendar = Calendar.getInstance();
+        geospatialInformation = TrackingHelper.getLastKnownGeospatialInformation(this);
+
+        final String strLastKnowLocationJson = getUserLocationJsonString();
+
 
         btnClockOut.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-
+                new ClockOutAsyncTask(getApplicationContext()).execute(strLastKnowLocationJson);
             }
         });
 
         setCowndownTimer(30000);
+
+        new NearingLegalDrivingTimeAsyncTask().execute(strLastKnowLocationJson);
     }
 
     private void setCowndownTimer(long lngCount)
@@ -83,14 +82,24 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
                 countdownTimer.setText("00:00:00");
 
                 Notification oBreakOverNotification = new Notification.Builder(getApplicationContext())
-                        .setContentText("Break Finished")
+                        .setContentText("Shift Ending in 5 Minutes")
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
                         .build();
                 notificationManager.notify(1, oBreakOverNotification);
 
-                // alert dialog?
+                AlertDialog.Builder oResultDialog = new AlertDialog.Builder(getApplicationContext());
+                oResultDialog.setTitle("Shift Ending");
+                oResultDialog.setMessage("Your shift is scheduled to end in 5 minutes.");
+                oResultDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        // do nothing
+                    }
+                });
             }
         }.start();
     }
@@ -104,13 +113,13 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
                     oGson.toJson(
                             new JSONStringer()
                                     .object()
-                                    .key("iSessionID").value(oLastKnownLocation.getSessionID())
-                                    .key("oUserIdentification").value(oLastKnownLocation.getUserIndentification())
-                                    .key("lTimeStamp").value(oLastKnownLocation.getDateTimeStamp())
-                                    .key("dLatitude").value(oLastKnownLocation.getLatitude())
-                                    .key("dLongitude").value(oLastKnownLocation.getLongitude())
-                                    .key("dSpeed").value(oLastKnownLocation.getSpeed())
-                                    .key("iOrientation").value(oLastKnownLocation.getOrientation())
+                                    .key("iSessionID").value(geospatialInformation.getSessionID())
+                                    .key("oUserIdentification").value(geospatialInformation.getUserIndentification())
+                                    .key("lTimeStamp").value(geospatialInformation.getDateTimeStamp())
+                                    .key("dLatitude").value(geospatialInformation.getLatitude())
+                                    .key("dLongitude").value(geospatialInformation.getLongitude())
+                                    .key("dSpeed").value(geospatialInformation.getSpeed())
+                                    .key("iOrientation").value(geospatialInformation.getOrientation())
                                     .endObject().toString());
         }
         catch (Exception ex)
@@ -129,46 +138,16 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
         @Override
         protected String doInBackground(String... strings)
         {
-            String strResult = "";
-            String strUserLocationJson;
+            String userLocationJson;
 
             if (!strings[0].isEmpty())
             {
-                strUserLocationJson = strings[0];
+                userLocationJson = strings[0];
 
-                try
-                {
-                    HttpClient oLocationServiceHttpClient = new DefaultHttpClient();
-                    HttpPost oLocationServiceHttpPost = new HttpPost(URL + METHOD_NAME);
-                    oLocationServiceHttpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
-
-                    Log.i("SENTINEL_INFO", "Passing: " + strUserLocationJson + " to web service");
-
-                    StringEntity oStringEntity = new StringEntity(strUserLocationJson);
-                    oLocationServiceHttpPost.setEntity(oStringEntity);
-
-                    HttpResponse oLocationServiceResponseCode = oLocationServiceHttpClient.execute(oLocationServiceHttpPost);
-
-                    Log.i("SentinelWebService", "Response Status: " + oLocationServiceResponseCode.getStatusLine());
-
-                    int iStatus = oLocationServiceResponseCode.getStatusLine().getStatusCode();
-
-                    switch (iStatus)
-                    {
-                        case ResponseStatusHelper.OK:
-                            strResult = ResponseStatusHelper.OK_RESULT;
-                            break;
-                        default:
-                            strResult = ResponseStatusHelper.OTHER_ERROR_RESULT;
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
+                ServiceHelper.doPost(METHOD_NAME, URL, userLocationJson);
             }
-            return strResult;
+
+            return "";
         }
     }
 }
