@@ -151,55 +151,57 @@ public class Sentinel extends MapActivity
 
     private void clockOut()
     {
-        stopLocationService();
-        SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(this);
-        oSentinelSharedPreferences.setBreakTakenDateTime(Calendar.getInstance().getTimeInMillis());
-
         long lngSessionBegin = oSentinelSharedPreferences.getSessionBeginDateTime();
         long lngNow = System.currentTimeMillis();
-        long lngDiff = lngSessionBegin - lngNow;
+        long lngDiff = lngNow - lngSessionBegin;
         long lngBreak = calculateBreak(lngDiff);
 
         if (lngBreak > 0)
         {
+            stopLocationService();
+
+            SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(this);
+            oSentinelSharedPreferences.setBreakTakenDateTime(Calendar.getInstance().getTimeInMillis());
+
             Intent oClockInIntent = new Intent(Sentinel.this, SentinelOnBreakActivity.class);
             oClockInIntent.putExtra(SentinelOnBreakActivity.BREAK_LENGTH, lngBreak);
             startActivity(oClockInIntent);
         }
         else
         {
-            AlertDialog.Builder oResultDialog = new AlertDialog.Builder(getApplicationContext());
-            oResultDialog.setTitle("Warning");
-            oResultDialog.setMessage("You may not begin your recorded break yet.");
-            oResultDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i)
-                {
-                    // do nothing
-                }
-            });
+            new AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("You may not begin your recorded break yet.")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i)
+                        {
+                            // do nothing
+                        }
+                    }).show();
+
         }
     }
 
     private long calculateBreak(long lngDiff)
     {
         // driver has been driving for 2 hours (+- 5 minutes)
-        if (lngDiff >= 6900000 || lngDiff <= 7500000)
+        if (lngDiff >= 6900000 && lngDiff <= 7500000)
         {
             // break for 15 minutes, set flat that a break of 30 must be taken 2.5 hours later
             return 900000;
         }
         // driver has been driving for 4.5 hours (+- 5 minutes)
         else
-            if (lngDiff >= 15900000 || lngDiff <= 16500000)
+            if (lngDiff >= 15900000 && lngDiff <= 16500000)
             {
                 // break for 45 minutes
                 return 2700000;
             }
             // driver has been driving for 4.75 hours (including 15 minute break +- 5 minutes)
             else
-                if (lngDiff >= 16800000 || lngDiff <= 17400000)
+                if (lngDiff >= 16800000 && lngDiff <= 17400000)
                 {
                     // break for 30 minutes
                     return 1800000;

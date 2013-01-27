@@ -108,6 +108,7 @@ public class SentinelLogin extends Activity
 
                 sentinelSharedPreferences.setNextAlarm(6900000);
                 sentinelSharedPreferences.setDrivingEndAlarm(33900000);
+                sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
                 //setAlarms();
 
