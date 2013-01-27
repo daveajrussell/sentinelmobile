@@ -2,7 +2,6 @@ package com.sentinel.app;
 
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,8 +18,8 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.sentinel.R;
-import com.sentinel.asset.ZXingTestActivity;
-import com.sentinel.authentication.ClockOutAsyncTask;
+import com.sentinel.asset.GeotagDeliveryZXingActvity;
+import com.sentinel.authentication.LogoutAsyncTask;
 import com.sentinel.helper.JsonHelper;
 import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.tracking.SentinelLocationService;
@@ -66,8 +65,11 @@ public class Sentinel extends MapActivity
     private AlarmManager alarmManager;
     private MapView oMapView;
     private SentinelSharedPreferences oSentinelSharedPreferences;
-    private PendingIntent nextBreakPendingIntent;
     private JsonHelper jsonHelper;
+
+    private static long lngBreakLength;
+    private static long lngNextBreakLength;
+    private static long lngNextBreak;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -84,23 +86,8 @@ public class Sentinel extends MapActivity
         oSentinelSharedPreferences = new SentinelSharedPreferences(this);
         jsonHelper = new JsonHelper(this);
 
-        //setAlarms();
         startLocationService();
         startLocationUpdates();
-    }
-
-    private void setAlarms()
-    {
-        int iAlarmType = AlarmManager.ELAPSED_REALTIME;
-        String ALARM_ACTION;
-        Intent intentToFire;
-
-        long lngNextBreakAlarm = oSentinelSharedPreferences.getNextAlarm();
-        ALARM_ACTION = "NEXT_BREAK_ALARM";
-        intentToFire = new Intent(ALARM_ACTION);
-        nextBreakPendingIntent = PendingIntent.getBroadcast(this, 0, intentToFire, 0);
-
-        alarmManager.set(iAlarmType, lngNextBreakAlarm, nextBreakPendingIntent);
     }
 
     @Override
@@ -121,20 +108,27 @@ public class Sentinel extends MapActivity
         switch (item.getItemId())
         {
             case R.id.scan_qr_action:
-                Intent zxingIntent = new Intent(this, ZXingTestActivity.class);
+                Intent zxingIntent = new Intent(this, GeotagDeliveryZXingActvity.class);
                 startActivity(zxingIntent);
                 break;
             case R.id.clock_out:
                 clockOut();
                 break;
             case R.id.logout_action:
-                String userCredentialsJson = jsonHelper.getUserCredentialsJsonFromSharedPreferences();
-                new ClockOutAsyncTask(getApplicationContext()).execute(userCredentialsJson);
+                performLogout();
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void performLogout()
+    {
+        stopLocationService();
+
+        String userCredentialsJson = jsonHelper.getUserCredentialsJsonFromSharedPreferences();
+        new LogoutAsyncTask(this).execute(userCredentialsJson);
     }
 
     @Override
@@ -143,20 +137,14 @@ public class Sentinel extends MapActivity
         return false;
     }
 
-    private void startLocationService()
-    {
-        Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
-        startService(intent);
-    }
-
     private void clockOut()
     {
         long lngSessionBegin = oSentinelSharedPreferences.getSessionBeginDateTime();
         long lngNow = System.currentTimeMillis();
         long lngDiff = lngNow - lngSessionBegin;
-        long lngBreak = calculateBreak(lngDiff);
+        calculateBreak(lngDiff);
 
-        if (lngBreak > 0)
+        if (lngBreakLength > 0)
         {
             stopLocationService();
 
@@ -164,10 +152,11 @@ public class Sentinel extends MapActivity
             oSentinelSharedPreferences.setBreakTakenDateTime(Calendar.getInstance().getTimeInMillis());
 
             Intent oClockInIntent = new Intent(Sentinel.this, SentinelOnBreakActivity.class);
-            oClockInIntent.putExtra(SentinelOnBreakActivity.BREAK_LENGTH, lngBreak);
+            oClockInIntent.putExtra(SentinelOnBreakActivity.BREAK_LENGTH, lngBreakLength);
+            oClockInIntent.putExtra(SentinelOnBreakActivity.NEXT_BREAK_LENGTH, lngNextBreakLength);
+            oClockInIntent.putExtra(SentinelOnBreakActivity.NEXT_BREAK, lngNextBreak);
             startActivity(oClockInIntent);
-        }
-        else
+        } else
         {
             new AlertDialog.Builder(this)
                     .setTitle("Warning")
@@ -184,31 +173,35 @@ public class Sentinel extends MapActivity
         }
     }
 
-    private long calculateBreak(long lngDiff)
+    private void calculateBreak(long lngDiff)
     {
-        // driver has been driving for 2 hours (+- 5 minutes)
+        // driver has been driving for 2 hours (+- 5 minutes) break for 15 minutes, break of 30 must be taken 2.5 (-5 minutes) hours later.
         if (lngDiff >= 6900000 && lngDiff <= 7500000)
         {
-            // break for 15 minutes, set flat that a break of 30 must be taken 2.5 hours later
-            return 900000;
+            lngBreakLength = 900000;
+            lngNextBreakLength = 1800000;
+            lngNextBreak = 8700000;
         }
-        // driver has been driving for 4.5 hours (+- 5 minutes)
+        // driver has been driving for 4.5 hours (+- 5 minutes) and must break for 45 minutes. No other break given.
         else
             if (lngDiff >= 15900000 && lngDiff <= 16500000)
             {
-                // break for 45 minutes
-                return 2700000;
+                lngBreakLength = 2700000;
+                lngNextBreakLength = 0;
+                lngNextBreak = 0;
             }
-            // driver has been driving for 4.75 hours (including 15 minute break +- 5 minutes)
+            // driver has been driving for 4.75 hours (including 15 minute break +- 5 minutes) and must break for 30 minutes. Not other break given.
             else
                 if (lngDiff >= 16800000 && lngDiff <= 17400000)
                 {
-                    // break for 30 minutes
-                    return 1800000;
-                }
-                else
+                    lngBreakLength = 1800000;
+                    lngNextBreakLength = 0;
+                    lngNextBreak = 0;
+                } else
                 {
-                    return 0;
+                    lngBreakLength = 0;
+                    lngNextBreakLength = 0;
+                    lngNextBreak = 0;
                 }
     }
 
@@ -232,6 +225,12 @@ public class Sentinel extends MapActivity
         updateLocation(oLocation);
 
         oLocationManager.requestLocationUpdates(strProvider, TIME, DISTANCE, oLocationListener);
+    }
+
+    private void startLocationService()
+    {
+        Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
+        startService(intent);
     }
 
     private void updateLocation(Location oLocation)

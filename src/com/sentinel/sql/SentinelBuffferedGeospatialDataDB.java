@@ -121,8 +121,7 @@ public class SentinelBuffferedGeospatialDataDB
             {
                 ex.printStackTrace();
             }
-        }
-        else
+        } else
             if (oCursor.getCount() > 1)
             {
                 try
@@ -151,8 +150,7 @@ public class SentinelBuffferedGeospatialDataDB
                 {
                     ex.printStackTrace();
                 }
-            }
-            else
+            } else
             {
                 // no collection
             }

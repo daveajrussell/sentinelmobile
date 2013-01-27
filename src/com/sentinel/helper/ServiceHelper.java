@@ -1,5 +1,6 @@
 package com.sentinel.helper;
 
+import android.content.Context;
 import android.util.Log;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,6 +22,8 @@ public class ServiceHelper
     private static HttpPost httpPost;
     private static StringEntity stringEntity;
     private static HttpResponse httpResponse;
+
+    private static String doPostResult;
 
     public static String doPost(String methodName, String url, String entity)
     {
@@ -51,16 +54,16 @@ public class ServiceHelper
         return strPostResult;
     }
 
-    public static String doPostAndLogin(String methodName, String url, String entity)
+    public static String doPostAndLogin(Context context, String methodName, String url, String entity)
     {
-        String result = doPost(methodName, url, entity);
+        doPostResult = doPost(methodName, url, entity);
 
-        if (result == ResponseStatusHelper.OK_RESULT)
+        if (doPostResult == ResponseStatusHelper.OK_RESULT)
         {
-            LoginHelper.loginToSystem(httpResponse);
+            LoginHelper.loginToSystem(httpResponse, context);
         }
 
-        return result;
+        return doPostResult;
     }
 
     private static String getResponse(int iReponseCode)

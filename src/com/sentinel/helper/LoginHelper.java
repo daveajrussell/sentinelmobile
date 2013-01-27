@@ -1,9 +1,11 @@
 package com.sentinel.helper;
 
+import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sentinel.models.User;
+import com.sentinel.preferences.SentinelSharedPreferences;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 
@@ -21,24 +23,34 @@ public class LoginHelper
     private static String json;
     private static User user;
 
-    public static void loginToSystem(HttpResponse oResponse)
+    private static HttpEntity httpEntity;
+    private static InputStream inputStream;
+    private static Reader reader;
+    private static JsonParser jsonParser;
+    private static JsonObject jsonObject;
+
+    private static SentinelSharedPreferences sentinelSharedPreferences;
+
+    public static void loginToSystem(HttpResponse httpResponse, Context context)
     {
         try
         {
             gson = new Gson();
-            JsonParser parser = new JsonParser();
-            JsonObject oUserJsonObject;
+            sentinelSharedPreferences = new SentinelSharedPreferences(context);
 
-            HttpEntity oLoginServiceEntity = oResponse.getEntity();
-            InputStream oLoginServiceResponseStream = oLoginServiceEntity.getContent();
-            Reader oLoginServiceReader = new InputStreamReader(oLoginServiceResponseStream);
+            httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+            reader = new InputStreamReader(inputStream);
 
-            json = gson.fromJson(oLoginServiceReader, String.class);
-            oUserJsonObject = parser.parse(json).getAsJsonObject();
+            jsonParser = new JsonParser();
+            json = gson.fromJson(reader, String.class);
+            jsonObject = jsonParser.parse(json).getAsJsonObject();
 
             user = new User();
-            user.setUserIdentification(gson.fromJson(oUserJsonObject.get("UserKey"), String.class));
-            user.setSessionID(gson.fromJson(oUserJsonObject.get("SessionID"), int.class));
+            user.setUserIdentification(gson.fromJson(jsonObject.get("UserKey"), String.class));
+            user.setSessionID(gson.fromJson(jsonObject.get("SessionID"), int.class));
+
+            sentinelSharedPreferences.setUserPreferences(user.getUserIdentification(), user.getSessionID());
         }
         catch (Exception ex)
         {

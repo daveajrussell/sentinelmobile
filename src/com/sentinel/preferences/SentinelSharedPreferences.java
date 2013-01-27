@@ -16,7 +16,6 @@ public class SentinelSharedPreferences
     private static final String SESSION_ID;
     private static final String SESSION_BEGIN_DATE_TIME;
     private static final String BREAK_TAKEN_DATE_TIME;
-    private static final String NEXT_ALARM;
     private static final String DRIVING_END_ALARM;
 
     static
@@ -26,7 +25,6 @@ public class SentinelSharedPreferences
         SESSION_ID = "SESSION_ID";
         SESSION_BEGIN_DATE_TIME = "SESSION_BEGIN_DATE_TIME";
         BREAK_TAKEN_DATE_TIME = "BREAK_TAKEN_DATE_TIME";
-        NEXT_ALARM = "NEXT_ALARM";
         DRIVING_END_ALARM = "DRIVING_END_ALARM";
     }
 
@@ -59,13 +57,6 @@ public class SentinelSharedPreferences
         oSentinelSharedPreferencesEditor.apply();
     }
 
-    public void setNextAlarm(long lngNextAlarm)
-    {
-        SharedPreferences.Editor oSentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
-        oSentinelSharedPreferencesEditor.putLong(NEXT_ALARM, lngNextAlarm);
-        oSentinelSharedPreferencesEditor.apply();
-    }
-
     public void setDrivingEndAlarm(long lngDrivingEndAlarm)
     {
         SharedPreferences.Editor oSentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
@@ -86,16 +77,6 @@ public class SentinelSharedPreferences
     public long getSessionBeginDateTime()
     {
         return oSentinelSharedPreferences.getLong(SESSION_BEGIN_DATE_TIME, 0);
-    }
-
-    public long getBreakTakeDateTime()
-    {
-        return oSentinelSharedPreferences.getLong(BREAK_TAKEN_DATE_TIME, 0);
-    }
-
-    public long getNextAlarm()
-    {
-        return oSentinelSharedPreferences.getLong(NEXT_ALARM, 0);
     }
 
     public long getDrivingEndAlarm()

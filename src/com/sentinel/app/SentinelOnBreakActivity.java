@@ -1,9 +1,12 @@
 package com.sentinel.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -23,21 +26,32 @@ import java.util.Calendar;
 public class SentinelOnBreakActivity extends Activity
 {
     public static final String BREAK_LENGTH = "BREAK_LENGTH";
+    public static final String NEXT_BREAK_LENGTH = "NEXT_BREAK_LENGTH";
+    public static final String NEXT_BREAK = "NEXT_BREAK";
 
     private Chronometer countdownTimer;
     private Calendar calendar;
     private Button btnClockIn;
     private NotificationManager notificationManager;
     private SentinelSharedPreferences oSentinelSharedPreferences;
-    private long breakLength;
+    private SimpleDateFormat simpleDateFormat;
+    private AlertDialog.Builder alertDialog;
+
+    private static long lngBreakLength;
+    private static long lngNextBreakLength;
+    private static long lngNextBreak;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.clockin);
 
+        simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+
         Intent intent = getIntent();
-        breakLength = intent.getLongExtra(BREAK_LENGTH, 0);
+        lngBreakLength = intent.getLongExtra(BREAK_LENGTH, 0);
+        lngNextBreakLength = intent.getLongExtra(NEXT_BREAK_LENGTH, 0);
+        lngNextBreak = intent.getLongExtra(NEXT_BREAK, 0);
 
         countdownTimer = (Chronometer) findViewById(R.id.countdownTimer);
         btnClockIn = (Button) findViewById(R.id.btnClockIn);
@@ -45,12 +59,19 @@ public class SentinelOnBreakActivity extends Activity
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         oSentinelSharedPreferences = new SentinelSharedPreferences(this);
 
+        alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Break Finished")
+                .setMessage(getMessageForDialog())
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+
+                    }
+                });
+
         createCountdownTimer();
-    }
-
-    private void updateAlarms()
-    {
-
     }
 
     private void createCountdownTimer()
@@ -61,23 +82,23 @@ public class SentinelOnBreakActivity extends Activity
             public void onClick(View view)
             {
                 Intent sentinelIntent = new Intent(getApplicationContext(), Sentinel.class);
+
                 startActivity(sentinelIntent);
             }
         });
 
         oSentinelSharedPreferences.setBreakTakenDateTime(System.currentTimeMillis());
-        setCowndownTimer(breakLength);
+        setCowndownTimer();
     }
 
 
-    private void setCowndownTimer(long lngBreak)
+    private void setCowndownTimer()
     {
-        new CountDownTimer(lngBreak, 1000)
+        new CountDownTimer(lngBreakLength, 1000)
         {
             public void onTick(long millisUntilFinished)
             {
                 calendar.setTimeInMillis(millisUntilFinished);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                 String timer = simpleDateFormat.format(calendar.getTime());
                 countdownTimer.setText(timer);
             }
@@ -86,6 +107,8 @@ public class SentinelOnBreakActivity extends Activity
             {
                 btnClockIn.setVisibility(View.VISIBLE);
                 countdownTimer.setText("00:00:00");
+                countdownTimer.setTextColor(Color.RED);
+                alertDialog.show();
 
                 Notification oBreakOverNotification = new Notification.Builder(getApplicationContext())
                         .setContentText("Break Finished")
@@ -96,6 +119,27 @@ public class SentinelOnBreakActivity extends Activity
                 notificationManager.notify(1, oBreakOverNotification);
             }
         }.start();
+    }
+
+    private String getMessageForDialog()
+    {
+        if (lngNextBreak != 0 && lngNextBreakLength != 0)
+        {
+            return "You took a break of " + millisToMinutes(lngBreakLength) + " minutes. You must take another break in " + millisToHours(lngNextBreak) + " hours, for " + millisToMinutes(lngNextBreakLength) + " minutes.";
+        } else
+        {
+            return "You took a break of " + millisToMinutes(lngBreakLength) + " minutes. You are not entitled to any further breaks for the remainder of your shift";
+        }
+    }
+
+    private long millisToMinutes(long lngVal)
+    {
+        return ((lngVal / 1000) / 60);
+    }
+
+    private long millisToHours(long lngVal)
+    {
+        return (((lngVal / 1000) / 60) / 60);
     }
 
 }

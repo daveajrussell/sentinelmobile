@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SET_DEBUG_APP"/>
 
     <uses-sdk android:minSdkVersion="17"/>
     <uses-feature android:name="android.hardware.camera"/>
@@ -45,7 +46,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".asset.ZXingTestActivity"
+        <activity android:name=".asset.GeotagDeliveryZXingActvity"
                   android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:name=".app.SentinelOnBreakActivity"/>
         <activity android:name=".app.SentinelNearingLegalDrivingTimeActivity"/>

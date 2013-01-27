@@ -28,7 +28,7 @@ public class AssetHelper
         {
             strGeoInformationJson = new JSONStringer()
                     .object()
-                    .key("oAssetKey").value("051CD6B1-DE50-465A-8427-04EA267ED442")
+                    .key("oAssetKey").value(strAssetID)
                     .key("iSessionID").value(oLastKnownInformation.getSessionID())
                     .key("oUserIdentification").value(oLastKnownInformation.getUserIndentification())
                     .key("lTimeStamp").value(oLastKnownInformation.getDateTimeStamp())

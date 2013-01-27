@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import com.google.gson.Gson;
 import com.sentinel.R;
-import com.sentinel.authentication.ClockOutAsyncTask;
+import com.sentinel.authentication.LogoutAsyncTask;
 import com.sentinel.helper.ServiceHelper;
 import com.sentinel.helper.TrackingHelper;
 import com.sentinel.models.GeospatialInformation;
@@ -30,6 +31,7 @@ import java.util.Calendar;
 public class SentinelNearingLegalDrivingTimeActivity extends Activity
 {
     private NotificationManager notificationManager;
+    private Notification breakOverNotification;
     private GeospatialInformation geospatialInformation;
     private Gson oGson = new Gson();
     private Calendar calendar;
@@ -50,13 +52,34 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
 
         final String strLastKnowLocationJson = getUserLocationJsonString();
 
+        breakOverNotification = new Notification.Builder(getApplicationContext())
+                .setContentText("Shift Ending in 5 Minutes")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+                .build();
+        notificationManager.notify(1, breakOverNotification);
+
+       new AlertDialog.Builder(getApplicationContext())
+        .setTitle("Shift Ending")
+        .setMessage("Your shift is scheduled to end in 5 minutes.")
+        .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i)
+            {
+                // do nothing
+            }
+        }).show();
+
 
         btnClockOut.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                new ClockOutAsyncTask(getApplicationContext()).execute(strLastKnowLocationJson);
+                notificationManager.cancelAll();
+                new LogoutAsyncTask(getApplicationContext()).execute(strLastKnowLocationJson);
             }
         });
 
@@ -80,26 +103,7 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
             public void onFinish()
             {
                 countdownTimer.setText("00:00:00");
-
-                Notification oBreakOverNotification = new Notification.Builder(getApplicationContext())
-                        .setContentText("Shift Ending in 5 Minutes")
-                        .setSmallIcon(R.drawable.ic_launcher)
-                        .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-                        .build();
-                notificationManager.notify(1, oBreakOverNotification);
-
-                AlertDialog.Builder oResultDialog = new AlertDialog.Builder(getApplicationContext());
-                oResultDialog.setTitle("Shift Ending");
-                oResultDialog.setMessage("Your shift is scheduled to end in 5 minutes.");
-                oResultDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        // do nothing
-                    }
-                });
+                countdownTimer.setTextColor(Color.RED);
             }
         }.start();
     }

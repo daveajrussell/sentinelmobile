@@ -18,7 +18,7 @@ import com.sentinel.helper.ServiceHelper;
  * David Russell
  * 23/01/13
  */
-public class ZXingTestActivity extends Activity
+public class GeotagDeliveryZXingActvity extends Activity
 {
     private String processResult;
     private String strGeoTaggedAssetJson;
@@ -27,7 +27,7 @@ public class ZXingTestActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
-        IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
+        IntentIntegrator integrator = new IntentIntegrator(GeotagDeliveryZXingActvity.this);
         integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
     }
 
@@ -52,8 +52,7 @@ public class ZXingTestActivity extends Activity
                         new AssetServiceAsyncTask(getApplicationContext()).execute(strResultContents);
                     }
                 });
-            }
-            else
+            } else
             {
                 oResultDialog.setMessage("QR Scan Failed");
                 oResultDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
@@ -113,8 +112,7 @@ public class ZXingTestActivity extends Activity
                         oContext.startActivity(sentinelIntent);
                     }
                 });
-            }
-            else
+            } else
             {
                 oDeliveryAlert = new AlertDialog.Builder(oContext);
                 oDeliveryAlert.setTitle("Delivery Failed");
@@ -123,7 +121,7 @@ public class ZXingTestActivity extends Activity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
-                        Intent qrRetryIntent = new Intent(oContext, ZXingTestActivity.class);
+                        Intent qrRetryIntent = new Intent(oContext, GeotagDeliveryZXingActvity.class);
                         qrRetryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         oContext.startActivity(qrRetryIntent);
                     }

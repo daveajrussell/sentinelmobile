@@ -118,8 +118,7 @@ public class SentinelLocationService extends Service
             if (oSentinelDB.getBufferedGeospatialDataCount() >= 2)
             {
                 sendBufferedGeospatialDataToLocationService(strGeospatialInformationJson);
-            }
-            else
+            } else
             {
                 sendGISToLocationService(strGeospatialInformationJson);
             }

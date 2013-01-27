@@ -24,6 +24,7 @@ import com.sentinel.preferences.SentinelSharedPreferences;
 
 public class SentinelLogin extends Activity
 {
+    public static final String CANCEL_ALARM = "CANCEL_ALARM";
     private Credentials oUserCredentials;
     private String strCredentialsJSONString;
     private Button btnLogin;
@@ -32,22 +33,30 @@ public class SentinelLogin extends Activity
     private ProgressBar pbAsyncProgress;
     private AlarmManager alarmManager;
     private JsonHelper jsonHelper;
+    private SentinelSharedPreferences sentinelSharedPreferences;
+    private PendingIntent pendingIntent;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        Intent intent = getIntent();
+
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         btnLogin = (Button) findViewById(R.id.btn_login);
         txtUsername = (EditText) findViewById(R.id.txt_username);
         txtPassword = (EditText) findViewById(R.id.txt_password);
         pbAsyncProgress = (ProgressBar) findViewById(R.id.pbAsyncProgress);
-
+        sentinelSharedPreferences = new SentinelSharedPreferences(this);
         jsonHelper = new JsonHelper(this);
 
+        if (intent.getBooleanExtra(CANCEL_ALARM, false))
+            cancelAlarm();
+
         /* DEBUG */
-        txtUsername.setText("DR_ARCHITECT");
-        txtPassword.setText("randomness");
+        txtUsername.setText("DR_DRIVER");
+        txtPassword.setText("password");
         /* DEBUG */
 
         btnLogin.setOnClickListener(new View.OnClickListener()
@@ -71,7 +80,13 @@ public class SentinelLogin extends Activity
                 new LoginServiceAsyncTask(SentinelLogin.this).execute(strCredentialsJSONString);
             }
         });
+    }
 
+    private void cancelAlarm()
+    {
+        Intent intent = new Intent(this, SentinelNearingLegalDrivingTimeActivity.class);
+        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.cancel(pendingIntent);
     }
 
     private class LoginServiceAsyncTask extends AsyncTask<String, Integer, String>
@@ -80,11 +95,18 @@ public class SentinelLogin extends Activity
         private final String URL = "http://webservices.daveajrussell.com/Services/AuthenticationService.svc";
         private Context context;
         private String loginCredentialsJson;
-        private SentinelSharedPreferences sentinelSharedPreferences;
 
         public LoginServiceAsyncTask(Context context)
         {
             this.context = context;
+        }
+
+        private void setAlarm()
+        {
+            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm();
+            Intent intent = new Intent(getApplicationContext(), SentinelNearingLegalDrivingTimeActivity.class);
+            pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + lngEndDrivingAlarm, pendingIntent);
         }
 
         @Override
@@ -93,9 +115,8 @@ public class SentinelLogin extends Activity
             if (!strings[0].isEmpty())
             {
                 loginCredentialsJson = strings[0];
-                return ServiceHelper.doPostAndLogin(METHOD_NAME, URL, loginCredentialsJson);
-            }
-            else
+                return ServiceHelper.doPostAndLogin(getApplicationContext(), METHOD_NAME, URL, loginCredentialsJson);
+            } else
                 return null;
         }
 
@@ -104,19 +125,15 @@ public class SentinelLogin extends Activity
         {
             if (result == ResponseStatusHelper.OK_RESULT)
             {
-                sentinelSharedPreferences = new SentinelSharedPreferences(context);
-
-                sentinelSharedPreferences.setNextAlarm(6900000);
                 sentinelSharedPreferences.setDrivingEndAlarm(33900000);
                 sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
-                //setAlarms();
+                setAlarm();
 
                 Intent sentinelIntent = new Intent(context, Sentinel.class);
                 sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(sentinelIntent);
-            }
-            else
+            } else
             {
                 AlertDialog.Builder oAuthenticationAlert = new AlertDialog.Builder(context);
                 oAuthenticationAlert.setTitle("Authentication Failed");
@@ -135,23 +152,13 @@ public class SentinelLogin extends Activity
                 if (result == ResponseStatusHelper.UNAUTHORIZED_RESULT)
                 {
                     oAuthenticationAlert.setMessage("Invalid Login Details.");
-                }
-                else
+                } else
                 {
                     oAuthenticationAlert.setMessage("An error has occurred. Please try again later.");
                 }
 
                 oAuthenticationAlert.show();
             }
-        }
-
-        private void setAlarms()
-        {
-            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm();
-            Intent intent = new Intent(context, SentinelNearingLegalDrivingTimeActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + lngEndDrivingAlarm, pendingIntent);
         }
     }
 }
