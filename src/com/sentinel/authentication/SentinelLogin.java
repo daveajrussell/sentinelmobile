@@ -1,7 +1,9 @@
 package com.sentinel.authentication;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sentinel.R;
 import com.sentinel.app.Sentinel;
+import com.sentinel.app.SentinelNearingLegalDrivingTimeActivity;
 import com.sentinel.helper.ResponseStatusHelper;
 import com.sentinel.models.Credentials;
 import com.sentinel.models.User;
@@ -40,14 +43,14 @@ public class SentinelLogin extends Activity
     private Credentials oUserCredentials;
     private String strCredentialsJSONString;
 
-    Button btnLogin;
-    EditText txtUsername;
-    EditText txtPassword;
-    ProgressBar pbAsyncProgress;
+    private Button btnLogin;
+    private EditText txtUsername;
+    private EditText txtPassword;
+    private ProgressBar pbAsyncProgress;
+    private AlarmManager alarmManager;
 
     public void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
@@ -61,6 +64,12 @@ public class SentinelLogin extends Activity
         txtUsername.setText("DR_ARCHITECT");
         txtPassword.setText("randomness");
         /* DEBUG */
+
+        //long lngEndDrivingAlarm = oSentinelSharedPreferences.getDrivingEndAlarm();
+        Intent intent = new Intent(SentinelLogin.this, SentinelNearingLegalDrivingTimeActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10000/*lngEndDrivingAlarm*/, pendingIntent);
 
         btnLogin.setOnClickListener(new View.OnClickListener()
         {
@@ -83,6 +92,7 @@ public class SentinelLogin extends Activity
                 new LoginServiceAsyncTask(SentinelLogin.this).execute(strCredentialsJSONString);
             }
         });
+
     }
 
     public String convertCredentialsObjectToJSONString(Credentials oCredentials)
@@ -120,6 +130,7 @@ public class SentinelLogin extends Activity
         private String strProcessResult;
         private User oUser;
         private Gson oGson;
+        private PendingIntent drivingTimePendingIntent;
 
         public LoginServiceAsyncTask(Context context)
         {
@@ -194,11 +205,17 @@ public class SentinelLogin extends Activity
 
                 oSentinelSharedPreferences.setUserPreferences(strUserIdentification, iSessionID);
                 oSentinelSharedPreferences.setNextAlarm(6900000);
-                oSentinelSharedPreferences.setDrivingEndTime(33900000);
+                oSentinelSharedPreferences.setDrivingEndAlarm(33900000);
 
                 Intent sentinelIntent = new Intent(oContext, Sentinel.class);
                 sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 oContext.startActivity(sentinelIntent);
+
+                /*long lngEndDrivingAlarm = oSentinelSharedPreferences.getDrivingEndAlarm();
+                Intent intent = new Intent(this, SentinelClockIn.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(oContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + lngEndDrivingAlarm, pendingIntent);  */
             }
             else
             {

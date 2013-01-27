@@ -42,6 +42,11 @@ public class SentinelClockIn extends Activity
         createCountdownTimer();
     }
 
+    private void updateAlarms()
+    {
+
+    }
+
     private void createCountdownTimer()
     {
         long lngSessionBegin = oSentinelSharedPreferences.getSessionBeginDateTime();

@@ -1,6 +1,5 @@
 package com.sentinel.app;
 
-import android.R;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -20,12 +19,12 @@ import com.google.android.maps.MapView;
 import com.sentinel.asset.ZXingTestActivity;
 import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.tracking.SentinelLocationService;
+import com.sentinel.R;
 
 import java.util.Calendar;
 
 public class Sentinel extends MapActivity
 {
-
     private static final int TIME;
     private static final int DISTANCE;
 
@@ -63,6 +62,7 @@ public class Sentinel extends MapActivity
     private AlarmManager alarmManager;
     private MapView oMapView;
     private SentinelSharedPreferences oSentinelSharedPreferences;
+    private PendingIntent nextBreakPendingIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -73,7 +73,7 @@ public class Sentinel extends MapActivity
         oMapView = (MapView) findViewById(R.id.mapview);
         oMapController = oMapView.getController();
         oMapView.setBuiltInZoomControls(true);
-        oMapController.setZoom(17);
+        oMapController.setZoom(5);
 
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         oSentinelSharedPreferences = new SentinelSharedPreferences(this);
@@ -88,21 +88,13 @@ public class Sentinel extends MapActivity
         int iAlarmType = AlarmManager.ELAPSED_REALTIME;
         String ALARM_ACTION;
         Intent intentToFire;
-        PendingIntent alarmPendingIntent;
 
         long lngNextBreakAlarm =  oSentinelSharedPreferences.getNextAlarm();
         ALARM_ACTION = "NEXT_BREAK_ALARM";
         intentToFire = new Intent(ALARM_ACTION);
-        alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intentToFire, 0);
+        nextBreakPendingIntent = PendingIntent.getBroadcast(this, 0, intentToFire, 0);
 
-        alarmManager.set(iAlarmType, lngNextBreakAlarm, alarmPendingIntent);
-
-        long lngEndDrivingAlarm = oSentinelSharedPreferences.getDrivingEndAlarm();
-        ALARM_ACTION = "DRIVING_END_ALARM";
-        intentToFire = new Intent(ALARM_ACTION);
-        alarmPendingIntent = PendingIntent.getBroadcast(this, 0, intentToFire, 0);
-
-        alarmManager.set(iAlarmType,  lngEndDrivingAlarm, alarmPendingIntent);
+        alarmManager.set(iAlarmType, lngNextBreakAlarm, nextBreakPendingIntent);
     }
 
     @Override
