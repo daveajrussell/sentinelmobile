@@ -54,6 +54,14 @@ public class SentinelLogin extends Activity
         if (intent.getBooleanExtra(CANCEL_ALARM, false))
             cancelAlarm();
 
+        if(sentinelSharedPreferences.getSessionID() != 0 && sentinelSharedPreferences.getUserIdentification() != null)
+        {
+            Intent sentinelIntent = new Intent(this, Sentinel.class);
+            sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            sentinelIntent.putExtra(Sentinel.START_SERVICE, false);
+            this.startActivity(sentinelIntent);
+        }
+
         /* DEBUG */
         txtUsername.setText("DR_DRIVER");
         txtPassword.setText("password");

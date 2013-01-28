@@ -35,6 +35,13 @@ public class SentinelSharedPreferences
         oSentinelSharedPreferences = context.getSharedPreferences(SENTINEL_SHARED_PREFS, Activity.MODE_PRIVATE);
     }
 
+    public void clearSharedPreferences()
+    {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.clear();
+        sentinelSharedPreferencesEditor.apply();
+    }
+
     public void setUserPreferences(String strUserIdentification, int iSessionID)
     {
         SharedPreferences.Editor oSentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();

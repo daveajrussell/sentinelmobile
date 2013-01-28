@@ -3,6 +3,7 @@
     <string name="app_name">SentinelMobile</string>
     <string name="maps_api_key_desktop">0tckJfSKIwhBX--Tq5kRYrb9d6g_xH6iaeuS7hw</string>
     <string name="maps_api_key_laptop">0tckJfSKIwhD18Rl5IcFmc-4xoz-bqiIVwaYC2w</string>
+    <string name="maps_api_key_macbook">0tckJfSKIwhAQ4YWZPUd1ShPvr33kQ-zeml74wA</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="login_img">login_img</string>

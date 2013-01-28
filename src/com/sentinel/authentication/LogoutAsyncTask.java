@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import com.sentinel.helper.ResponseStatusHelper;
 import com.sentinel.helper.ServiceHelper;
+import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.tracking.SentinelLocationService;
 
 /**
@@ -22,10 +23,12 @@ public class LogoutAsyncTask extends AsyncTask<String, Integer, String>
     }
     private Context context;
     private String userCredentialsJson;
+    private SentinelSharedPreferences sentinelSharedPreferences;
 
     public LogoutAsyncTask(Context context)
     {
         this.context = context;
+        sentinelSharedPreferences = new SentinelSharedPreferences(context);
     }
 
     @Override
@@ -44,6 +47,7 @@ public class LogoutAsyncTask extends AsyncTask<String, Integer, String>
     {
         if (result == ResponseStatusHelper.OK_RESULT)
         {
+            sentinelSharedPreferences.clearSharedPreferences();
             Intent locationServiceIntent = new Intent(context, SentinelLocationService.class);
             context.stopService(locationServiceIntent);
 

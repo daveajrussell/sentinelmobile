@@ -10,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import com.sentinel.R;
 import com.sentinel.connection.ConnectionManager;
 import com.sentinel.helper.TrackingHelper;
@@ -19,19 +20,23 @@ import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
 
 public class SentinelLocationService extends Service
 {
-
     private static final int TIME;
     private static final int DISTANCE;
     private static final int NOTIFICATION_ID;
 
     static
     {
-        TIME = 5000;
-        DISTANCE = 5;
+        TIME = 60000;
+        DISTANCE = 100;
         NOTIFICATION_ID = 1;
     }
 
-    LocationListener oLocationServiceLocationListener = new LocationListener()
+    //private Notification.Builder oLocationServiceNotificationBuilder;
+    private NotificationCompat.Builder locationServiceNotificationBuilder;
+    private ConnectionManager oSentinelConnectionManager;
+    private SentinelBuffferedGeospatialDataDB oSentinelDB;
+
+    private final class SentinelLocationListener implements LocationListener
     {
         @Override
         public void onLocationChanged(Location location)
@@ -42,21 +47,21 @@ public class SentinelLocationService extends Service
         @Override
         public void onStatusChanged(String s, int i, Bundle bundle)
         {
+            handleOnStatusChanged(s, i);
         }
 
         @Override
         public void onProviderEnabled(String s)
         {
+            handleOnProviderEnabled(s);
         }
 
         @Override
         public void onProviderDisabled(String s)
         {
+            handleOnProviderDisabled(s);
         }
-    };
-    private Notification.Builder oLocationServiceNotificationBuilder;
-    private ConnectionManager oSentinelConnectionManager;
-    private SentinelBuffferedGeospatialDataDB oSentinelDB;
+    }
 
     @Override
     public IBinder onBind(Intent intent)
@@ -67,8 +72,11 @@ public class SentinelLocationService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startID)
     {
-        LocationManager oLocationServiceLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        oLocationServiceLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationServiceLocationListener);
+        LocationListener sentinelLocationListener = new SentinelLocationListener();
+        LocationManager sentinelLocationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+
+        sentinelLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, sentinelLocationListener);
+
         oSentinelConnectionManager = new ConnectionManager(this);
         oSentinelDB = new SentinelBuffferedGeospatialDataDB(this);
 
@@ -85,11 +93,17 @@ public class SentinelLocationService extends Service
 
     private void startSentinelLocationForegroundService()
     {
-        oLocationServiceNotificationBuilder = new Notification.Builder(this)
+        /*oLocationServiceNotificationBuilder = new Notification.Builder(this)
                 .setContentText("Location Service Running")
                 .setSmallIcon(R.drawable.ic_launcher);
 
-        startForeground(NOTIFICATION_ID, oLocationServiceNotificationBuilder.build());
+        startForeground(NOTIFICATION_ID, oLocationServiceNotificationBuilder.build()); */
+
+        locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
+                .setContentText("Location Service Running")
+                .setSmallIcon(R.drawable.ic_launcher);
+
+        startForeground(NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }
 
     private void stopSentinelLocationForegroundService()
@@ -105,11 +119,17 @@ public class SentinelLocationService extends Service
 
         NotificationManager oLocationServiceNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        oLocationServiceNotificationBuilder = new Notification.Builder(this)
+        /*oLocationServiceNotificationBuilder = new Notification.Builder(this)
                 .setContentText("Location updated: " + oGeospatialInformation.getLatitude() + " " + oGeospatialInformation.getLongitude())
                 .setSmallIcon(R.drawable.ic_launcher);
 
-        oLocationServiceNotificationManager.notify(1, oLocationServiceNotificationBuilder.build());
+        oLocationServiceNotificationManager.notify(1, oLocationServiceNotificationBuilder.build()); */
+
+        locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
+                .setContentText("Location updated: " + oGeospatialInformation.getLatitude() + " " + oGeospatialInformation.getLongitude())
+                .setSmallIcon(R.drawable.ic_launcher);
+
+        oLocationServiceNotificationManager.notify(NOTIFICATION_ID, locationServiceNotificationBuilder.build());
 
         strGeospatialInformationJson = oSentinelDB.getBufferedGeospatialDataJsonString();
 
@@ -125,6 +145,27 @@ public class SentinelLocationService extends Service
         }
 
         oSentinelDB.closeSentinelDatabase();
+    }
+
+    public void handleOnStatusChanged(String s, int i)
+    {
+        locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
+                .setContentText("Status Changed: " + s + " " + i)
+                .setSmallIcon(R.drawable.ic_launcher);
+    }
+
+    public void handleOnProviderEnabled(String s)
+    {
+        locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
+                .setContentText("Provider Enabled: " + s)
+                .setSmallIcon(R.drawable.ic_launcher);
+    }
+
+    public void handleOnProviderDisabled(String s)
+    {
+        locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
+                .setContentText("Provider Disabled: " + s)
+                .setSmallIcon(R.drawable.ic_launcher);
     }
 
     private void sendGISToLocationService(String strGeospatialJson)

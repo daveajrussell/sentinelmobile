@@ -28,13 +28,15 @@ import java.util.Calendar;
 
 public class Sentinel extends MapActivity
 {
+    public static final String START_SERVICE = "START_SERVICE";
+
     private static final int TIME;
     private static final int DISTANCE;
 
     static
     {
-        TIME = 5000;
-        DISTANCE = 5;
+        TIME = 60000;
+        DISTANCE = 100;
     }
 
     LocationListener oLocationListener = new LocationListener()
@@ -62,7 +64,6 @@ public class Sentinel extends MapActivity
     };
     private MapController oMapController;
     private Criteria oCriteria;
-    private AlarmManager alarmManager;
     private MapView oMapView;
     private SentinelSharedPreferences oSentinelSharedPreferences;
     private JsonHelper jsonHelper;
@@ -77,16 +78,21 @@ public class Sentinel extends MapActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        Intent intent = getIntent();
+        if(intent.getBooleanExtra(START_SERVICE, true))
+        {
+            startLocationService();
+        }
+
+
         oMapView = (MapView) findViewById(R.id.mapview);
         oMapController = oMapView.getController();
         oMapView.setBuiltInZoomControls(true);
-        oMapController.setZoom(5);
+        oMapController.setZoom(15);
 
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         oSentinelSharedPreferences = new SentinelSharedPreferences(this);
         jsonHelper = new JsonHelper(this);
 
-        startLocationService();
         startLocationUpdates();
     }
 
@@ -213,7 +219,7 @@ public class Sentinel extends MapActivity
 
     private void startLocationUpdates()
     {
-        LocationManager oLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager oLocationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
         oLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationListener);
 
         setGeoSpatialCriteria();
