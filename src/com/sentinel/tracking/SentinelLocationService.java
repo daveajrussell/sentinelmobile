@@ -1,6 +1,5 @@
 package com.sentinel.tracking;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
@@ -18,62 +17,52 @@ import com.sentinel.models.GeospatialInformation;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
 
 
-public class SentinelLocationService extends Service
-{
+public class SentinelLocationService extends Service {
     private static final int TIME;
     private static final int DISTANCE;
     private static final int NOTIFICATION_ID;
 
-    static
-    {
+    static {
         TIME = 60000;
         DISTANCE = 100;
         NOTIFICATION_ID = 1;
     }
 
-    //private Notification.Builder oLocationServiceNotificationBuilder;
     private NotificationCompat.Builder locationServiceNotificationBuilder;
     private ConnectionManager oSentinelConnectionManager;
     private SentinelBuffferedGeospatialDataDB oSentinelDB;
 
-    private final class SentinelLocationListener implements LocationListener
-    {
+    private final class SentinelLocationListener implements LocationListener {
         @Override
-        public void onLocationChanged(Location location)
-        {
+        public void onLocationChanged(Location location) {
             handleLocationChanged(location);
         }
 
         @Override
-        public void onStatusChanged(String s, int i, Bundle bundle)
-        {
+        public void onStatusChanged(String s, int i, Bundle bundle) {
             handleOnStatusChanged(s, i);
         }
 
         @Override
-        public void onProviderEnabled(String s)
-        {
+        public void onProviderEnabled(String s) {
             handleOnProviderEnabled(s);
         }
 
         @Override
-        public void onProviderDisabled(String s)
-        {
+        public void onProviderDisabled(String s) {
             handleOnProviderDisabled(s);
         }
     }
 
     @Override
-    public IBinder onBind(Intent intent)
-    {
+    public IBinder onBind(Intent intent) {
         return null;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startID)
-    {
+    public int onStartCommand(Intent intent, int flags, int startID) {
         LocationListener sentinelLocationListener = new SentinelLocationListener();
-        LocationManager sentinelLocationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+        LocationManager sentinelLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         sentinelLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, sentinelLocationListener);
 
@@ -86,19 +75,11 @@ public class SentinelLocationService extends Service
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         stopSentinelLocationForegroundService();
     }
 
-    private void startSentinelLocationForegroundService()
-    {
-        /*oLocationServiceNotificationBuilder = new Notification.Builder(this)
-                .setContentText("Location Service Running")
-                .setSmallIcon(R.drawable.ic_launcher);
-
-        startForeground(NOTIFICATION_ID, oLocationServiceNotificationBuilder.build()); */
-
+    private void startSentinelLocationForegroundService() {
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Location Service Running")
                 .setSmallIcon(R.drawable.ic_launcher);
@@ -106,24 +87,16 @@ public class SentinelLocationService extends Service
         startForeground(NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }
 
-    private void stopSentinelLocationForegroundService()
-    {
+    private void stopSentinelLocationForegroundService() {
         stopForeground(true);
     }
 
-    public void handleLocationChanged(Location oCurrentLocationData)
-    {
+    public void handleLocationChanged(Location oCurrentLocationData) {
         GeospatialInformation oGeospatialInformation = TrackingHelper.buildGeospatialInformationObject(this, oCurrentLocationData);
         oSentinelDB.addGeospatialData(oGeospatialInformation);
         String strGeospatialInformationJson;
 
         NotificationManager oLocationServiceNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        /*oLocationServiceNotificationBuilder = new Notification.Builder(this)
-                .setContentText("Location updated: " + oGeospatialInformation.getLatitude() + " " + oGeospatialInformation.getLongitude())
-                .setSmallIcon(R.drawable.ic_launcher);
-
-        oLocationServiceNotificationManager.notify(1, oLocationServiceNotificationBuilder.build()); */
 
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Location updated: " + oGeospatialInformation.getLatitude() + " " + oGeospatialInformation.getLongitude())
@@ -133,13 +106,10 @@ public class SentinelLocationService extends Service
 
         strGeospatialInformationJson = oSentinelDB.getBufferedGeospatialDataJsonString();
 
-        if (oSentinelConnectionManager.deviceIsConnected())
-        {
-            if (oSentinelDB.getBufferedGeospatialDataCount() >= 2)
-            {
+        if (oSentinelConnectionManager.deviceIsConnected()) {
+            if (oSentinelDB.getBufferedGeospatialDataCount() >= 2) {
                 sendBufferedGeospatialDataToLocationService(strGeospatialInformationJson);
-            } else
-            {
+            } else {
                 sendGISToLocationService(strGeospatialInformationJson);
             }
         }
@@ -147,34 +117,29 @@ public class SentinelLocationService extends Service
         oSentinelDB.closeSentinelDatabase();
     }
 
-    public void handleOnStatusChanged(String s, int i)
-    {
+    public void handleOnStatusChanged(String s, int i) {
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Status Changed: " + s + " " + i)
                 .setSmallIcon(R.drawable.ic_launcher);
     }
 
-    public void handleOnProviderEnabled(String s)
-    {
+    public void handleOnProviderEnabled(String s) {
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Provider Enabled: " + s)
                 .setSmallIcon(R.drawable.ic_launcher);
     }
 
-    public void handleOnProviderDisabled(String s)
-    {
+    public void handleOnProviderDisabled(String s) {
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Provider Disabled: " + s)
                 .setSmallIcon(R.drawable.ic_launcher);
     }
 
-    private void sendGISToLocationService(String strGeospatialJson)
-    {
+    private void sendGISToLocationService(String strGeospatialJson) {
         new LocationServiceAsyncTask(getApplicationContext()).execute(strGeospatialJson);
     }
 
-    private void sendBufferedGeospatialDataToLocationService(String strGeospatialJsonSet)
-    {
+    private void sendBufferedGeospatialDataToLocationService(String strGeospatialJsonSet) {
         new BufferedGeospatialDataAsyncTask(getApplicationContext()).execute(strGeospatialJsonSet);
     }
 }

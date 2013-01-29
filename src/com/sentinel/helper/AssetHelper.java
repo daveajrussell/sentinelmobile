@@ -8,10 +8,8 @@ import org.json.JSONStringer;
  * David Russell
  * 24/01/13
  */
-public class AssetHelper
-{
-    public static String getGeoTaggedAssetJson(Context oContext, String strAssetID)
-    {
+public class AssetHelper {
+    public static String getGeoTaggedAssetJson(Context oContext, String strAssetID) {
         GeospatialInformation oLastKnownInformation = TrackingHelper.getLastKnownGeospatialInformation(oContext);
 
         if (oLastKnownInformation != null)
@@ -20,12 +18,10 @@ public class AssetHelper
             return null;
     }
 
-    public static String buildGeoTaggedAssetJson(GeospatialInformation oLastKnownInformation, String strAssetID)
-    {
+    public static String buildGeoTaggedAssetJson(GeospatialInformation oLastKnownInformation, String strAssetID) {
         String strGeoInformationJson;
 
-        try
-        {
+        try {
             strGeoInformationJson = new JSONStringer()
                     .object()
                     .key("oAssetKey").value(strAssetID)
@@ -37,9 +33,7 @@ public class AssetHelper
                     .key("dSpeed").value(oLastKnownInformation.getSpeed())
                     .key("iOrientation").value(oLastKnownInformation.getOrientation())
                     .endObject().toString();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             strGeoInformationJson = null;
         }

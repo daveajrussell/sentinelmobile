@@ -28,8 +28,7 @@ import java.util.Calendar;
  * David Russell
  * 27/01/13
  */
-public class SentinelNearingLegalDrivingTimeActivity extends Activity
-{
+public class SentinelNearingLegalDrivingTimeActivity extends Activity {
     private NotificationManager notificationManager;
     private Notification breakOverNotification;
     private GeospatialInformation geospatialInformation;
@@ -38,8 +37,7 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
     private Chronometer countdownTimer;
     private Button btnClockOut;
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.legaldrivingtimeactivity);
 
@@ -60,24 +58,20 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
                 .build();
         notificationManager.notify(1, breakOverNotification);
 
-       new AlertDialog.Builder(getApplicationContext())
-        .setTitle("Shift Ending")
-        .setMessage("Your shift is scheduled to end in 5 minutes.")
-        .setPositiveButton("Ok", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i)
-            {
-                // do nothing
-            }
-        }).show();
+        new AlertDialog.Builder(getApplicationContext())
+                .setTitle("Shift Ending")
+                .setMessage("Your shift is scheduled to end in 5 minutes.")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // do nothing
+                    }
+                }).show();
 
 
-        btnClockOut.setOnClickListener(new View.OnClickListener()
-        {
+        btnClockOut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 notificationManager.cancelAll();
                 new LogoutAsyncTask(getApplicationContext()).execute(strLastKnowLocationJson);
             }
@@ -88,31 +82,25 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
         new NearingLegalDrivingTimeAsyncTask().execute(strLastKnowLocationJson);
     }
 
-    private void setCowndownTimer(long lngCount)
-    {
-        new CountDownTimer(lngCount, 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {
+    private void setCowndownTimer(long lngCount) {
+        new CountDownTimer(lngCount, 1000) {
+            public void onTick(long millisUntilFinished) {
                 calendar.setTimeInMillis(millisUntilFinished);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                 String timer = simpleDateFormat.format(calendar.getTime());
                 countdownTimer.setText(timer);
             }
 
-            public void onFinish()
-            {
+            public void onFinish() {
                 countdownTimer.setText("00:00:00");
                 countdownTimer.setTextColor(Color.RED);
             }
         }.start();
     }
 
-    private String getUserLocationJsonString()
-    {
+    private String getUserLocationJsonString() {
         String strUserLocationJson = "";
-        try
-        {
+        try {
             strUserLocationJson =
                     oGson.toJson(
                             new JSONStringer()
@@ -125,27 +113,22 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity
                                     .key("dSpeed").value(geospatialInformation.getSpeed())
                                     .key("iOrientation").value(geospatialInformation.getOrientation())
                                     .endObject().toString());
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         return strUserLocationJson;
     }
 
-    private class NearingLegalDrivingTimeAsyncTask extends AsyncTask<String, Integer, String>
-    {
+    private class NearingLegalDrivingTimeAsyncTask extends AsyncTask<String, Integer, String> {
         private final String METHOD_NAME = "/NotifyNearingLegalDrivingTime";
         private final String URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
 
         @Override
-        protected String doInBackground(String... strings)
-        {
+        protected String doInBackground(String... strings) {
             String userLocationJson;
 
-            if (!strings[0].isEmpty())
-            {
+            if (!strings[0].isEmpty()) {
                 userLocationJson = strings[0];
 
                 ServiceHelper.doPost(METHOD_NAME, URL, userLocationJson);

@@ -1,10 +1,9 @@
 package com.sentinel.app;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -20,52 +20,30 @@ import com.google.android.maps.MapView;
 import com.sentinel.R;
 import com.sentinel.asset.GeotagDeliveryZXingActvity;
 import com.sentinel.authentication.LogoutAsyncTask;
+import com.sentinel.authentication.SentinelLogin;
 import com.sentinel.helper.JsonHelper;
 import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.tracking.SentinelLocationService;
 
 import java.util.Calendar;
 
-public class Sentinel extends MapActivity
-{
-    public static final String START_SERVICE = "START_SERVICE";
+public class Sentinel extends MapActivity {
+
+    public static final int NEW_SESSION = 1;
+    public static final String CLOCK_IN_MESSAGE = "CLOCK_IN_MESSAGE";
 
     private static final int TIME;
     private static final int DISTANCE;
 
-    static
-    {
+    static {
         TIME = 60000;
         DISTANCE = 100;
     }
 
-    LocationListener oLocationListener = new LocationListener()
-    {
-        @Override
-        public void onLocationChanged(Location location)
-        {
-            updateLocation(location);
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle)
-        {
-        }
-
-        @Override
-        public void onProviderEnabled(String s)
-        {
-        }
-
-        @Override
-        public void onProviderDisabled(String s)
-        {
-        }
-    };
     private MapController oMapController;
     private Criteria oCriteria;
     private MapView oMapView;
-    private SentinelSharedPreferences oSentinelSharedPreferences;
+    private SentinelSharedPreferences sentinelSharedPreferences;
     private JsonHelper jsonHelper;
 
     private static long lngBreakLength;
@@ -73,32 +51,53 @@ public class Sentinel extends MapActivity
     private static long lngNextBreak;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        sentinelSharedPreferences = new SentinelSharedPreferences(this);
+
+        if (0 == sentinelSharedPreferences.getSessionID() &&
+                sentinelSharedPreferences.getUserIdentification().isEmpty()) {
+            startActivity(new Intent(this, SentinelLogin.class));
+            stopLocationService();
+        } else {
+            launchSentinel();
+        }
+    }
+
+    public void launchSentinel()
+    {
         setContentView(R.layout.main);
 
         Intent intent = getIntent();
-        if(intent.getBooleanExtra(START_SERVICE, true))
-        {
-            startLocationService();
-        }
 
+        if(null != intent.getStringExtra(CLOCK_IN_MESSAGE)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Notice")
+                    .setMessage(intent.getStringExtra(CLOCK_IN_MESSAGE))
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            // Do nothing
+                            // But maybe set an alarm
+                        }
+                    }).show();
+        }
 
         oMapView = (MapView) findViewById(R.id.mapview);
         oMapController = oMapView.getController();
         oMapView.setBuiltInZoomControls(true);
-        oMapController.setZoom(15);
+        oMapController.setZoom(10);
 
-        oSentinelSharedPreferences = new SentinelSharedPreferences(this);
         jsonHelper = new JsonHelper(this);
 
+        startLocationService();
         startLocationUpdates();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
         MenuInflater menuInflater = getMenuInflater();
@@ -107,12 +106,10 @@ public class Sentinel extends MapActivity
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
 
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.scan_qr_action:
                 Intent zxingIntent = new Intent(this, GeotagDeliveryZXingActvity.class);
                 startActivity(zxingIntent);
@@ -129,8 +126,7 @@ public class Sentinel extends MapActivity
         return true;
     }
 
-    private void performLogout()
-    {
+    private void performLogout() {
         stopLocationService();
 
         String userCredentialsJson = jsonHelper.getUserCredentialsJsonFromSharedPreferences();
@@ -138,40 +134,35 @@ public class Sentinel extends MapActivity
     }
 
     @Override
-    protected boolean isRouteDisplayed()
-    {
+    protected boolean isRouteDisplayed() {
         return false;
     }
 
-    private void clockOut()
-    {
-        long lngSessionBegin = oSentinelSharedPreferences.getSessionBeginDateTime();
+    private void clockOut() {
+        long lngSessionBegin = sentinelSharedPreferences.getSessionBeginDateTime();
         long lngNow = System.currentTimeMillis();
         long lngDiff = lngNow - lngSessionBegin;
         calculateBreak(lngDiff);
 
-        if (lngBreakLength > 0)
-        {
+        if (lngBreakLength > 0) {
             stopLocationService();
 
             SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(this);
             oSentinelSharedPreferences.setBreakTakenDateTime(Calendar.getInstance().getTimeInMillis());
 
-            Intent oClockInIntent = new Intent(Sentinel.this, SentinelOnBreakActivity.class);
-            oClockInIntent.putExtra(SentinelOnBreakActivity.BREAK_LENGTH, lngBreakLength);
-            oClockInIntent.putExtra(SentinelOnBreakActivity.NEXT_BREAK_LENGTH, lngNextBreakLength);
-            oClockInIntent.putExtra(SentinelOnBreakActivity.NEXT_BREAK, lngNextBreak);
-            startActivity(oClockInIntent);
-        } else
-        {
+            Intent service = new Intent(this, BreakService.class);
+            service.putExtra(BreakService.BREAK_LENGTH, lngBreakLength);
+            service.putExtra(BreakService.NEXT_BREAK_LENGTH, lngNextBreakLength);
+            service.putExtra(BreakService.NEXT_BREAK, lngNextBreak);
+            startService(service);
+
+        } else {
             new AlertDialog.Builder(this)
                     .setTitle("Warning")
                     .setMessage("You may not begin your recorded break yet.")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener()
-                    {
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i)
-                        {
+                        public void onClick(DialogInterface dialogInterface, int i) {
                             // do nothing
                         }
                     }).show();
@@ -179,10 +170,15 @@ public class Sentinel extends MapActivity
         }
     }
 
-    private void calculateBreak(long lngDiff)
-    {
+    private void calculateBreak(long lngDiff) {
+        /* DEBUG */
+        lngBreakLength = 50000;
+        lngNextBreakLength = 50000;
+        lngNextBreak = 50000;
+        /* DEBUG */
+
         // driver has been driving for 2 hours (+- 5 minutes) break for 15 minutes, break of 30 must be taken 2.5 (-5 minutes) hours later.
-        if (lngDiff >= 6900000 && lngDiff <= 7500000)
+        /*if (lngDiff >= 6900000 && lngDiff <= 7500000)
         {
             lngBreakLength = 900000;
             lngNextBreakLength = 1800000;
@@ -208,18 +204,11 @@ public class Sentinel extends MapActivity
                     lngBreakLength = 0;
                     lngNextBreakLength = 0;
                     lngNextBreak = 0;
-                }
+                } */
     }
 
-    private void stopLocationService()
-    {
-        Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
-        stopService(intent);
-    }
-
-    private void startLocationUpdates()
-    {
-        LocationManager oLocationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+    private void startLocationUpdates() {
+        LocationManager oLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         oLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, oLocationListener);
 
         setGeoSpatialCriteria();
@@ -233,16 +222,37 @@ public class Sentinel extends MapActivity
         oLocationManager.requestLocationUpdates(strProvider, TIME, DISTANCE, oLocationListener);
     }
 
-    private void startLocationService()
-    {
+    private void startLocationService() {
         Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
         startService(intent);
     }
 
-    private void updateLocation(Location oLocation)
-    {
-        if (oLocation != null)
-        {
+    private void stopLocationService() {
+        Intent intent = new Intent(Sentinel.this, SentinelLocationService.class);
+        stopService(intent);
+    }
+
+    LocationListener oLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            updateLocation(location);
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+        }
+    };
+
+    private void updateLocation(Location oLocation) {
+        if (oLocation != null) {
             Double dblLatitude = oLocation.getLatitude() * 1E6;
             Double dblLongitude = oLocation.getLongitude() * 1E6;
             GeoPoint oPoint = new GeoPoint(dblLatitude.intValue(), dblLongitude.intValue());
@@ -250,8 +260,7 @@ public class Sentinel extends MapActivity
         }
     }
 
-    private void setGeoSpatialCriteria()
-    {
+    private void setGeoSpatialCriteria() {
         oCriteria = new Criteria();
         oCriteria.setAccuracy(Criteria.ACCURACY_FINE);
         oCriteria.setPowerRequirement(Criteria.POWER_LOW);
@@ -261,3 +270,4 @@ public class Sentinel extends MapActivity
         oCriteria.setCostAllowed(true);
     }
 }
+

@@ -10,46 +10,36 @@ import org.json.JSONStringer;
  * David Russell
  * 27/01/13
  */
-public class JsonHelper
-{
+public class JsonHelper {
     private Gson gson;
     private SentinelSharedPreferences sentinelSharedPreferences;
 
-    public JsonHelper(Context context)
-    {
+    public JsonHelper(Context context) {
         gson = new Gson();
         sentinelSharedPreferences = new SentinelSharedPreferences(context);
     }
 
-    public String getUserCredentialsJsonFromCredentials(Credentials credentials)
-    {
-        try
-        {
+    public String getUserCredentialsJsonFromCredentials(Credentials credentials) {
+        try {
             return gson.toJson(new JSONStringer()
                     .object()
                     .key("strUsername").value(credentials.getUsername())
                     .key("strPassword").value(credentials.getPassword())
                     .endObject().toString());
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public String getUserCredentialsJsonFromSharedPreferences()
-    {
-        try
-        {
+    public String getUserCredentialsJsonFromSharedPreferences() {
+        try {
             return gson.toJson(new JSONStringer()
                     .object()
                     .key("iSessionID").value(sentinelSharedPreferences.getSessionID())
                     .key("oUserIdentification").value(sentinelSharedPreferences.getUserIdentification())
                     .endObject().toString());
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             return "";
         }

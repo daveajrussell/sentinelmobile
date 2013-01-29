@@ -15,8 +15,7 @@ import org.json.JSONStringer;
  * David Russell
  * 22/01/13
  */
-public class SentinelBuffferedGeospatialDataDB
-{
+public class SentinelBuffferedGeospatialDataDB {
     public static final String KEY_ID = "_id";
     public static final String KEY_SESSION_ID_COLUMN = "SESSION_ID_COLUMN";
     public static final String KEY_USER_IDENTITY_COLUMN = "USER_IDENTITY_COLUMN";
@@ -28,18 +27,15 @@ public class SentinelBuffferedGeospatialDataDB
     private SentinelDBOpenHelper sentinelDBOpenHelper;
     private Gson oGson;
 
-    public SentinelBuffferedGeospatialDataDB(Context context)
-    {
+    public SentinelBuffferedGeospatialDataDB(Context context) {
         sentinelDBOpenHelper = new SentinelDBOpenHelper(context, SentinelDBOpenHelper.DATABASE_NAME, null, SentinelDBOpenHelper.DATABASE_VERSION);
     }
 
-    public void closeSentinelDatabase()
-    {
+    public void closeSentinelDatabase() {
         sentinelDBOpenHelper.close();
     }
 
-    private Cursor getBufferedSentinelGeospatialDataCursor()
-    {
+    private Cursor getBufferedSentinelGeospatialDataCursor() {
         String[] result_columns = new String[]{
                 KEY_ID,
                 KEY_SESSION_ID_COLUMN,
@@ -59,28 +55,23 @@ public class SentinelBuffferedGeospatialDataDB
 
         Cursor oCursor = null;
 
-        try
-        {
+        try {
             SQLiteDatabase oSentinelDB = sentinelDBOpenHelper.getWritableDatabase();
             oCursor = oSentinelDB.query(SentinelDBOpenHelper.DATABASE_TABLE,
                     result_columns, where, whereArgs, groupBy, having, order);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         return oCursor;
     }
 
-    public int getBufferedGeospatialDataCount()
-    {
+    public int getBufferedGeospatialDataCount() {
         Cursor oCursor = getBufferedSentinelGeospatialDataCursor();
         return oCursor.getCount();
     }
 
-    public String getBufferedGeospatialDataJsonString()
-    {
+    public String getBufferedGeospatialDataJsonString() {
         oGson = new Gson();
         Cursor oCursor = getBufferedSentinelGeospatialDataCursor();
 
@@ -99,11 +90,9 @@ public class SentinelBuffferedGeospatialDataDB
         JSONObject oBufferedDataJsonElement;
         JSONArray oBufferedDataJsonArray;
 
-        if (oCursor.getCount() == 1)
-        {
+        if (oCursor.getCount() == 1) {
             oCursor.moveToFirst();
-            try
-            {
+            try {
                 strBufferedData = new JSONStringer()
                         .object()
                         .key("iSessionID").value(oCursor.getInt(SESSION_ID_COLUMN_INDEX))
@@ -116,51 +105,41 @@ public class SentinelBuffferedGeospatialDataDB
                         .endObject();
 
                 strJsonString = oGson.toJson(strBufferedData.toString());
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        } else
-            if (oCursor.getCount() > 1)
-            {
-                try
-                {
-                    oBufferedDataJsonArray = new JSONArray();
-                    oBufferedDataJson = new JSONObject();
+        } else if (oCursor.getCount() > 1) {
+            try {
+                oBufferedDataJsonArray = new JSONArray();
+                oBufferedDataJson = new JSONObject();
 
-                    while (oCursor.moveToNext())
-                    {
-                        oBufferedDataJsonElement = new JSONObject()
-                                .put("iSessionID", oCursor.getInt(SESSION_ID_COLUMN_INDEX))
-                                .put("oUserIdentification", oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
-                                .put("lTimeStamp", oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
-                                .put("dLatitude", oCursor.getDouble(LATITUDE_COLUMN_INDEX))
-                                .put("dLongitude", oCursor.getDouble(LONGITUDE_COLUMN_INDEX))
-                                .put("dSpeed", oCursor.getDouble(SPEED_COLUMN_INDEX))
-                                .put("iOrientation", oCursor.getInt(ORIENTATION_COLUMN_INDEX));
-                        oBufferedDataJsonArray.put(oBufferedDataJsonElement);
-                    }
-
-                    oBufferedDataJson.put("BufferedData", oBufferedDataJsonArray);
-
-                    strJsonString = oGson.toJson(oBufferedDataJson.toString());
+                while (oCursor.moveToNext()) {
+                    oBufferedDataJsonElement = new JSONObject()
+                            .put("iSessionID", oCursor.getInt(SESSION_ID_COLUMN_INDEX))
+                            .put("oUserIdentification", oCursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
+                            .put("lTimeStamp", oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
+                            .put("dLatitude", oCursor.getDouble(LATITUDE_COLUMN_INDEX))
+                            .put("dLongitude", oCursor.getDouble(LONGITUDE_COLUMN_INDEX))
+                            .put("dSpeed", oCursor.getDouble(SPEED_COLUMN_INDEX))
+                            .put("iOrientation", oCursor.getInt(ORIENTATION_COLUMN_INDEX));
+                    oBufferedDataJsonArray.put(oBufferedDataJsonElement);
                 }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-            } else
-            {
-                // no collection
+
+                oBufferedDataJson.put("BufferedData", oBufferedDataJsonArray);
+
+                strJsonString = oGson.toJson(oBufferedDataJson.toString());
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+        } else {
+            // no collection
+        }
 
         oCursor.close();
         return strJsonString;
     }
 
-    public void addGeospatialData(GeospatialInformation oGeoInformation)
-    {
+    public void addGeospatialData(GeospatialInformation oGeoInformation) {
         ContentValues newGeospatialValues = new ContentValues();
 
         newGeospatialValues.put(KEY_SESSION_ID_COLUMN, oGeoInformation.getSessionID());
@@ -175,14 +154,12 @@ public class SentinelBuffferedGeospatialDataDB
         oSentinelDB.insert(SentinelDBOpenHelper.DATABASE_TABLE, null, newGeospatialValues);
     }
 
-    public void deleteGeospatialData()
-    {
+    public void deleteGeospatialData() {
         SQLiteDatabase oSentinelDB = sentinelDBOpenHelper.getWritableDatabase();
         oSentinelDB.delete(SentinelDBOpenHelper.DATABASE_TABLE, null, null);
     }
 
-    private static class SentinelDBOpenHelper extends SQLiteOpenHelper
-    {
+    private static class SentinelDBOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "SentinelDB.db";
         private static final String DATABASE_TABLE = "SentinelDB";
         private static final int DATABASE_VERSION = 3;
@@ -197,20 +174,17 @@ public class SentinelBuffferedGeospatialDataDB
                         KEY_ORIENTATION_COLUMN + " integer not null," +
                         KEY_SPEED_COLUMN + " real not null);";
 
-        public SentinelDBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
-        {
+        public SentinelDBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
             super(context, name, factory, version);
         }
 
         @Override
-        public void onCreate(SQLiteDatabase sqLiteDatabase)
-        {
+        public void onCreate(SQLiteDatabase sqLiteDatabase) {
             sqLiteDatabase.execSQL(DATABASE_CREATE);
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2)
-        {
+        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {
             sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
             onCreate(sqLiteDatabase);
         }

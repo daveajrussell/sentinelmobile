@@ -17,8 +17,7 @@ import java.io.Reader;
  * David Russell
  * 27/01/13
  */
-public class LoginHelper
-{
+public class LoginHelper {
     private static Gson gson;
     private static String json;
     private static User user;
@@ -31,10 +30,8 @@ public class LoginHelper
 
     private static SentinelSharedPreferences sentinelSharedPreferences;
 
-    public static void loginToSystem(HttpResponse httpResponse, Context context)
-    {
-        try
-        {
+    public static void loginToSystem(HttpResponse httpResponse, Context context) {
+        try {
             gson = new Gson();
             sentinelSharedPreferences = new SentinelSharedPreferences(context);
 
@@ -51,9 +48,7 @@ public class LoginHelper
             user.setSessionID(gson.fromJson(jsonObject.get("SessionID"), int.class));
 
             sentinelSharedPreferences.setUserPreferences(user.getUserIdentification(), user.getSessionID());
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

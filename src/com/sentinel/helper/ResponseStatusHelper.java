@@ -4,8 +4,7 @@ package com.sentinel.helper;
  * David Russell
  * 23/01/13
  */
-public class ResponseStatusHelper
-{
+public class ResponseStatusHelper {
     public static final int OK = 200;
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED = 401;

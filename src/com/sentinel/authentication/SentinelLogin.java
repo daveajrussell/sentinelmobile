@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -22,9 +23,7 @@ import com.sentinel.helper.ServiceHelper;
 import com.sentinel.models.Credentials;
 import com.sentinel.preferences.SentinelSharedPreferences;
 
-public class SentinelLogin extends Activity
-{
-    public static final String CANCEL_ALARM = "CANCEL_ALARM";
+public class SentinelLogin extends Activity {
     private Credentials oUserCredentials;
     private String strCredentialsJSONString;
     private Button btnLogin;
@@ -36,12 +35,9 @@ public class SentinelLogin extends Activity
     private SentinelSharedPreferences sentinelSharedPreferences;
     private PendingIntent pendingIntent;
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
-        Intent intent = getIntent();
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         btnLogin = (Button) findViewById(R.id.btn_login);
@@ -51,29 +47,15 @@ public class SentinelLogin extends Activity
         sentinelSharedPreferences = new SentinelSharedPreferences(this);
         jsonHelper = new JsonHelper(this);
 
-        if (intent.getBooleanExtra(CANCEL_ALARM, false))
-            cancelAlarm();
-
-        if(sentinelSharedPreferences.getSessionID() != 0 && sentinelSharedPreferences.getUserIdentification() != null)
-        {
-            Intent sentinelIntent = new Intent(this, Sentinel.class);
-            sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            sentinelIntent.putExtra(Sentinel.START_SERVICE, false);
-            this.startActivity(sentinelIntent);
-        }
-
         /* DEBUG */
         txtUsername.setText("DR_DRIVER");
         txtPassword.setText("password");
         /* DEBUG */
 
-        btnLogin.setOnClickListener(new View.OnClickListener()
-        {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                if ((txtUsername.getText().length() > 0) && (txtPassword.getText().length() > 0))
-                {
+            public void onClick(View view) {
+                if ((txtUsername.getText().length() > 0) && (txtPassword.getText().length() > 0)) {
 
                     oUserCredentials = new Credentials(txtUsername.getText().toString(), txtPassword.getText().toString());
 
@@ -90,27 +72,17 @@ public class SentinelLogin extends Activity
         });
     }
 
-    private void cancelAlarm()
-    {
-        Intent intent = new Intent(this, SentinelNearingLegalDrivingTimeActivity.class);
-        pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        alarmManager.cancel(pendingIntent);
-    }
-
-    private class LoginServiceAsyncTask extends AsyncTask<String, Integer, String>
-    {
+    private class LoginServiceAsyncTask extends AsyncTask<String, Integer, String> {
         private final String METHOD_NAME = "/Authenticate";
         private final String URL = "http://webservices.daveajrussell.com/Services/AuthenticationService.svc";
         private Context context;
         private String loginCredentialsJson;
 
-        public LoginServiceAsyncTask(Context context)
-        {
+        public LoginServiceAsyncTask(Context context) {
             this.context = context;
         }
 
-        private void setAlarm()
-        {
+        private void setAlarm() {
             long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm();
             Intent intent = new Intent(getApplicationContext(), SentinelNearingLegalDrivingTimeActivity.class);
             pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -118,10 +90,8 @@ public class SentinelLogin extends Activity
         }
 
         @Override
-        protected String doInBackground(String... strings)
-        {
-            if (!strings[0].isEmpty())
-            {
+        protected String doInBackground(String... strings) {
+            if (!strings[0].isEmpty()) {
                 loginCredentialsJson = strings[0];
                 return ServiceHelper.doPostAndLogin(getApplicationContext(), METHOD_NAME, URL, loginCredentialsJson);
             } else
@@ -129,44 +99,35 @@ public class SentinelLogin extends Activity
         }
 
         @Override
-        protected void onPostExecute(String result)
-        {
-            if (result == ResponseStatusHelper.OK_RESULT)
-            {
+        protected void onPostExecute(String result) {
+            if (result == ResponseStatusHelper.OK_RESULT) {
                 sentinelSharedPreferences.setDrivingEndAlarm(33900000);
                 sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
                 setAlarm();
 
-                Intent sentinelIntent = new Intent(context, Sentinel.class);
-                sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(sentinelIntent);
-            } else
-            {
-                AlertDialog.Builder oAuthenticationAlert = new AlertDialog.Builder(context);
-                oAuthenticationAlert.setTitle("Authentication Failed");
-                oAuthenticationAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        pbAsyncProgress.setVisibility(View.INVISIBLE);
-                        btnLogin.setEnabled(true);
-                        txtUsername.setEnabled(true);
-                        txtPassword.setEnabled(true);
-                    }
-                });
-
-                if (result == ResponseStatusHelper.UNAUTHORIZED_RESULT)
-                {
-                    oAuthenticationAlert.setMessage("Invalid Login Details.");
-                } else
-                {
-                    oAuthenticationAlert.setMessage("An error has occurred. Please try again later.");
-                }
-
-                oAuthenticationAlert.show();
+                startActivity(new Intent(getApplicationContext(), Sentinel.class));
+            } else {
+                showFailureDialog(result);
             }
+        }
+
+        private void showFailureDialog(String result) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Authentication Failed")
+                    .setMessage(result == ResponseStatusHelper.NOT_FOUND_RESULT ?
+                            "Invalid Login Details"
+                            :
+                            "An error has occured. Please try again later")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            pbAsyncProgress.setVisibility(View.INVISIBLE);
+                            btnLogin.setEnabled(true);
+                            txtUsername.setEnabled(true);
+                            txtPassword.setEnabled(true);
+                        }
+                    }).show();
         }
     }
 }

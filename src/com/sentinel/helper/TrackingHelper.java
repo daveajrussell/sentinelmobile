@@ -14,17 +14,14 @@ import java.util.TimeZone;
  * David Russell
  * 24/01/13
  */
-public class TrackingHelper
-{
-    public static GeospatialInformation getLastKnownGeospatialInformation(Context oContext)
-    {
+public class TrackingHelper {
+    public static GeospatialInformation getLastKnownGeospatialInformation(Context oContext) {
         LocationManager oLocationManager = (LocationManager) oContext.getSystemService(Context.LOCATION_SERVICE);
         List<String> arrProviders = oLocationManager.getProviders(true);
 
         Location oLocation = null;
 
-        for (int i = arrProviders.size() - 1; i >= 0; i--)
-        {
+        for (int i = arrProviders.size() - 1; i >= 0; i--) {
             oLocation = oLocationManager.getLastKnownLocation(arrProviders.get(i));
             if (oLocation != null)
                 break;
@@ -36,8 +33,7 @@ public class TrackingHelper
             return null;
     }
 
-    public static GeospatialInformation buildGeospatialInformationObject(Context oContext, Location oCurrentLocationData)
-    {
+    public static GeospatialInformation buildGeospatialInformationObject(Context oContext, Location oCurrentLocationData) {
         SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(oContext);
         return new GeospatialInformation
                 (

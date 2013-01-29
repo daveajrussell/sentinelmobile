@@ -13,8 +13,7 @@ import org.apache.http.protocol.HTTP;
  * David Russell
  * 27/01/13
  */
-public class ServiceHelper
-{
+public class ServiceHelper {
     private static String strPostResult;
     private static int iReponseCode;
 
@@ -25,10 +24,8 @@ public class ServiceHelper
 
     private static String doPostResult;
 
-    public static String doPost(String methodName, String url, String entity)
-    {
-        try
-        {
+    public static String doPost(String methodName, String url, String entity) {
+        try {
             httpClient = new DefaultHttpClient();
             httpPost = new HttpPost(url + methodName);
             httpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -44,9 +41,7 @@ public class ServiceHelper
             iReponseCode = httpResponse.getStatusLine().getStatusCode();
             strPostResult = getResponse(iReponseCode);
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             strPostResult = ResponseStatusHelper.EXCEPTION_THROWN_RESULT;
         }
@@ -54,22 +49,18 @@ public class ServiceHelper
         return strPostResult;
     }
 
-    public static String doPostAndLogin(Context context, String methodName, String url, String entity)
-    {
+    public static String doPostAndLogin(Context context, String methodName, String url, String entity) {
         doPostResult = doPost(methodName, url, entity);
 
-        if (doPostResult == ResponseStatusHelper.OK_RESULT)
-        {
+        if (doPostResult == ResponseStatusHelper.OK_RESULT) {
             LoginHelper.loginToSystem(httpResponse, context);
         }
 
         return doPostResult;
     }
 
-    private static String getResponse(int iReponseCode)
-    {
-        switch (iReponseCode)
-        {
+    private static String getResponse(int iReponseCode) {
+        switch (iReponseCode) {
             case ResponseStatusHelper.OK:
                 strPostResult = ResponseStatusHelper.OK_RESULT;
                 break;
