@@ -16,6 +16,11 @@ public class SentinelSharedPreferences {
     private static final String SESSION_BEGIN_DATE_TIME;
     private static final String BREAK_TAKEN_DATE_TIME;
     private static final String DRIVING_END_ALARM;
+    private static final String CLOCKED_IN;
+    private static final String CLOCKED_OUT;
+    private static final String BREAK_LENGTH;
+    private static final String NEXT_BREAK_LENGTH;
+    private static final String NEXT_BREAK;
 
     static {
         SENTINEL_SHARED_PREFS = "SENTINEL_SHARED_PREFS";
@@ -24,6 +29,11 @@ public class SentinelSharedPreferences {
         SESSION_BEGIN_DATE_TIME = "SESSION_BEGIN_DATE_TIME";
         BREAK_TAKEN_DATE_TIME = "BREAK_TAKEN_DATE_TIME";
         DRIVING_END_ALARM = "DRIVING_END_ALARM";
+        CLOCKED_IN = "CLOCKED_IN";
+        CLOCKED_OUT = "CLOCKED_OUT";
+        BREAK_LENGTH = "BREAK_LENGTH";
+        NEXT_BREAK_LENGTH = "NEXT_BREAK_LENGTH";
+        NEXT_BREAK = "NEXT_BREAK";
     }
 
     private SharedPreferences oSentinelSharedPreferences;
@@ -63,6 +73,46 @@ public class SentinelSharedPreferences {
         oSentinelSharedPreferencesEditor.apply();
     }
 
+    public void setClockedIn() {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.putBoolean(CLOCKED_IN, true);
+        sentinelSharedPreferencesEditor.putBoolean(CLOCKED_OUT, false);
+        sentinelSharedPreferencesEditor.apply();
+    }
+
+    public void setClockedOut() {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.putBoolean(CLOCKED_IN, false);
+        sentinelSharedPreferencesEditor.putBoolean(CLOCKED_OUT, true);
+        sentinelSharedPreferencesEditor.apply();
+    }
+
+    public void setBreakLength(long lngBreakLength) {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.putLong(BREAK_LENGTH, lngBreakLength);
+        sentinelSharedPreferencesEditor.apply();
+    }
+
+    public void setNextBreak(long lngNextBreak) {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.putLong(NEXT_BREAK, lngNextBreak);
+        sentinelSharedPreferencesEditor.apply();
+    }
+
+    public void setNextBreakLength(long lngNextBreakLength) {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.putLong(NEXT_BREAK_LENGTH, lngNextBreakLength);
+        sentinelSharedPreferencesEditor.apply();
+    }
+
+    public boolean clockedIn() {
+        return oSentinelSharedPreferences.getBoolean(CLOCKED_IN, false);
+    }
+
+    public boolean clockedOut() {
+        return oSentinelSharedPreferences.getBoolean(CLOCKED_OUT, false);
+    }
+
     public String getUserIdentification() {
         return oSentinelSharedPreferences.getString(USER_IDENTIFICATION, "");
     }
@@ -77,6 +127,22 @@ public class SentinelSharedPreferences {
 
     public long getDrivingEndAlarm() {
         return oSentinelSharedPreferences.getLong(DRIVING_END_ALARM, 0);
+    }
+
+    public long getBreakStartDateTime() {
+        return oSentinelSharedPreferences.getLong(BREAK_TAKEN_DATE_TIME, 0);
+    }
+
+    public long getBreakLength() {
+        return oSentinelSharedPreferences.getLong(BREAK_LENGTH, 0);
+    }
+
+    public long getNextBreak() {
+        return oSentinelSharedPreferences.getLong(NEXT_BREAK, 0);
+    }
+
+    public long getNextBreakLength() {
+        return oSentinelSharedPreferences.getLong(NEXT_BREAK_LENGTH, 0);
     }
 
 }

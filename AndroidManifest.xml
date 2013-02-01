@@ -31,6 +31,8 @@
 
         <activity android:name=".authentication.SentinelLogin"
                   android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity android:name=".app.SentinelOnBreakActivity"
+                  android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:name=".asset.GeotagDeliveryZXingActvity"
                   android:theme="@android:style/Theme.NoTitleBar"/>
         <activity android:name=".app.SentinelNearingLegalDrivingTimeActivity"
@@ -39,7 +41,6 @@
         <service android:name=".tracking.SentinelLocationService"
                  android:enabled="true"
                  android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION"/>
-        <service android:name=".app.BreakService"/>
 
         <receiver android:name=".connection.ConnectionChangedBroadcastReceiver">
             <intent-filter>

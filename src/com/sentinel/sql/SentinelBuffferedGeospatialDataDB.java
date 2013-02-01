@@ -120,8 +120,8 @@ public class SentinelBuffferedGeospatialDataDB {
                             .put("lTimeStamp", oCursor.getLong(TIMESTAMP_COLUMN_INDEX))
                             .put("dLatitude", oCursor.getDouble(LATITUDE_COLUMN_INDEX))
                             .put("dLongitude", oCursor.getDouble(LONGITUDE_COLUMN_INDEX))
-                            .put("dSpeed", oCursor.getDouble(SPEED_COLUMN_INDEX))
-                            .put("iOrientation", oCursor.getInt(ORIENTATION_COLUMN_INDEX));
+                            .put("iOrientation", oCursor.getInt(ORIENTATION_COLUMN_INDEX))
+                            .put("dSpeed", oCursor.getDouble(SPEED_COLUMN_INDEX));
                     oBufferedDataJsonArray.put(oBufferedDataJsonElement);
                 }
 

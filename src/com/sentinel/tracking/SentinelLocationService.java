@@ -23,13 +23,13 @@ public class SentinelLocationService extends Service {
     private static final int NOTIFICATION_ID;
 
     static {
-        TIME = 60000;
-        DISTANCE = 100;
+        TIME = 10000;
+        DISTANCE = 10;
         NOTIFICATION_ID = 1;
     }
 
-    private NotificationCompat.Builder locationServiceNotificationBuilder;
-    private ConnectionManager oSentinelConnectionManager;
+    private static NotificationCompat.Builder locationServiceNotificationBuilder;
+    private static ConnectionManager oSentinelConnectionManager;
     private SentinelBuffferedGeospatialDataDB oSentinelDB;
 
     private final class SentinelLocationListener implements LocationListener {
@@ -91,7 +91,7 @@ public class SentinelLocationService extends Service {
         stopForeground(true);
     }
 
-    public void handleLocationChanged(Location oCurrentLocationData) {
+    public void handleLocationChanged(final Location oCurrentLocationData) {
         GeospatialInformation oGeospatialInformation = TrackingHelper.buildGeospatialInformationObject(this, oCurrentLocationData);
         oSentinelDB.addGeospatialData(oGeospatialInformation);
         String strGeospatialInformationJson;
@@ -117,29 +117,29 @@ public class SentinelLocationService extends Service {
         oSentinelDB.closeSentinelDatabase();
     }
 
-    public void handleOnStatusChanged(String s, int i) {
+    public void handleOnStatusChanged(final String s, int i) {
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Status Changed: " + s + " " + i)
                 .setSmallIcon(R.drawable.ic_launcher);
     }
 
-    public void handleOnProviderEnabled(String s) {
+    public void handleOnProviderEnabled(final String s) {
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Provider Enabled: " + s)
                 .setSmallIcon(R.drawable.ic_launcher);
     }
 
-    public void handleOnProviderDisabled(String s) {
+    public void handleOnProviderDisabled(final String s) {
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Provider Disabled: " + s)
                 .setSmallIcon(R.drawable.ic_launcher);
     }
 
-    private void sendGISToLocationService(String strGeospatialJson) {
-        new LocationServiceAsyncTask(getApplicationContext()).execute(strGeospatialJson);
+    private void sendGISToLocationService(final String strGeospatialJson) {
+        new LocationServiceAsyncTask(this).execute(strGeospatialJson);
     }
 
-    private void sendBufferedGeospatialDataToLocationService(String strGeospatialJsonSet) {
-        new BufferedGeospatialDataAsyncTask(getApplicationContext()).execute(strGeospatialJsonSet);
+    private void sendBufferedGeospatialDataToLocationService(final String strGeospatialJsonSet) {
+        new BufferedGeospatialDataAsyncTask(this).execute(strGeospatialJsonSet);
     }
 }

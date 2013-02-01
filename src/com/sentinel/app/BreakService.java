@@ -1,4 +1,4 @@
-package com.sentinel.app;
+/*package com.sentinel.app;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -78,15 +78,14 @@ public class BreakService extends Service {
 
     private void setFinishedNotification() {
         Intent sentinelIntent = new Intent(getApplicationContext(), Sentinel.class);
-        sentinelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         sentinelIntent.putExtra(Sentinel.CLOCK_IN_MESSAGE, getMessageForDialog());
 
         notificationCompatBuilder
                 .setContentText("00:00:00")
                 .setContentText("Break Finished")
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-                .setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, sentinelIntent, PendingIntent.FLAG_CANCEL_CURRENT));
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM));
+                //.setContentIntent(PendingIntent.getActivity(getApplicationContext(), 0, sentinelIntent, PendingIntent.FLAG_CANCEL_CURRENT));
 
         Notification notification = notificationCompatBuilder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;
@@ -114,4 +113,4 @@ public class BreakService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-}
+}*/

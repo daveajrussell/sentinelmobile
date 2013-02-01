@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -24,21 +23,23 @@ import com.sentinel.models.Credentials;
 import com.sentinel.preferences.SentinelSharedPreferences;
 
 public class SentinelLogin extends Activity {
-    private Credentials oUserCredentials;
-    private String strCredentialsJSONString;
-    private Button btnLogin;
-    private EditText txtUsername;
-    private EditText txtPassword;
-    private ProgressBar pbAsyncProgress;
-    private AlarmManager alarmManager;
-    private JsonHelper jsonHelper;
-    private SentinelSharedPreferences sentinelSharedPreferences;
-    private PendingIntent pendingIntent;
+
+    private static Credentials oUserCredentials;
+    private static String strCredentialsJSONString;
+    private static Button btnLogin;
+    private static EditText txtUsername;
+    private static EditText txtPassword;
+    private static ProgressBar pbAsyncProgress;
+    private static AlarmManager alarmManager;
+    private static JsonHelper jsonHelper;
+    private static SentinelSharedPreferences sentinelSharedPreferences;
+    private static PendingIntent pendingIntent;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        sentinelSharedPreferences = new SentinelSharedPreferences(this);
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         btnLogin = (Button) findViewById(R.id.btn_login);
         txtUsername = (EditText) findViewById(R.id.txt_username);
@@ -72,6 +73,15 @@ public class SentinelLogin extends Activity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (sentinelSharedPreferences.clockedIn()) {
+            startActivity(new Intent(getApplicationContext(), Sentinel.class));
+        }
+    }
+
     private class LoginServiceAsyncTask extends AsyncTask<String, Integer, String> {
         private final String METHOD_NAME = "/Authenticate";
         private final String URL = "http://webservices.daveajrussell.com/Services/AuthenticationService.svc";
@@ -84,38 +94,44 @@ public class SentinelLogin extends Activity {
 
         private void setAlarm() {
             long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm();
-            Intent intent = new Intent(getApplicationContext(), SentinelNearingLegalDrivingTimeActivity.class);
-            pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            Intent intent = new Intent(context, SentinelNearingLegalDrivingTimeActivity.class);
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + lngEndDrivingAlarm, pendingIntent);
+        }
+
+        private void startSentinelActivity() {
+            sentinelSharedPreferences.setClockedIn();
+            Intent sentinelIntent = new Intent(context, Sentinel.class);
+            sentinelIntent.putExtra(Sentinel.NEW_SESSION, true);
+            startActivity(sentinelIntent);
         }
 
         @Override
         protected String doInBackground(String... strings) {
             if (!strings[0].isEmpty()) {
                 loginCredentialsJson = strings[0];
-                return ServiceHelper.doPostAndLogin(getApplicationContext(), METHOD_NAME, URL, loginCredentialsJson);
+                return ServiceHelper.doPostAndLogin(context, METHOD_NAME, URL, loginCredentialsJson);
             } else
                 return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            if (result == ResponseStatusHelper.OK_RESULT) {
+            if (result.equals(ResponseStatusHelper.OK_RESULT)) {
                 sentinelSharedPreferences.setDrivingEndAlarm(33900000);
                 sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
                 setAlarm();
-
-                startActivity(new Intent(getApplicationContext(), Sentinel.class));
+                startSentinelActivity();
             } else {
                 showFailureDialog(result);
             }
         }
 
-        private void showFailureDialog(String result) {
+        private void showFailureDialog(final String result) {
             new AlertDialog.Builder(context)
                     .setTitle("Authentication Failed")
-                    .setMessage(result == ResponseStatusHelper.NOT_FOUND_RESULT ?
+                    .setMessage(result.equals(ResponseStatusHelper.NOT_FOUND_RESULT) ?
                             "Invalid Login Details"
                             :
                             "An error has occured. Please try again later")
