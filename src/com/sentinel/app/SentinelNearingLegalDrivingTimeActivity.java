@@ -73,7 +73,7 @@ public class SentinelNearingLegalDrivingTimeActivity extends Activity {
             @Override
             public void onClick(View view) {
                 notificationManager.cancelAll();
-                new LogoutAsyncTask(getApplicationContext()).execute(strLastKnowLocationJson);
+                new LogoutAsyncTask().execute(strLastKnowLocationJson);
             }
         });
 

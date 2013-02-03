@@ -69,8 +69,18 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="android-integration" level="project" />
-    <orderEntry type="library" name="android-support-v4" level="project" />
+    <orderEntry type="library" exported="" name="android-integration" level="project" />
+    <orderEntry type="library" exported="" name="android-support-v4" level="project" />
+    <orderEntry type="module" module-name="google-play-services-lib" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../google-play-services-lib/libs/google-play-services.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

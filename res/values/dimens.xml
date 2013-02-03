@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="timer_text_size">48px</dimen>
+    <dimen name="timer_text_size">60dp</dimen>
+    <dimen name="login_dimen">200dp</dimen>
+    <dimen name="login_dimen_text">190dp</dimen><dimen name="timer_text">18dp</dimen>
 </resources>
