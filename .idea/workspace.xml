@@ -32,12 +32,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="4f885cf3-716d-40d4-a340-e0b50c7e2c56" name="Default" comment="03/02/13&#10;&#10;!!!!!ALWAYS COMMIT CHANGES!!!!!&#10;&#10; - Accidental deletion of a number of activities, almost losing 2 days of significant dev. Reverse-engineered from compiled .class files.&#10; &#10; ACTUAL UPDATES:&#10; &#10;  - Ironed out various errors&#10;   - location updates not shutting off&#10;   - improved accuracy of tracking&#10;   - various fixes to handle interrupts (orientation, back button, closing app)&#10; - Added in alerts if the user turns off GPS&#10; - Google Maps V2 API now in use&#10; - Google play services library added as a dependancy">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/sentinel/app/SentinelOnBreakActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/drawable/background_grad.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/res/values/styles.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/app/BreakService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionChangedBroadcastReceiver.java" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/authentication/LogoutAsyncTask.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionManager.java" afterPath="" />
@@ -56,30 +51,13 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/BufferedGeospatialDataAsyncTask.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/LocationServiceAsyncTask.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" afterPath="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SentinelMobile.iml" afterPath="$PROJECT_DIR$/SentinelMobile.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/app/SentinelNearingLegalDrivingTimeActivity.java" afterPath="$PROJECT_DIR$/src/com/sentinel/app/SentinelNearingLegalDrivingTimeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/clockin.xml" afterPath="$PROJECT_DIR$/res/layout/clockin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/dimens.xml" afterPath="$PROJECT_DIR$/res/values/dimens.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/login.xml" afterPath="$PROJECT_DIR$/res/layout/login.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/main.xml" afterPath="$PROJECT_DIR$/res/layout/main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/menu.xml" afterPath="$PROJECT_DIR$/res/menu/menu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/sentinel_menu.xml" afterPath="$PROJECT_DIR$/res/menu/sentinel_menu.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="5fb913da-426f-4fc4-9bf1-912c54c013fa" name="Revert: 27/01/13&#10;&#10;Reintegrated Alarms - alarm will now trigger alerting users when their shift is 5 minutes from ending&#10;&#10;Alarm will cancel on logout&#10;&#10;Fixed static value in ZXing activity&#10;&#10;Ready for testing!&#10;" comment="" />
     <list id="61ac49d9-cd96-46d4-ad9d-bf2535ca01fa" name="Rejected commit: Default" comment="01/02/13&#10;&#10; - Fixed issue with countdown timer being incorrect&#10; - Began to address issues with location services following first live data test&#10;  - Service still does not seem to fully close on device&#10;  - Somehow sent over 2000 rows of data, random groups of data of varying increments&#10;" />
-    <list id="d5376c0c-3860-45ad-baa5-f425265a220d" name="Rejected commit: Default (2)" comment="I am daft.">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionChangedBroadcastReceiver.java" afterPath="" />
-    </list>
     <ignored path="SentinelMobile.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359889582721" ignored="false" />
+    <file path="/Dummy.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359889782923" ignored="false" />
     <file path="/SentinelLocationService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359824785920" ignored="false" />
     <file path="/LoginServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358950199233" ignored="false" />
     <file path="/LocationServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359299395952" ignored="false" />
@@ -168,7 +146,6 @@
     <file path="$PROJECT_DIR$/../../MapsTest/google-play-services-lib/project.properties" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359856088243" ignored="false" />
     <file path="$PROJECT_DIR$/../../MapsTest/gen/com/example/R.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359856989804" ignored="false" />
     <file path="$PROJECT_DIR$/src/sentinel/sentinel/app/SentinelOnBreakActivity.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359884141960" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionChangedBroadcastReceiver.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359889300491" ignored="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,10 +253,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LogoutAsyncTask.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="LogoutAsyncTask.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/LogoutAsyncTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="551" selection-end="551" vertical-scroll-proportion="0.0">
+            <state line="21" column="0" selection-start="551" selection-end="551" vertical-scroll-proportion="0.50159234">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -305,10 +282,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="10" selection-start="244" selection-end="244" vertical-scroll-proportion="0.24064171">
+            <state line="6" column="44" selection-start="278" selection-end="278" vertical-scroll-proportion="-3.3333333">
               <folding />
             </state>
           </provider>
@@ -483,6 +460,114 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="sentinel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tracking" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sql" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="preferences" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="helper" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -939,7 +1024,19 @@
       <created>1359680547169</created>
       <updated>1359680547170</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="03/02/13&#10;&#10;!!!!!ALWAYS COMMIT CHANGES!!!!!&#10;&#10; - Accidental deletion of a number of activities, almost losing 2 days of significant dev. Reverse-engineered from compiled .class files.&#10; &#10; ACTUAL UPDATES:&#10; &#10;  - Ironed out various errors&#10;   - location updates not shutting off&#10;   - improved accuracy of tracking&#10;   - various fixes to handle interrupts (orientation, back button, closing app)&#10; - Added in alerts if the user turns off GPS&#10; - Google Maps V2 API now in use&#10; - Google play services library added as a dependancy">
+      <created>1359889698173</created>
+      <updated>1359889698173</updated>
+    </task>
+    <task id="LOCAL-00021" summary="03/02/13&#10;&#10;!!!!!ALWAYS COMMIT CHANGES!!!!!&#10;&#10; - Accidental deletion of a number of activities, almost losing 2 days of significant dev. Reverse-engineered from compiled .class files.&#10; &#10; ACTUAL UPDATES:&#10; &#10;  - Ironed out various errors&#10;   - location updates not shutting off&#10;   - improved accuracy of tracking&#10;   - various fixes to handle interrupts (orientation, back button, closing app)&#10; - Added in alerts if the user turns off GPS&#10; - Google Maps V2 API now in use&#10; - Google play services library added as a dependancy">
+      <created>1359889739113</created>
+      <updated>1359889739113</updated>
+    </task>
+    <task id="LOCAL-00022" summary="I am daft.">
+      <created>1359889797110</created>
+      <updated>1359889797110</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -975,7 +1072,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40374038" sideWeight="0.49839914" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6458685" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3233618" sideWeight="0.49358973" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3233618" sideWeight="0.49358973" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5143339" sideWeight="0.49358973" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32750398" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32252836" sideWeight="0.6509275" order="0" side_tool="true" content_ui="tabs" />
@@ -1033,7 +1130,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="03/02/13&#10;&#10;!!!!!ALWAYS COMMIT CHANGES!!!!!&#10;&#10; - Accidental deletion of a number of activities, almost losing 2 days of significant dev. Reverse-engineered from compiled .class files.&#10; &#10; ACTUAL UPDATES:&#10; &#10;  - Ironed out various errors&#10;   - location updates not shutting off&#10;   - improved accuracy of tracking&#10;   - various fixes to handle interrupts (orientation, back button, closing app)&#10; - Added in alerts if the user turns off GPS&#10; - Google Maps V2 API now in use&#10; - Google play services library added as a dependancy" />
+    <option name="LAST_COMMIT_MESSAGE" value="I am daft." />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1064,8 +1161,8 @@
     <MESSAGE value="28/01/13&#10;&#10;First commit following testing on device. Following issues fixed:&#10;&#10; - NoSuchMethodError thrown when using Notification.Builder.&#10;  - Fix required downloading Android Support Libraries&#10;  - Referenced NotificationCompat instead of Notification&#10;  &#10; - Multiple foreground services launched when closing/opening application and re-logging in.&#10;  - App now checks for shared preferences when opening the SentinelLogin activity and automatically forwards to Sentinel activity.&#10;  &#10; - Multiple application icons resolved by removing android.intent.category.MAIN from manifiest file&#10; &#10; - Application now correctly clears shared preferences when logging out&#10;" />
     <MESSAGE value="29/01/13&#10;&#10; - Refactored entire application:&#10;  - Sentinel is now the main application and starts an Intent for the Login Activity if there are no shared preferences stored&#10;  - Break Activity is now a Service - problems with keeping the application in sync if user navigates away from the Activity&#10;" />
     <MESSAGE value="01/02/13&#10;&#10; - Fixed issue with countdown timer being incorrect&#10; - Began to address issues with location services following first live data test&#10;  - Service still does not seem to fully close on device&#10;  - Somehow sent over 2000 rows of data, random groups of data of varying increments&#10;" />
-    <MESSAGE value="I am daft." />
     <MESSAGE value="03/02/13&#10;&#10;!!!!!ALWAYS COMMIT CHANGES!!!!!&#10;&#10; - Accidental deletion of a number of activities, almost losing 2 days of significant dev. Reverse-engineered from compiled .class files.&#10; &#10; ACTUAL UPDATES:&#10; &#10;  - Ironed out various errors&#10;   - location updates not shutting off&#10;   - improved accuracy of tracking&#10;   - various fixes to handle interrupts (orientation, back button, closing app)&#10; - Added in alerts if the user turns off GPS&#10; - Google Maps V2 API now in use&#10; - Google play services library added as a dependancy" />
+    <MESSAGE value="I am daft." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1093,7 +1190,9 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="13" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0" />
+        <state line="17" column="13" selection-start="440" selection-end="440" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/connection/ConnectionManager.java">
@@ -1105,17 +1204,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/menu/sentinel_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="45" selection-start="330" selection-end="330" vertical-scroll-proportion="0.24907748" />
+        <state line="9" column="45" selection-start="330" selection-end="330" vertical-scroll-proportion="0.24907748">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/BufferedGeospatialDataAsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="13" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0" />
+        <state line="12" column="13" selection-start="294" selection-end="294" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/LocationServiceAsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="13" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0" />
+        <state line="8" column="13" selection-start="257" selection-end="257" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/CriteriaBuilder.java">
@@ -1142,15 +1247,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/LogoutAsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="551" selection-end="551" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/app/SentinelOnBreakActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="194" column="63" selection-start="6776" selection-end="6776" vertical-scroll-proportion="0.0">
@@ -1168,13 +1264,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="18" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1201,12 +1290,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="10" selection-start="244" selection-end="244" vertical-scroll-proportion="0.24064171">
+        <state line="6" column="44" selection-start="278" selection-end="278" vertical-scroll-proportion="-3.3333333">
           <folding />
         </state>
       </provider>
       <provider editor-type-id="android-designer">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="18" selection-start="1044" selection-end="1044" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/LogoutAsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="551" selection-end="551" vertical-scroll-proportion="0.50159234">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>
