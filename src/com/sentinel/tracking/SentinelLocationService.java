@@ -28,6 +28,8 @@ public class SentinelLocationService extends Service {
     private static final int DISTANCE;
     private static final int LOCATION_NOTIFICATION_ID;
 
+    public static boolean isJUnit = false;
+
     static {
         TIME = 20000;
         DISTANCE = 10;
@@ -61,18 +63,16 @@ public class SentinelLocationService extends Service {
         }
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
     private LocationListener sentinelLocationListener;
+
     private LocationManager sentinelLocationManager;
     private NotificationCompat.Builder locationServiceNotificationBuilder;
     private NotificationManager notificationManager;
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startID) {
+    public void onCreate() {
+        super.onCreate();
+
         removeUpdates();
 
         sentinelLocationListener = new SentinelLocationListener();
@@ -83,7 +83,10 @@ public class SentinelLocationService extends Service {
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         oSentinelDB = new SentinelBuffferedGeospatialDataDB(this);
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startID) {
         if (0 != oSentinelDB.getBufferedGeospatialDataCount()) {
             String historicalGeospatialJson = oSentinelDB.getBufferedGeospatialDataJsonString();
             ServiceHelper.sendHistoricalDataToLocationService(this, historicalGeospatialJson);
@@ -96,18 +99,27 @@ public class SentinelLocationService extends Service {
     }
 
     @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
     public void onDestroy() {
         stopSentinelLocationForegroundService();
         super.onDestroy();
     }
 
     private void startSentinelLocationForegroundService() {
-        startForeground(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
+        if (!isJUnit) {
+            startForeground(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
+        }
     }
 
     private void stopSentinelLocationForegroundService() {
         removeUpdates();
-        stopForeground(true);
+        if (!isJUnit) {
+            stopForeground(true);
+        }
     }
 
     private void removeUpdates() {
@@ -123,7 +135,7 @@ public class SentinelLocationService extends Service {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Sentinel Running")
-                .setSubText("Determining Current Location...")
+                .setSubText("Determining Location...")
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pIntent);
     }

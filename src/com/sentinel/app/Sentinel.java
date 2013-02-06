@@ -165,7 +165,7 @@ public class Sentinel extends Activity {
         return true;
     }
 
-    private void performLogout() {
+    protected void performLogout() {
 
         String time = Utils.getFormattedHrsMinsSecsTimeString(sentinelSharedPreferences.getDrivingEndAlarm());
         String message = String.format("You still have %1$s of your shift remaining. Are you sure you wish to logout?", time);
@@ -198,7 +198,7 @@ public class Sentinel extends Activity {
                 }).show();
     }
 
-    private void clockOut() {
+    protected void clockOut() {
         stopLocationService();
         stopLocationUpdates();
 
@@ -206,7 +206,7 @@ public class Sentinel extends Activity {
         startActivity(breakIntent);
     }
 
-    private void startLocationUpdates() {
+    protected void startLocationUpdates() {
         sentinelLocationListener = new SentinelLocationListener();
         sentinelLocationManager = ((LocationManager) getSystemService(LOCATION_SERVICE));
 
@@ -216,7 +216,7 @@ public class Sentinel extends Activity {
         sentinelLocationManager.requestLocationUpdates(provider, TIME, DISTANCE, sentinelLocationListener);
     }
 
-    private void stopLocationUpdates() {
+    protected void stopLocationUpdates() {
         if ((null != sentinelLocationManager) && (null != sentinelLocationListener)) {
             sentinelLocationManager.removeUpdates(sentinelLocationListener);
             sentinelLocationManager = null;
@@ -224,17 +224,17 @@ public class Sentinel extends Activity {
         }
     }
 
-    private void startLocationService() {
+    protected void startLocationService() {
         if (null != locationServicesIntent)
             startService(locationServicesIntent);
     }
 
-    private void stopLocationService() {
+    protected void stopLocationService() {
         if (null != locationServicesIntent)
             stopService(locationServicesIntent);
     }
 
-    private void updateLocation(Location location) {
+    protected void updateLocation(Location location) {
         if (null != location) {
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 

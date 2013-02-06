@@ -9,7 +9,7 @@
         <option name="localeLanguage" value="en" />
         <option name="nightMode" value="notnight" />
         <option name="targetHashString" value="android-17" />
-        <option name="theme" value="Theme.Translucent.NoTitleBar" />
+        <option name="theme" value="Theme" />
       </profile>
     </option>
     <option name="selection" value="[Full]" />
@@ -31,24 +31,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="4f885cf3-716d-40d4-a340-e0b50c7e2c56" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SentinelMobileTest" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SentinelMobileTest/SentinelMobileTest.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/gen/com/sentinel/R.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" afterPath="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" afterPath="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" afterPath="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SentinelMobile.iml" afterPath="$PROJECT_DIR$/SentinelMobile.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" afterPath="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="5fb913da-426f-4fc4-9bf1-912c54c013fa" name="Revert: 27/01/13&#10;&#10;Reintegrated Alarms - alarm will now trigger alerting users when their shift is 5 minutes from ending&#10;&#10;Alarm will cancel on logout&#10;&#10;Fixed static value in ZXing activity&#10;&#10;Ready for testing!&#10;" comment="" />
     <list id="61ac49d9-cd96-46d4-ad9d-bf2535ca01fa" name="Rejected commit: Default" comment="01/02/13&#10;&#10; - Fixed issue with countdown timer being incorrect&#10; - Began to address issues with location services following first live data test&#10;  - Service still does not seem to fully close on device&#10;  - Somehow sent over 2000 rows of data, random groups of data of varying increments&#10;" />
     <ignored path="SentinelMobile.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360143022513" ignored="false" />
-    <file path="/SentinelLocationService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360162746679" ignored="false" />
+    <file path="/Dummy.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360163098958" ignored="false" />
+    <file path="/SentinelLocationService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360191218733" ignored="false" />
     <file path="/LoginServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358950199233" ignored="false" />
     <file path="/LocationServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359299395952" ignored="false" />
     <file path="/SentinelLogin.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360151452845" ignored="false" />
@@ -60,11 +52,11 @@
     <file path="/strings.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359968888297" ignored="false" />
     <file path="/User.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359298143702" ignored="false" />
     <file path="/Credentials.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355065432026" ignored="false" />
-    <file path="/fragment.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360148454739" ignored="false" />
+    <file path="/fragment.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360190917518" ignored="false" />
     <file path="/GIS.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355166242958" ignored="false" />
     <file path="/LoginServiceBroadcastReceiver.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358947418603" ignored="false" />
     <file path="/SentinelSharedPreferences.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359667922541" ignored="false" />
-    <file path="/Sentinel.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360162697716" ignored="false" />
+    <file path="/Sentinel.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360187093804" ignored="false" />
     <file path="/ConnectionManager.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359924155512" ignored="false" />
     <file path="/ConnectionChangedBroadcastReceiver.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359902594565" ignored="false" />
     <file path="/GISDataBuffer.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355266308045" ignored="false" />
@@ -142,8 +134,10 @@
     <file path="$PROJECT_DIR$/SentinelMobileTest/gen/com/sentinel/app/tests/Manifest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360144549109" ignored="false" />
     <file path="$PROJECT_DIR$/SentinelMobileTest/gen/com/sentinel/app/tests/R.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360144549109" ignored="false" />
     <file path="$PROJECT_DIR$/SentinelMobileTest/gen/com/sentinel/app/tests/BuildConfig.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360144556543" ignored="false" />
-    <file path="/SentinelTest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360155240105" ignored="false" />
-    <file path="/SentineLoginTest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360159505446" ignored="false" />
+    <file path="/SentinelTest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360187071175" ignored="false" />
+    <file path="/SentineLoginTest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360184389698" ignored="false" />
+    <file path="/TestUtils.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360184432146" ignored="false" />
+    <file path="/SentinelLocationServiceTest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360191809519" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,6 +159,20 @@
   <component name="DebuggerManager">
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java" line="31" class="com.sentinel.asset.GeotagDeliveryZXingActvity" package="com.sentinel.asset">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/tracking/SentinelLocationServiceTest.java" line="33" class="com.sentinel.tracking.SentinelLocationServiceTest" package="com.sentinel.tracking">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -227,7 +235,7 @@
       <file leaf-file-name="SentinelTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="4" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
+            <state line="5" column="34" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -235,70 +243,39 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SentineLoginTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentineLoginTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="24" selection-start="4679" selection-end="4679" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SentinelLocationService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="60" selection-start="4353" selection-end="4353" vertical-scroll-proportion="3.8414633">
+            <state line="150" column="82" selection-start="5175" selection-end="5175" vertical-scroll-proportion="0.29268292">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/Utils.java">
+      <file leaf-file-name="TrackingHelper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/TrackingHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="65" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
+            <state line="47" column="56" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SentinelLogin.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
+      <file leaf-file-name="SentinelBuffferedGeospatialDataDB.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="166" column="47" selection-start="6798" selection-end="6798" vertical-scroll-proportion="0.0">
+            <state line="29" column="11" selection-start="1136" selection-end="1136" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <file leaf-file-name="SentinelLocationServiceTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/tracking/SentinelLocationServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="39" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Sentinel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="254" column="69" selection-start="9368" selection-end="9368" vertical-scroll-proportion="0.0">
+            <state line="23" column="42" selection-start="597" selection-end="597" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#4308#4533#0" expanded="true" />
-                <element signature="e#4510#4511#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -314,8 +291,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionManager.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/sentinel/preferences/SentinelSharedPreferences.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/app/SentinelOnBreakActivity.java" />
@@ -323,13 +298,15 @@
         <option value="$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java" />
         <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentinelLogin.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" />
-        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentineLoginTest.java" />
-        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" />
         <option value="$PROJECT_DIR$/SentinelMobileTest/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/TestHelpers/TestUtils.java" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentineLoginTest.java" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java" />
+        <option value="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/tracking/SentinelLocationServiceTest.java" />
       </list>
     </option>
   </component>
@@ -514,6 +491,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tracking" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobileTest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="authentication" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -545,6 +552,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -647,7 +686,7 @@
       <recent name="com" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Tests.SentinelMobileTest">
+  <component name="RunManager" selected="Android Tests.SentinelLocationServiceTest">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
@@ -787,14 +826,14 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="SentinelMobileTest" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+    <configuration default="false" name="SentinelLocationServiceTest" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="SentinelMobileTest" />
-      <option name="TESTING_TYPE" value="0" />
+      <option name="TESTING_TYPE" value="2" />
       <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
       <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
+      <option name="CLASS_NAME" value="com.sentinel.tracking.SentinelLocationServiceTest" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="TARGET_SELECTION_MODE" value="USB_DEVICE" />
       <option name="PREFERRED_AVD" value="" />
       <option name="COMMAND_LINE" value="" />
       <option name="WIPE_USER_DATA" value="false" />
@@ -808,7 +847,7 @@
     </configuration>
     <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Android Application.SentinelMobile" />
-      <item index="1" class="java.lang.String" itemvalue="Android Tests.SentinelMobileTest" />
+      <item index="1" class="java.lang.String" itemvalue="Android Tests.SentinelLocationServiceTest" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -981,7 +1020,11 @@
       <created>1360143085148</created>
       <updated>1360143085148</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="06/03/2013&#10;&#10;Sentinel.java&#10; - Added notification alerting the user to login.&#10; - Removed determining last known location - causing all sorts of erroneous data on the map read outs.&#10; - Added functionality similar to in the foreground location service to check that updates are more accurate than the previous update.&#10; &#10;SentinelLogin.java&#10; - Added checking for more robust feedback messages when user does not provide valid credentials.&#10; &#10;Utils.java&#10; - Added functionality to check if location is more accurate than a previous (Refactored from location foreground service)&#10;&#10;SentinelLocationService.java&#10; - Removed determining of last location - caused erroneous location read outs&#10; - Refactored code to check accuracy of the location and moved to Utils.java&#10; &#10;SentinelMobileTest Module&#10; - Added test module (Uses Robotium)&#10;">
+      <created>1360163122151</created>
+      <updated>1360163122151</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1010,6 +1053,7 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27920228" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.67108166" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.54131055" sideWeight="0.4943274" order="3" side_tool="false" content_ui="tabs" />
@@ -1031,7 +1075,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32252836" sideWeight="0.6509275" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.67108166" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32478634" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1075,7 +1118,7 @@
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="05.02.13&#10;&#10; - Sentinel.java&#10;  - Built in error checking to ensure that the phone is capable of working with Android Google Maps V2&#10;  - Removed GPS dialogs, LocationService will do the alerting.&#10;  - Added a dialog to warn the user they are logging out before their shift is ending.&#10;  - Added error checking to ensure that the last location is not null (WILL BE REMOVING GETTING OF LAST KNOWN LOCATION)&#10;  &#10; SentinelNearingLegalDrivingTimeActivity.java&#10;  - Refactored Notification slightly&#10;  &#10; SentinelOnBreakActivity.java&#10;  - Refactored code slightly&#10;  &#10; GeotagDeliveryZXingActivity.java&#10;  - Removed dialog, added Toast notifications&#10;  &#10; SentinelLogin.java&#10;  - Added functionality to cancel the alarm set to alert drivers they are coming to the end of their shift when logging out.&#10;  - Removed dialogs, added Toast notifications&#10;&#10; ConnectionChangedBroadcastReceiver.java&#10;  - Upon receiving connection changed info, will check if there is connectivity before reading any buffered information and sending it.&#10;  &#10; ConnectionManager.java&#10;  - Is now abstract&#10;  &#10; ServiceHelper.java&#10;  - Added two new methods to send data to location services&#10;  &#10; Utils.java &#10; - Added Utils class that will contain various pieces of functionality used throughout the application. Class will grow with refactoring.&#10;&#10; SentinelSharedPreferences.java&#10;  - Commented out functionality for next break and next break length - NEEDS TO BE RE-INTRODUCED&#10;  &#10; HistoricalGeospatialDataAsyncTask.java&#10;  - New class to send historical data that is still in the buffer&#10; &#10; SentinelLocationService.java&#10;  - Added functionality to filter GPS updates, only sending if they are more accurate.&#10;  - Added functionality to check of buffered historical data.&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="06/03/2013&#10;&#10;Sentinel.java&#10; - Added notification alerting the user to login.&#10; - Removed determining last known location - causing all sorts of erroneous data on the map read outs.&#10; - Added functionality similar to in the foreground location service to check that updates are more accurate than the previous update.&#10; &#10;SentinelLogin.java&#10; - Added checking for more robust feedback messages when user does not provide valid credentials.&#10; &#10;Utils.java&#10; - Added functionality to check if location is more accurate than a previous (Refactored from location foreground service)&#10;&#10;SentinelLocationService.java&#10; - Removed determining of last location - caused erroneous location read outs&#10; - Refactored code to check accuracy of the location and moved to Utils.java&#10; &#10;SentinelMobileTest Module&#10; - Added test module (Uses Robotium)&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1111,6 +1154,7 @@
     <MESSAGE value="03/02/13&#10;&#10;Re-adding of subversion deleted files.&#10;&#10;!!ALWAYS COMMIT CHANGES!!" />
     <MESSAGE value="03/02/13&#10;&#10;Checking in google-play-services-lib dependency" />
     <MESSAGE value="05.02.13&#10;&#10; - Sentinel.java&#10;  - Built in error checking to ensure that the phone is capable of working with Android Google Maps V2&#10;  - Removed GPS dialogs, LocationService will do the alerting.&#10;  - Added a dialog to warn the user they are logging out before their shift is ending.&#10;  - Added error checking to ensure that the last location is not null (WILL BE REMOVING GETTING OF LAST KNOWN LOCATION)&#10;  &#10; SentinelNearingLegalDrivingTimeActivity.java&#10;  - Refactored Notification slightly&#10;  &#10; SentinelOnBreakActivity.java&#10;  - Refactored code slightly&#10;  &#10; GeotagDeliveryZXingActivity.java&#10;  - Removed dialog, added Toast notifications&#10;  &#10; SentinelLogin.java&#10;  - Added functionality to cancel the alarm set to alert drivers they are coming to the end of their shift when logging out.&#10;  - Removed dialogs, added Toast notifications&#10;&#10; ConnectionChangedBroadcastReceiver.java&#10;  - Upon receiving connection changed info, will check if there is connectivity before reading any buffered information and sending it.&#10;  &#10; ConnectionManager.java&#10;  - Is now abstract&#10;  &#10; ServiceHelper.java&#10;  - Added two new methods to send data to location services&#10;  &#10; Utils.java &#10; - Added Utils class that will contain various pieces of functionality used throughout the application. Class will grow with refactoring.&#10;&#10; SentinelSharedPreferences.java&#10;  - Commented out functionality for next break and next break length - NEEDS TO BE RE-INTRODUCED&#10;  &#10; HistoricalGeospatialDataAsyncTask.java&#10;  - New class to send historical data that is still in the buffer&#10; &#10; SentinelLocationService.java&#10;  - Added functionality to filter GPS updates, only sending if they are more accurate.&#10;  - Added functionality to check of buffered historical data.&#10;" />
+    <MESSAGE value="06/03/2013&#10;&#10;Sentinel.java&#10; - Added notification alerting the user to login.&#10; - Removed determining last known location - causing all sorts of erroneous data on the map read outs.&#10; - Added functionality similar to in the foreground location service to check that updates are more accurate than the previous update.&#10; &#10;SentinelLogin.java&#10; - Added checking for more robust feedback messages when user does not provide valid credentials.&#10; &#10;Utils.java&#10; - Added functionality to check if location is more accurate than a previous (Refactored from location foreground service)&#10;&#10;SentinelLocationService.java&#10; - Removed determining of last location - caused erroneous location read outs&#10; - Refactored code to check accuracy of the location and moved to Utils.java&#10; &#10;SentinelMobileTest Module&#10; - Added test module (Uses Robotium)&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1136,116 +1180,121 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java">
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="983" selection-end="983" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/google-play-services-lib/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="43" selection-start="1548" selection-end="1548" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/google-play-services-lib/res/values/maps_attrs.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="29" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/google-play-services-lib/libs/google-play-services.jar.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/ids.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="39" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Documents/android-sdk-macosx/sources/android-17/android/test/InstrumentationTestCase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="215" column="0" selection-start="7865" selection-end="7865" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="166" column="13" selection-start="6799" selection-end="6799" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentineLoginTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="24" selection-start="4679" selection-end="4679" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="4" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="166" column="47" selection-start="6798" selection-end="6798" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SentinelMobileTest/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="17" selection-start="534" selection-end="534" vertical-scroll-proportion="0.31914893">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="70" selection-start="1014" selection-end="1014" vertical-scroll-proportion="0.63829786">
+        <state line="41" column="8" selection-start="1234" selection-end="1307" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="65" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
+        <state line="32" column="65" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.6818182">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java">
+    <entry file="file://$USER_HOME$/Documents/android-sdk-macosx/sources/android-17/android/test/mock/MockApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="254" column="69" selection-start="9368" selection-end="9368" vertical-scroll-proportion="0.0">
+        <state line="29" column="0" selection-start="1034" selection-end="1034" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/android-sdk-macosx/sources/android-17/android/test/AndroidTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="0" selection-start="1535" selection-end="1535" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/android-sdk-macosx/sources/android-17/android/test/ServiceTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="197" column="0" selection-start="8254" selection-end="8254" vertical-scroll-proportion="0.21276596">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../v4/src/java/android/support/v4/app/NotificationCompat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="561" column="0" selection-start="21805" selection-end="21805" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/android-sdk-macosx/sources/android-17/android/content/ComponentName.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="0" selection-start="2394" selection-end="2394" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/android-sdk-macosx/sources/android-17/android/app/Service.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="642" column="0" selection-start="30535" selection-end="30535" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="34" selection-start="135" selection-end="135" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#4308#4533#0" expanded="true" />
-            <element signature="e#4510#4511#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/TrackingHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="56" selection-start="1844" selection-end="1844" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/LocationServiceAsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="11" selection-start="712" selection-end="712" vertical-scroll-proportion="0.07801419">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/ServiceHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="31" selection-start="3327" selection-end="3327" vertical-scroll-proportion="0.93414634">
+          <folding>
+            <element signature="method#doPostAndLogin#0;class#ServiceHelper#0" expanded="false" />
+            <element signature="method#getResponse#0;class#ServiceHelper#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="11" selection-start="1136" selection-end="1136" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/tracking/SentinelLocationServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="42" selection-start="597" selection-end="597" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="60" selection-start="4353" selection-end="4353" vertical-scroll-proportion="3.8414633">
+        <state line="150" column="82" selection-start="5175" selection-end="5175" vertical-scroll-proportion="0.29268292">
           <folding />
         </state>
       </provider>
