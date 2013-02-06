@@ -2,6 +2,9 @@ package com.sentinel.helper;
 
 import android.content.Context;
 import android.util.Log;
+import com.sentinel.tracking.BufferedGeospatialDataAsyncTask;
+import com.sentinel.tracking.HistoricalGeospatialDataAsyncTask;
+import com.sentinel.tracking.LocationServiceAsyncTask;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -82,5 +85,17 @@ public class ServiceHelper {
         }
 
         return strPostResult;
+    }
+
+    public static void sendGISToLocationService(final Context context, final String strGeospatialJson) {
+        new LocationServiceAsyncTask(context).execute(strGeospatialJson);
+    }
+
+    public static void sendBufferedGeospatialDataToLocationService(final Context context, final String strGeospatialJsonSet) {
+        new BufferedGeospatialDataAsyncTask(context).execute(strGeospatialJsonSet);
+    }
+
+    public static void sendHistoricalDataToLocationService(final Context context, final String historicalGeospatialJson) {
+        new HistoricalGeospatialDataAsyncTask(context).execute(historicalGeospatialJson);
     }
 }

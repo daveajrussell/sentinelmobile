@@ -9,11 +9,11 @@
     <item
             android:id="@+id/clock_out_action"
             android:title="@string/clock_out_title"
-            android:showAsAction="never|withText">
+            android:showAsAction="ifRoom|withText|collapseActionView">
     </item>
     <item
             android:id="@+id/logout_action"
             android:title="@string/logout_title"
-            android:showAsAction="never|withText">
+            android:showAsAction="never|withText|collapseActionView">
     </item>
 </menu>

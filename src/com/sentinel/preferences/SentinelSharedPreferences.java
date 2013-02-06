@@ -19,8 +19,8 @@ public class SentinelSharedPreferences {
     private static final String CLOCKED_IN;
     private static final String CLOCKED_OUT;
     private static final String BREAK_LENGTH;
-    private static final String NEXT_BREAK_LENGTH;
-    private static final String NEXT_BREAK;
+    //private static final String NEXT_BREAK_LENGTH;
+    //private static final String NEXT_BREAK;
 
     static {
         SENTINEL_SHARED_PREFS = "SENTINEL_SHARED_PREFS";
@@ -32,8 +32,8 @@ public class SentinelSharedPreferences {
         CLOCKED_IN = "CLOCKED_IN";
         CLOCKED_OUT = "CLOCKED_OUT";
         BREAK_LENGTH = "BREAK_LENGTH";
-        NEXT_BREAK_LENGTH = "NEXT_BREAK_LENGTH";
-        NEXT_BREAK = "NEXT_BREAK";
+        //NEXT_BREAK_LENGTH = "NEXT_BREAK_LENGTH";
+        //NEXT_BREAK = "NEXT_BREAK";
     }
 
     private SharedPreferences oSentinelSharedPreferences;
@@ -93,7 +93,7 @@ public class SentinelSharedPreferences {
         sentinelSharedPreferencesEditor.apply();
     }
 
-    public void setNextBreak(long lngNextBreak) {
+    /*public void setNextBreak(long lngNextBreak) {
         SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
         sentinelSharedPreferencesEditor.putLong(NEXT_BREAK, lngNextBreak);
         sentinelSharedPreferencesEditor.apply();
@@ -103,7 +103,7 @@ public class SentinelSharedPreferences {
         SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
         sentinelSharedPreferencesEditor.putLong(NEXT_BREAK_LENGTH, lngNextBreakLength);
         sentinelSharedPreferencesEditor.apply();
-    }
+    }*/
 
     public boolean clockedIn() {
         return oSentinelSharedPreferences.getBoolean(CLOCKED_IN, false);
@@ -137,12 +137,12 @@ public class SentinelSharedPreferences {
         return oSentinelSharedPreferences.getLong(BREAK_LENGTH, 0);
     }
 
-    public long getNextBreak() {
+    /*public long getNextBreak() {
         return oSentinelSharedPreferences.getLong(NEXT_BREAK, 0);
     }
 
     public long getNextBreakLength() {
         return oSentinelSharedPreferences.getLong(NEXT_BREAK_LENGTH, 0);
-    }
+    }*/
 
 }

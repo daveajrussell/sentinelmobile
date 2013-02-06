@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,36 +21,39 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sentinel.R;
 import com.sentinel.asset.GeotagDeliveryZXingActvity;
 import com.sentinel.authentication.LogoutAsyncTask;
 import com.sentinel.authentication.SentinelLogin;
 import com.sentinel.helper.CriteriaBuilder;
 import com.sentinel.helper.JsonHelper;
+import com.sentinel.helper.Utils;
 import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.tracking.SentinelLocationService;
+
+import java.util.Calendar;
 
 public class Sentinel extends Activity {
 
     public static final String NEW_SESSION;
     private static final int TIME;
     private static final int DISTANCE;
+
     static {
         NEW_SESSION = "NEW_SESSION";
         TIME = 60000;
         DISTANCE = 100;
     }
+
     private static Intent locationServicesIntent;
-    private static GoogleMap googleMap;
-    private static FragmentManager fragmentManager;
+    private GoogleMap googleMap;
     private SentinelSharedPreferences sentinelSharedPreferences;
     private LocationListener sentinelLocationListener;
     private LocationManager sentinelLocationManager;
 
     private static Criteria getGeoSpatialCriteria() {
         new CriteriaBuilder()
-                .setAccuracy(1)
-                .setPowerRequirement(1)
+                .setAccuracy(Criteria.ACCURACY_FINE)
+                .setPowerRequirement(Criteria.POWER_HIGH)
                 .setAltitudeRequired(false)
                 .setBearingRequired(false)
                 .setSpeedRequired(false)
@@ -59,19 +63,21 @@ public class Sentinel extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
+        int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 
-        setContentView(R.layout.main);
+        if (result == ConnectionResult.SUCCESS) {
+            setContentView(R.layout.main);
 
-        fragmentManager = getFragmentManager();
-        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map);
-        googleMap = mapFragment.getMap();
-        googleMap.getUiSettings().setCompassEnabled(true);
-        googleMap.getUiSettings().setZoomControlsEnabled(true);
+            FragmentManager fragmentManager = getFragmentManager();
+            MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map);
+            googleMap = mapFragment.getMap();
+            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            googleMap.getUiSettings().setCompassEnabled(true);
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
 
-        sentinelSharedPreferences = new SentinelSharedPreferences(this);
-
-        locationServicesIntent = new Intent(this, SentinelLocationService.class);
+            sentinelSharedPreferences = new SentinelSharedPreferences(this);
+            locationServicesIntent = new Intent(this, SentinelLocationService.class);
+        }
     }
 
     protected void onResume() {
@@ -120,19 +126,6 @@ public class Sentinel extends Activity {
         }
 
         startLocationUpdates();
-
-        if (!sentinelLocationManager.isProviderEnabled("gps")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                    .setMessage("You must enable GPS Services")
-                    .setCancelable(false)
-                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            startActivity(new Intent("android.settings.LOCATION_SOURCE_SETTINGS"));
-                        }
-                    });
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -169,18 +162,36 @@ public class Sentinel extends Activity {
     }
 
     private void performLogout() {
-        stopLocationService();
-        stopLocationUpdates();
 
-        String userCredentialsJson = JsonHelper.getUserCredentialsJsonFromSharedPreferences(sentinelSharedPreferences);
+        String time = Utils.getFormattedHrsMinsSecsTimeString(sentinelSharedPreferences.getDrivingEndAlarm());
+        String message = String.format("You still have %1$s of your shift remaining. Are you sure you wish to logout?", time);
 
-        this.sentinelSharedPreferences.clearSharedPreferences();
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.alert_title)
+                .setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stopLocationService();
+                        stopLocationUpdates();
 
-        Intent loginIntent = new Intent(this, SentinelLogin.class);
-        loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(loginIntent);
+                        String userCredentialsJson = JsonHelper.getUserCredentialsJsonFromSharedPreferences(sentinelSharedPreferences);
 
-        new LogoutAsyncTask().execute(userCredentialsJson);
+                        sentinelSharedPreferences.clearSharedPreferences();
+
+                        Intent loginIntent = new Intent(getApplicationContext(), SentinelLogin.class);
+                        loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(loginIntent);
+
+                        new LogoutAsyncTask().execute(userCredentialsJson);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
     }
 
     private void clockOut() {
@@ -193,7 +204,7 @@ public class Sentinel extends Activity {
 
     private void startLocationUpdates() {
         sentinelLocationListener = new SentinelLocationListener();
-        sentinelLocationManager = ((LocationManager) getSystemService("location"));
+        sentinelLocationManager = ((LocationManager) getSystemService(LOCATION_SERVICE));
 
         Criteria criteria = getGeoSpatialCriteria();
 
@@ -223,20 +234,21 @@ public class Sentinel extends Activity {
     }
 
     private void updateLocation(Location location) {
-        LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-        googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        googleMap.addMarker(new MarkerOptions()
-                .position(latlng)
-                .title("Current Location")
-                .icon(BitmapDescriptorFactory.defaultMarker(210.0F)));
+        if (null != location) {
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 10.0F));
+            googleMap.clear();
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latlng)
+                    .title("Current Location")
+                    .snippet("Time: " + Calendar.getInstance().getTime())
+                    .icon(BitmapDescriptorFactory.defaultMarker(210)));
+
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
+        }
     }
 
     private final class SentinelLocationListener implements LocationListener {
-        private SentinelLocationListener() {
-        }
-
         public void onLocationChanged(Location location) {
             updateLocation(location);
         }

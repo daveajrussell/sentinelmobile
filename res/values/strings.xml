@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SentinelMobile</string>
+    <string name="app_name">Sentinel</string>
     <string name="maps_api_key_desktop">0tckJfSKIwhBX--Tq5kRYrb9d6g_xH6iaeuS7hw</string>
     <string name="maps_api_key_laptop">0tckJfSKIwhD18Rl5IcFmc-4xoz-bqiIVwaYC2w</string>
     <string name="maps_api_key_macbook">0tckJfSKIwhAQ4YWZPUd1ShPvr33kQ-zeml74wA</string>
+    <string name="maps_v2_api_key_macbook">AIzaSyBme9nzAcsLrYo8qg_5AHkQrmKXE5AHq_M</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
-    <string name="login_img">login_img</string>
     <string name="scan_qr_title">Scan Delivery Item</string>
     <string name="logout_title">Logout</string>
     <string name="clock_out_title">Clock Out</string>
     <string name="clock_in_title">Clock In</string>
+    <!-- Sentinel.java res -->
+    <string name="alert_title">Notice</string>
+    <string name="clock_out_alert"></string>
+    <string name="log_out_alert"></string>
 </resources>

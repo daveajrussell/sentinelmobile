@@ -6,10 +6,6 @@ import com.sentinel.helper.ResponseStatusHelper;
 import com.sentinel.helper.ServiceHelper;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
 
-/**
- * David Russell
- * 22/01/13
- */
 public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, String> {
 
     private static final String METHOD_NAME;

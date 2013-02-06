@@ -13,9 +13,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
-import com.sentinel.R;
+import com.sentinel.app.R;
 import com.sentinel.app.Sentinel;
 import com.sentinel.connection.ConnectionManager;
+import com.sentinel.helper.ServiceHelper;
 import com.sentinel.helper.TrackingHelper;
 import com.sentinel.models.GeospatialInformation;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
@@ -25,20 +26,25 @@ public class SentinelLocationService extends Service {
     private static final int TIME;
     private static final int DISTANCE;
     private static final int LOCATION_NOTIFICATION_ID;
+    private static final int THIRTY_SECONDS;
 
     static {
         TIME = 10000;
         DISTANCE = 10;
         LOCATION_NOTIFICATION_ID = 1;
+        THIRTY_SECONDS = 1000 * 60 / 2;
     }
 
-    private static ConnectionManager oSentinelConnectionManager;
+    private static Location currentLocation;
+
     private SentinelBuffferedGeospatialDataDB oSentinelDB;
 
     private final class SentinelLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
-            handleLocationChanged(location);
+            if (updateIsMoreAccurate(currentLocation, location)) {
+                handleLocationChanged(location);
+            }
         }
 
         @Override
@@ -79,6 +85,11 @@ public class SentinelLocationService extends Service {
 
         oSentinelDB = new SentinelBuffferedGeospatialDataDB(this);
 
+        if (0 != oSentinelDB.getBufferedGeospatialDataCount()) {
+            String historicalGeospatialJson = oSentinelDB.getBufferedGeospatialDataJsonString();
+            ServiceHelper.sendHistoricalDataToLocationService(this, historicalGeospatialJson);
+        }
+
         startSentinelLocationNotifications();
         getLastKnownLocation();
         startSentinelLocationForegroundService();
@@ -107,7 +118,7 @@ public class SentinelLocationService extends Service {
     }
 
     private void removeUpdates() {
-        if(null != sentinelLocationListener && null != sentinelLocationManager) {
+        if (null != sentinelLocationListener && null != sentinelLocationManager) {
             sentinelLocationManager.removeUpdates(sentinelLocationListener);
             sentinelLocationManager = null;
             sentinelLocationListener = null;
@@ -129,6 +140,7 @@ public class SentinelLocationService extends Service {
     }
 
     public void handleLocationChanged(final Location location) {
+        currentLocation = location;
         notifyLocationUpdate(location);
 
         GeospatialInformation oGeospatialInformation = TrackingHelper.buildGeospatialInformationObject(this, location);
@@ -137,15 +149,54 @@ public class SentinelLocationService extends Service {
 
         strGeospatialInformationJson = oSentinelDB.getBufferedGeospatialDataJsonString();
 
-        if (oSentinelConnectionManager.deviceIsConnected(getApplicationContext())) {
+        if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
             if (oSentinelDB.getBufferedGeospatialDataCount() >= 2) {
-                sendBufferedGeospatialDataToLocationService(strGeospatialInformationJson);
+                ServiceHelper.sendBufferedGeospatialDataToLocationService(this, strGeospatialInformationJson);
             } else {
-                sendGISToLocationService(strGeospatialInformationJson);
+                ServiceHelper.sendGISToLocationService(this, strGeospatialInformationJson);
             }
         }
 
         oSentinelDB.closeSentinelDatabase();
+    }
+
+    private static boolean updateIsMoreAccurate(Location currentLocation, Location location) {
+        if (currentLocation == null) {
+            return true;
+        }
+
+        long timeDelta = location.getTime() - currentLocation.getTime();
+        boolean isNewer = timeDelta > 0;
+
+        if (timeDelta > THIRTY_SECONDS) {
+            return true;
+        } else if (timeDelta < -THIRTY_SECONDS) {
+            return false;
+        }
+
+
+        int accuracyDelta = (int) (location.getAccuracy() - currentLocation.getAccuracy());
+        boolean isLessAccurate = accuracyDelta > 0;
+        boolean isMoreAccurate = accuracyDelta < 0;
+        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
+
+        boolean isFromSameProvider = isSameProvider(location.getProvider(), currentLocation.getProvider());
+
+        if (isMoreAccurate) {
+            return true;
+        } else if (isNewer && !isSignificantlyLessAccurate) {
+            return true;
+        } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean isSameProvider(String provider1, String provider2) {
+        if (provider1 == null) {
+            return provider2 == null;
+        }
+        return provider1.equals(provider2);
     }
 
     private void notifyProviderDisabled() {
@@ -153,10 +204,10 @@ public class SentinelLocationService extends Service {
         final PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         locationServiceNotificationBuilder
-            .setContentIntent(pIntent)
-            .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
-            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-            .setSubText("You must enable GPS Services").build();
+                .setContentIntent(pIntent)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setSubText("You must enable GPS Services").build();
         notificationManager.notify(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }
 
@@ -166,11 +217,4 @@ public class SentinelLocationService extends Service {
         notificationManager.notify(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }
 
-    private void sendGISToLocationService(final String strGeospatialJson) {
-        new LocationServiceAsyncTask(this).execute(strGeospatialJson);
-    }
-
-    private void sendBufferedGeospatialDataToLocationService(final String strGeospatialJsonSet) {
-        new BufferedGeospatialDataAsyncTask(this).execute(strGeospatialJsonSet);
-    }
 }

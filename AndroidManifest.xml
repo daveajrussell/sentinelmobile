@@ -1,92 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
         xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.sentinel"
+        package="com.sentinel.app"
         android:versionCode="1"
         android:versionName="1.0">
 
     <permission
-            android:name="com.com.sentinel.permission_MAPS_RECEIVE"
+            android:name="com.sentinel.app.permission.MAPS_RECEIVE"
             android:protectionLevel="signature"/>
-    <uses-permission
-            android:name="com.setinel.permission_MAPS_RECEIVE"/>
 
-    <uses-permission
-            android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission
-            android:name="android.permission.ACCESS_COURSE_LOCATION"/>
-    <uses-permission
-            android:name="android.permission.INTERNET"/>
-    <uses-permission
-            android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission
-            android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission
-            android:name="android.permission.CAMERA"/>
-    <uses-permission
-            android:name="android.permission.VIBRATE"/>
-    <uses-permission
-            android:name="android.permission.SET_DEBUG_APP"/>
+    <uses-permission android:name="com.sentinel.app.permission.MAPS_RECEIVE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SET_DEBUG_APP"/>
+
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+
     <uses-feature
-            android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
+    <uses-feature android:name="android.hardware.camera"/>
 
     <uses-sdk
             android:minSdkVersion="15"
             android:targetSdkVersion="17"/>
 
-    <uses-feature
-            android:name="android.hardware.camera"/>
-
-    <uses-feature
-            android:glEsVersion="0x00020000"
-            android:required="true"/>
-
     <application
             android:label="@string/app_name"
             android:icon="@drawable/ic_launcher">
 
-        <uses-library
-                android:name="com.google.android.maps"/>
+        <uses-library android:required="true" android:name="com.google.android.maps"/>
 
-        <activity
-                android:name=".app.Sentinel">
+        <activity android:name="com.sentinel.app.Sentinel">
             <intent-filter>
-                <action
-                        android:name="android.intent.action.MAIN"/>
-                <category
-                        android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
-                android:name=".authentication.SentinelLogin"
+                android:name="com.sentinel.authentication.SentinelLogin"
                 android:theme="@android:style/Theme.Light.NoTitleBar"/>
         <activity
-                android:name=".app.SentinelOnBreakActivity"
+                android:name="com.sentinel.app.SentinelOnBreakActivity"
                 android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-                android:name=".asset.GeotagDeliveryZXingActvity"
+                android:name="com.sentinel.asset.GeotagDeliveryZXingActvity"
                 android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-                android:name=".app.SentinelNearingLegalDrivingTimeActivity"
+                android:name="com.sentinel.app.SentinelNearingLegalDrivingTimeActivity"
                 android:theme="@android:style/Theme.NoTitleBar"/>
 
         <service
-                android:name=".tracking.SentinelLocationService"
+                android:name="com.sentinel.tracking.SentinelLocationService"
                 android:enabled="true"
                 android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION"/>
 
-        <receiver
-                android:name=".connection.ConnectionChangedBroadcastReceiver">
+        <receiver android:name="com.sentinel.connection.ConnectionChangedBroadcastReceiver">
             <intent-filter>
-                <action
-                        android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
 
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="AIzaSyC9oi2clsC-nMNuonJsY2OPnsQL-kNwzuQ"/>
+                android:value="@string/maps_v2_api_key_macbook"/>
 
     </application>
 </manifest>

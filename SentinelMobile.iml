@@ -36,7 +36,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Android 4.2 Google APIs" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library>
@@ -51,31 +51,39 @@
         <jarDirectory url="file://$MODULE_DIR$/google-gson-2.2.1" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../ZXing/zxing-2.1/android-integration/android-integration.jar!/" />
+          <root url="jar://$MODULE_DIR$/google-zxing-2.1/android-integration.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../ZXing/zxing-2.1/core/core.jar!/" />
+          <root url="jar://$MODULE_DIR$/google-zxing-2.1/core.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="android-integration" level="project" />
-    <orderEntry type="library" exported="" name="android-support-v4" level="project" />
+    <orderEntry type="library" name="v4" level="project" />
     <orderEntry type="module" module-name="google-play-services-lib" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../google-play-services-lib/libs/google-play-services.jar!/" />
+          <root url="jar://$MODULE_DIR$/google-play-services-lib/libs/google-play-services.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../Robotium/robotium-solo-3.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

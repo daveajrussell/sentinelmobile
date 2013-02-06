@@ -2,10 +2,8 @@ package com.sentinel.authentication;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.sentinel.R;
+import com.sentinel.app.R;
 import com.sentinel.app.Sentinel;
 import com.sentinel.app.SentinelNearingLegalDrivingTimeActivity;
 import com.sentinel.connection.ConnectionManager;
@@ -26,13 +24,18 @@ import com.sentinel.preferences.SentinelSharedPreferences;
 
 public class SentinelLogin extends Activity {
 
+    public static final String CANCEL_ALARM;
+
+    static {
+        CANCEL_ALARM = "CANCEL_ALARM";
+    }
+
     private static Credentials oUserCredentials;
     private static String strCredentialsJSONString;
     private static Button btnLogin;
     private static EditText txtUsername;
     private static EditText txtPassword;
     private static ProgressBar pbAsyncProgress;
-    private static AlarmManager alarmManager;
     private SentinelSharedPreferences sentinelSharedPreferences;
     private LoginServiceAsyncTask loginServiceAsyncTask;
 
@@ -40,15 +43,18 @@ public class SentinelLogin extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra(CANCEL_ALARM, false)) {
+            setAlarm(false);
+        }
+
         btnLogin = (Button) findViewById(R.id.btn_login);
         txtUsername = (EditText) findViewById(R.id.txt_username);
         txtPassword = (EditText) findViewById(R.id.txt_password);
-
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         pbAsyncProgress = (ProgressBar) findViewById(R.id.pbAsyncProgress);
 
-        if(!ConnectionManager.deviceIsConnected(this)) {
-            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG);
+        if (!ConnectionManager.deviceIsConnected(this)) {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
             btnLogin.setEnabled(false);
         }
 
@@ -71,7 +77,7 @@ public class SentinelLogin extends Activity {
                     strCredentialsJSONString = JsonHelper.getUserCredentialsJsonFromCredentials(oUserCredentials);
                 }
 
-                loginServiceAsyncTask = new LoginServiceAsyncTask(SentinelLogin.this);
+                loginServiceAsyncTask = new LoginServiceAsyncTask(getApplicationContext());
                 loginServiceAsyncTask.execute(strCredentialsJSONString);
             }
         });
@@ -85,10 +91,10 @@ public class SentinelLogin extends Activity {
             startActivity(new Intent(getApplicationContext(), Sentinel.class));
         }
 
-        if(loginServiceAsyncTask != null) {
+        if (loginServiceAsyncTask != null) {
             AsyncTask.Status loginTaskStatus = loginServiceAsyncTask.getStatus();
 
-            if(loginTaskStatus == AsyncTask.Status.RUNNING || loginTaskStatus == AsyncTask.Status.PENDING) {
+            if (loginTaskStatus == AsyncTask.Status.RUNNING || loginTaskStatus == AsyncTask.Status.PENDING) {
                 setUIElementsEnabled(false);
             }
         }
@@ -101,6 +107,28 @@ public class SentinelLogin extends Activity {
         txtPassword.setEnabled(enabled);
     }
 
+    private void startSentinelActivity() {
+        sentinelSharedPreferences.setClockedIn();
+        Intent sentinelIntent = new Intent(this, Sentinel.class);
+        sentinelIntent.putExtra(Sentinel.NEW_SESSION, true);
+        startActivity(sentinelIntent);
+    }
+
+    private void setAlarm(boolean setOrCancel) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this, SentinelNearingLegalDrivingTimeActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        if (setOrCancel) {
+            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm();
+            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + lngEndDrivingAlarm, pendingIntent);
+        } else {
+            alarmManager.cancel(pendingIntent);
+        }
+
+    }
+
     private class LoginServiceAsyncTask extends AsyncTask<String, Integer, String> {
         private final String METHOD_NAME = "/Authenticate";
         private final String URL = "http://webservices.daveajrussell.com/Services/AuthenticationService.svc";
@@ -109,21 +137,6 @@ public class SentinelLogin extends Activity {
 
         public LoginServiceAsyncTask(Context context) {
             this.context = context;
-        }
-
-        private void setAlarm() {
-            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm();
-            Intent intent = new Intent(context, SentinelNearingLegalDrivingTimeActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + lngEndDrivingAlarm, pendingIntent);
-        }
-
-        private void startSentinelActivity() {
-            sentinelSharedPreferences.setClockedIn();
-            Intent sentinelIntent = new Intent(context, Sentinel.class);
-            sentinelIntent.putExtra(Sentinel.NEW_SESSION, true);
-            startActivity(sentinelIntent);
         }
 
         @Override
@@ -138,30 +151,16 @@ public class SentinelLogin extends Activity {
         @Override
         protected void onPostExecute(String result) {
             if (result.equals(ResponseStatusHelper.OK_RESULT)) {
+                Toast.makeText(context, "Authentication Successful", Toast.LENGTH_LONG).show();
                 sentinelSharedPreferences.setDrivingEndAlarm(33900000);
                 sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
-                setAlarm();
-                Toast.makeText(context, "Authentication Successful", Toast.LENGTH_LONG).show();
+                setAlarm(true);
                 startSentinelActivity();
             } else {
-                showFailureDialog(result);
+                Toast.makeText(context, "Authentication Unsuccessful", Toast.LENGTH_LONG).show();
+                setUIElementsEnabled(true);
             }
-        }
-
-        private void showFailureDialog(final String result) {
-            new AlertDialog.Builder(context)
-                    .setTitle("Authentication Failed")
-                    .setMessage(result.equals(ResponseStatusHelper.NOT_FOUND_RESULT) ?
-                            "Invalid Login Details"
-                            :
-                            "An error has occured. Please try again later")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            setUIElementsEnabled(true);
-                        }
-                    }).show();
         }
     }
 }
