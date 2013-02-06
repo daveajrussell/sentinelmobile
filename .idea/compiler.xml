@@ -6,6 +6,7 @@
       <directory url="file://$PROJECT_DIR$/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/google-play-services-lib/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../../google-play-services-lib/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/SentinelMobileTest/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>

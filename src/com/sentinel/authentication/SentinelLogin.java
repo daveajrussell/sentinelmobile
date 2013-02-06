@@ -69,16 +69,20 @@ public class SentinelLogin extends Activity {
             @Override
             public void onClick(View view) {
                 if ((txtUsername.getText().length() > 0) && (txtPassword.getText().length() > 0)) {
-
-                    oUserCredentials = new Credentials(txtUsername.getText().toString(), txtPassword.getText().toString());
-
                     setUIElementsEnabled(false);
 
+                    oUserCredentials = new Credentials(txtUsername.getText().toString(), txtPassword.getText().toString());
                     strCredentialsJSONString = JsonHelper.getUserCredentialsJsonFromCredentials(oUserCredentials);
-                }
 
-                loginServiceAsyncTask = new LoginServiceAsyncTask(getApplicationContext());
-                loginServiceAsyncTask.execute(strCredentialsJSONString);
+                    loginServiceAsyncTask = new LoginServiceAsyncTask(getApplicationContext());
+                    loginServiceAsyncTask.execute(strCredentialsJSONString);
+                } else if (txtPassword.getText().length() <= 0 && txtUsername.getText().length() > 0) {
+                    Toast.makeText(getApplicationContext(), "You must enter a valid password", Toast.LENGTH_SHORT).show();
+                } else if (txtUsername.getText().length() <= 0 && txtPassword.getText().length() > 0) {
+                    Toast.makeText(getApplicationContext(), "You must enter a valid username", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "You must enter a valid username and password", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

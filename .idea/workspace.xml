@@ -31,150 +31,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="4f885cf3-716d-40d4-a340-e0b50c7e2c56" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/google/android" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/example" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/google/android/gms" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/libs/google-play-services.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/google" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/example/google_play_services_lib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/libs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/src" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-af" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-am" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-be" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-bg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ca" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-cs" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-da" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-de" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-el" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-en-rGB" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-es-rUS" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-es" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-et" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-fa" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-fi" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-fr" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-hi" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-hr" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-hu" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-in" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-it" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-iw" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ja" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ko" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-lt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-lv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ms" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-nb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-nl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-pl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-pt-rPT" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-pt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ro" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ru" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sk" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sr" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sw" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-th" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-tl" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-tr" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-uk" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-vi" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-zh-rCN" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-zh-rTW" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-zu" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/src/.readme" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/AndroidManifest.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/google/android/gms/BuildConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/sentinel/tracking/HistoricalGeospatialDataAsyncTask.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/google/android/gms/Manifest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/gen/com/google/android/gms/R.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/ant.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/google-play-services-lib.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/libs/google-play-services.jar.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/local.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values/maps_attrs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/proguard-project.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/project.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-af/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-am/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ar/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-be/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-bg/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ca/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-cs/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-da/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-de/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-el/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-en-rGB/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-es/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-es-rUS/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-et/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-fa/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-fi/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-fr/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-hi/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-hr/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-hu/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-in/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-it/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-iw/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ja/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ko/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-lt/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-lv/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ms/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-nb/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-nl/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-pl/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-pt/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-pt-rPT/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ro/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-ru/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sk/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sl/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sr/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sv/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-sw/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-th/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-tl/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-tr/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-uk/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-vi/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-zh-rCN/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-zh-rTW/strings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/google-play-services-lib/res/values-zu/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/BufferedGeospatialDataAsyncTask.java" afterPath="$PROJECT_DIR$/src/com/sentinel/tracking/BufferedGeospatialDataAsyncTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionChangedBroadcastReceiver.java" afterPath="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionChangedBroadcastReceiver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionManager.java" afterPath="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java" afterPath="$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SentinelMobileTest" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SentinelMobileTest/SentinelMobileTest.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/gen/com/sentinel/R.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" afterPath="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" afterPath="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" afterPath="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SentinelMobile.iml" afterPath="$PROJECT_DIR$/SentinelMobile.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/app/SentinelNearingLegalDrivingTimeActivity.java" afterPath="$PROJECT_DIR$/src/com/sentinel/app/SentinelNearingLegalDrivingTimeActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/app/SentinelOnBreakActivity.java" afterPath="$PROJECT_DIR$/src/com/sentinel/app/SentinelOnBreakActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/preferences/SentinelSharedPreferences.java" afterPath="$PROJECT_DIR$/src/com/sentinel/preferences/SentinelSharedPreferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/helper/ServiceHelper.java" afterPath="$PROJECT_DIR$/src/com/sentinel/helper/ServiceHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" afterPath="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/sentinel_menu.xml" afterPath="$PROJECT_DIR$/res/menu/sentinel_menu.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="5fb913da-426f-4fc4-9bf1-912c54c013fa" name="Revert: 27/01/13&#10;&#10;Reintegrated Alarms - alarm will now trigger alerting users when their shift is 5 minutes from ending&#10;&#10;Alarm will cancel on logout&#10;&#10;Fixed static value in ZXing activity&#10;&#10;Ready for testing!&#10;" comment="" />
@@ -182,10 +48,10 @@
     <ignored path="SentinelMobile.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/Dummy.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360143022513" ignored="false" />
-    <file path="/SentinelLocationService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359926139764" ignored="false" />
+    <file path="/SentinelLocationService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360162746679" ignored="false" />
     <file path="/LoginServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358950199233" ignored="false" />
     <file path="/LocationServiceAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359299395952" ignored="false" />
-    <file path="/SentinelLogin.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360141703745" ignored="false" />
+    <file path="/SentinelLogin.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360151452845" ignored="false" />
     <file path="/LoginIntentService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355062621297" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359968789729" ignored="false" />
     <file path="/LocationIntentService.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355062228721" ignored="false" />
@@ -194,11 +60,11 @@
     <file path="/strings.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359968888297" ignored="false" />
     <file path="/User.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359298143702" ignored="false" />
     <file path="/Credentials.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355065432026" ignored="false" />
-    <file path="/fragment.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359899993739" ignored="false" />
+    <file path="/fragment.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360148454739" ignored="false" />
     <file path="/GIS.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355166242958" ignored="false" />
     <file path="/LoginServiceBroadcastReceiver.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1358947418603" ignored="false" />
     <file path="/SentinelSharedPreferences.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359667922541" ignored="false" />
-    <file path="/Sentinel.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360082161575" ignored="false" />
+    <file path="/Sentinel.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360162697716" ignored="false" />
     <file path="/ConnectionManager.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359924155512" ignored="false" />
     <file path="/ConnectionChangedBroadcastReceiver.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359902594565" ignored="false" />
     <file path="/GISDataBuffer.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1355266308045" ignored="false" />
@@ -238,7 +104,7 @@
     <file path="/login_background_grad.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359753639554" ignored="false" />
     <file path="/CriteriaBuilder.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359801299258" ignored="false" />
     <file path="$USER_HOME$/Documents/android-sdk-macosx/extras/google/google_play_services/samples/maps/project.properties" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359853114411" ignored="false" />
-    <file path="/a.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359848710718" ignored="false" />
+    <file path="/a.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360145121455" ignored="false" />
     <file path="$USER_HOME$/Documents/android-sdk-macosx/extras/google/google_play_services/samples/maps/AndroidManifest.xml" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359853114411" ignored="false" />
     <file path="$USER_HOME$/Documents/android-sdk-macosx/extras/google/google_play_services/samples/maps/gen/com/example/mapdemo/Manifest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359852356898" ignored="false" />
     <file path="$PROJECT_DIR$/../../maps/src/com/example/mapdemo/BasicMapActivity.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359852801109" ignored="false" />
@@ -270,10 +136,14 @@
     <file path="$PROJECT_DIR$/../../MapsTest/google-play-services-lib/project.properties" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359892725789" ignored="false" />
     <file path="$PROJECT_DIR$/../../MapsTest/gen/com/example/R.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359856989804" ignored="false" />
     <file path="$PROJECT_DIR$/../../MapsTest/proguard-project.txt" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359893256899" ignored="false" />
-    <file path="$PROJECT_DIR$/gen/com/sentinel/app/BuildConfig.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359899699083" ignored="false" />
     <file path="/HistoricalGeospatialDataAsyncTask.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359900943633" ignored="false" />
     <file path="/GeotagDeliveryZXingActvity.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360102583711" ignored="false" />
-    <file path="/Utils.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1359975163558" ignored="false" />
+    <file path="/Utils.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360162624496" ignored="false" />
+    <file path="$PROJECT_DIR$/SentinelMobileTest/gen/com/sentinel/app/tests/Manifest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360144549109" ignored="false" />
+    <file path="$PROJECT_DIR$/SentinelMobileTest/gen/com/sentinel/app/tests/R.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360144549109" ignored="false" />
+    <file path="$PROJECT_DIR$/SentinelMobileTest/gen/com/sentinel/app/tests/BuildConfig.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360144556543" ignored="false" />
+    <file path="/SentinelTest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360155240105" ignored="false" />
+    <file path="/SentineLoginTest.java" changelist="4f885cf3-716d-40d4-a340-e0b50c7e2c56" time="1360159505446" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -353,7 +223,88 @@
     <favorites_list name="SentinelMobile" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="SentinelTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="4" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SentineLoginTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentineLoginTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="123" column="24" selection-start="4679" selection-end="4679" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SentinelLocationService.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="125" column="60" selection-start="4353" selection-end="4353" vertical-scroll-proportion="3.8414633">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="65" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SentinelLogin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="166" column="47" selection-start="6798" selection-end="6798" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="39" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Sentinel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="254" column="69" selection-start="9368" selection-end="9368" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#4308#4533#0" expanded="true" />
+                <element signature="e#4510#4511#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -363,22 +314,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/sentinel/tracking/BufferedGeospatialDataAsyncTask.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/helper/ServiceHelper.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionChangedBroadcastReceiver.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/app/SentinelNearingLegalDrivingTimeActivity.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/connection/ConnectionManager.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/sql/SentinelBuffferedGeospatialDataDB.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" />
         <option value="$PROJECT_DIR$/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/src/com/sentinel/preferences/SentinelSharedPreferences.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/app/SentinelOnBreakActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" />
         <option value="$PROJECT_DIR$/res/menu/sentinel_menu.xml" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java" />
-        <option value="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentinelLogin.java" />
         <option value="$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentineLoginTest.java" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java" />
+        <option value="$PROJECT_DIR$/src/com/sentinel/helper/Utils.java" />
+        <option value="$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java" />
+        <option value="$PROJECT_DIR$/SentinelMobileTest/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java" />
       </list>
     </option>
   </component>
@@ -533,19 +484,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sentinel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="connection" />
+              <option name="myItemId" value="SentinelMobileTest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -556,6 +495,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SentinelMobileTest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -585,29 +528,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sentinel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="asset" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SentinelMobile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sentinelmobile" />
+              <option name="myItemId" value="SentinelMobileTest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -624,56 +545,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SentinelMobile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sentinelmobile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SentinelMobile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sentinelmobile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="menu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SentinelMobile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sentinelmobile" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -725,15 +596,15 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="SentinelAVD" />
     <property name="FullScreen" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/lib" />
+    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="options.lastSelected" value="preferences.sourceCode.XML" />
+    <property name="options.lastSelected" value="fileTemplates" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="133" />
+    <property name="project.structure.last.edited" value="Facets" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="60" />
-    <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="60" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
@@ -776,7 +647,7 @@
       <recent name="com" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.SentinelMobile">
+  <component name="RunManager" selected="Android Tests.SentinelMobileTest">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
@@ -808,6 +679,19 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -833,19 +717,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -916,8 +787,28 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <list size="1">
+    <configuration default="false" name="SentinelMobileTest" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="SentinelMobileTest" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <RunnerSettings RunnerId="AndroidDebugRunner" />
+      <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
+      <method />
+    </configuration>
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Android Application.SentinelMobile" />
+      <item index="1" class="java.lang.String" itemvalue="Android Tests.SentinelMobileTest" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -959,6 +850,10 @@
         <SvnCopyRootSimple>
           <option name="myVcsRoot" value="$PROJECT_DIR$/google-play-services-lib" />
           <option name="myCopyRoot" value="$PROJECT_DIR$/google-play-services-lib" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/SentinelMobileTest" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/SentinelMobileTest" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -1082,7 +977,11 @@
       <created>1359898659111</created>
       <updated>1359898659111</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="05.02.13&#10;&#10; - Sentinel.java&#10;  - Built in error checking to ensure that the phone is capable of working with Android Google Maps V2&#10;  - Removed GPS dialogs, LocationService will do the alerting.&#10;  - Added a dialog to warn the user they are logging out before their shift is ending.&#10;  - Added error checking to ensure that the last location is not null (WILL BE REMOVING GETTING OF LAST KNOWN LOCATION)&#10;  &#10; SentinelNearingLegalDrivingTimeActivity.java&#10;  - Refactored Notification slightly&#10;  &#10; SentinelOnBreakActivity.java&#10;  - Refactored code slightly&#10;  &#10; GeotagDeliveryZXingActivity.java&#10;  - Removed dialog, added Toast notifications&#10;  &#10; SentinelLogin.java&#10;  - Added functionality to cancel the alarm set to alert drivers they are coming to the end of their shift when logging out.&#10;  - Removed dialogs, added Toast notifications&#10;&#10; ConnectionChangedBroadcastReceiver.java&#10;  - Upon receiving connection changed info, will check if there is connectivity before reading any buffered information and sending it.&#10;  &#10; ConnectionManager.java&#10;  - Is now abstract&#10;  &#10; ServiceHelper.java&#10;  - Added two new methods to send data to location services&#10;  &#10; Utils.java &#10; - Added Utils class that will contain various pieces of functionality used throughout the application. Class will grow with refactoring.&#10;&#10; SentinelSharedPreferences.java&#10;  - Commented out functionality for next break and next break length - NEEDS TO BE RE-INTRODUCED&#10;  &#10; HistoricalGeospatialDataAsyncTask.java&#10;  - New class to send historical data that is still in the buffer&#10; &#10; SentinelLocationService.java&#10;  - Added functionality to filter GPS updates, only sending if they are more accurate.&#10;  - Added functionality to check of buffered historical data.&#10;">
+      <created>1360143085148</created>
+      <updated>1360143085148</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1106,26 +1005,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1280" height="800" extended-state="6" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27920228" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32478634" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34900284" sideWeight="0.4943274" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.54131055" sideWeight="0.4943274" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34900284" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6458685" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3233618" sideWeight="0.49027553" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.64529914" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3233618" sideWeight="0.49027553" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51282054" sideWeight="0.49358973" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32621083" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32252836" sideWeight="0.6509275" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3996328" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28038898" sideWeight="0.6766382" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32546374" sideWeight="0.491453" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28038898" sideWeight="0.6752137" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32478634" sideWeight="0.491453" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32333875" sideWeight="0.6509275" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1134,6 +1032,7 @@
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32252836" sideWeight="0.6509275" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32799146" sideWeight="0.67108166" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32478634" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1237,92 +1136,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/CriteriaBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="19" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/AssetHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="22" selection-start="202" selection-end="202" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/preferences/SentinelSharedPreferences.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="7" selection-start="5877" selection-end="5877" vertical-scroll-proportion="5.0">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/TrackingHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="18" selection-start="1523" selection-end="1523" vertical-scroll-proportion="0.524173">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/app/SentinelOnBreakActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="169" column="14" selection-start="5831" selection-end="5831" vertical-scroll-proportion="0.59615386">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2296#2515#0" expanded="true" />
-            <element signature="e#2492#2493#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="82" selection-start="184" selection-end="196" vertical-scroll-proportion="0.20979021">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/ServiceHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="34" selection-start="3752" selection-end="3752" vertical-scroll-proportion="1.2091346">
-          <folding>
-            <element signature="method#doPostAndLogin#0;class#ServiceHelper#0" expanded="false" />
-            <element signature="method#getResponse#0;class#ServiceHelper#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/menu/sentinel_menu.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="67" selection-start="637" selection-end="637" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="34" selection-start="3075" selection-end="3075" vertical-scroll-proportion="-0.38942307">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#onBind#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#onDestroy#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#getLastKnownLocation#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#startSentinelLocationForegroundService#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#stopSentinelLocationForegroundService#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#removeUpdates#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#startSentinelLocationNotifications#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#notifyLocationUpdate#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#notifyProviderDisabled#0;class#SentinelLocationService#0" expanded="false" />
-            <element signature="method#notifyProviderEnabled#0;class#SentinelLocationService#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/asset/GeotagDeliveryZXingActvity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="0" selection-start="983" selection-end="983" vertical-scroll-proportion="0.0">
@@ -1330,50 +1143,109 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java">
+    <entry file="file://$PROJECT_DIR$/google-play-services-lib/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="38" selection-start="6904" selection-end="6904" vertical-scroll-proportion="0.0">
+        <state line="35" column="43" selection-start="1548" selection-end="1548" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/google-play-services-lib/res/values/maps_attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="29" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/google-play-services-lib/libs/google-play-services.jar.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/ids.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="39" selection-start="808" selection-end="808" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/android-sdk-macosx/sources/android-17/android/test/InstrumentationTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="215" column="0" selection-start="7865" selection-end="7865" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/authentication/SentineLoginTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="123" column="24" selection-start="4679" selection-end="4679" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SentinelMobileTest/src/com/sentinel/app/SentinelTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="4" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6060#6864#0" expanded="true" />
-            <element signature="e#6845#6846#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sentinel/authentication/SentinelLogin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="27" selection-start="5956" selection-end="5956" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="166" column="47" selection-start="6798" selection-end="6798" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/google-play-services-lib/build.xml">
+    <entry file="file://$PROJECT_DIR$/SentinelMobileTest/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="43" selection-start="1548" selection-end="1548" vertical-scroll-proportion="0.0">
+        <state line="9" column="17" selection-start="534" selection-end="534" vertical-scroll-proportion="0.31914893">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="33" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.0">
+        <state line="19" column="70" selection-start="1014" selection-end="1014" vertical-scroll-proportion="0.63829786">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/google-play-services-lib/res/values/maps_attrs.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/helper/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="29" selection-start="137" selection-end="137" vertical-scroll-proportion="0.0">
+        <state line="32" column="65" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/google-play-services-lib/libs/google-play-services.jar.properties">
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/app/Sentinel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="254" column="69" selection-start="9368" selection-end="9368" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#4308#4533#0" expanded="true" />
+            <element signature="e#4510#4511#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sentinel/tracking/SentinelLocationService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="60" selection-start="4353" selection-end="4353" vertical-scroll-proportion="3.8414633">
           <folding />
         </state>
       </provider>
@@ -1395,7 +1267,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>Android (SentinelMobile)|Android</last-edited>
+          <last-edited>Android (SentinelMobileTest)|Android</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1430,7 +1302,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>SentinelMobile</last-edited>
+          <last-edited>SentinelMobileTest</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1454,7 +1326,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>google-zxing-2</last-edited>
+          <last-edited>robotium-solo-3.6-javadoc</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

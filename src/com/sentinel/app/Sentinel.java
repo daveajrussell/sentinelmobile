@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,6 +44,8 @@ public class Sentinel extends Activity {
         TIME = 60000;
         DISTANCE = 100;
     }
+
+    private static Location lastLocation;
 
     private static Intent locationServicesIntent;
     private GoogleMap googleMap;
@@ -84,6 +87,7 @@ public class Sentinel extends Activity {
         super.onResume();
 
         if ((0 == sentinelSharedPreferences.getSessionID()) && (sentinelSharedPreferences.getUserIdentification().isEmpty())) {
+            Toast.makeText(this, "Please login to continue", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, SentinelLogin.class));
             stopLocationService();
         } else if (sentinelSharedPreferences.clockedOut()) {
@@ -209,10 +213,7 @@ public class Sentinel extends Activity {
         Criteria criteria = getGeoSpatialCriteria();
 
         String provider = sentinelLocationManager.getBestProvider(criteria, true);
-        Location lastKnownLocation = sentinelLocationManager.getLastKnownLocation(provider);
         sentinelLocationManager.requestLocationUpdates(provider, TIME, DISTANCE, sentinelLocationListener);
-
-        updateLocation(lastKnownLocation);
     }
 
     private void stopLocationUpdates() {
@@ -245,12 +246,15 @@ public class Sentinel extends Activity {
                     .icon(BitmapDescriptorFactory.defaultMarker(210)));
 
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
+            lastLocation = location;
         }
     }
 
     private final class SentinelLocationListener implements LocationListener {
         public void onLocationChanged(Location location) {
-            updateLocation(location);
+            if (Utils.checkUpdateIsMoreAccurate(lastLocation, location, TIME)) {
+                updateLocation(location);
+            }
         }
 
         public void onStatusChanged(String s, int i, Bundle bundle) {

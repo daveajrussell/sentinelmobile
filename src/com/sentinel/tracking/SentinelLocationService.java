@@ -18,6 +18,7 @@ import com.sentinel.app.Sentinel;
 import com.sentinel.connection.ConnectionManager;
 import com.sentinel.helper.ServiceHelper;
 import com.sentinel.helper.TrackingHelper;
+import com.sentinel.helper.Utils;
 import com.sentinel.models.GeospatialInformation;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
 
@@ -26,13 +27,11 @@ public class SentinelLocationService extends Service {
     private static final int TIME;
     private static final int DISTANCE;
     private static final int LOCATION_NOTIFICATION_ID;
-    private static final int THIRTY_SECONDS;
 
     static {
-        TIME = 10000;
+        TIME = 20000;
         DISTANCE = 10;
         LOCATION_NOTIFICATION_ID = 1;
-        THIRTY_SECONDS = 1000 * 60 / 2;
     }
 
     private static Location currentLocation;
@@ -42,7 +41,7 @@ public class SentinelLocationService extends Service {
     private final class SentinelLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
-            if (updateIsMoreAccurate(currentLocation, location)) {
+            if (Utils.checkUpdateIsMoreAccurate(currentLocation, location, TIME)) {
                 handleLocationChanged(location);
             }
         }
@@ -91,7 +90,6 @@ public class SentinelLocationService extends Service {
         }
 
         startSentinelLocationNotifications();
-        getLastKnownLocation();
         startSentinelLocationForegroundService();
 
         return Service.START_STICKY;
@@ -101,11 +99,6 @@ public class SentinelLocationService extends Service {
     public void onDestroy() {
         stopSentinelLocationForegroundService();
         super.onDestroy();
-    }
-
-    private void getLastKnownLocation() {
-        Location lastLocation = sentinelLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        handleLocationChanged(lastLocation);
     }
 
     private void startSentinelLocationForegroundService() {
@@ -130,6 +123,7 @@ public class SentinelLocationService extends Service {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
                 .setContentText("Sentinel Running")
+                .setSubText("Determining Current Location...")
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(pIntent);
     }
@@ -158,45 +152,6 @@ public class SentinelLocationService extends Service {
         }
 
         oSentinelDB.closeSentinelDatabase();
-    }
-
-    private static boolean updateIsMoreAccurate(Location currentLocation, Location location) {
-        if (currentLocation == null) {
-            return true;
-        }
-
-        long timeDelta = location.getTime() - currentLocation.getTime();
-        boolean isNewer = timeDelta > 0;
-
-        if (timeDelta > THIRTY_SECONDS) {
-            return true;
-        } else if (timeDelta < -THIRTY_SECONDS) {
-            return false;
-        }
-
-
-        int accuracyDelta = (int) (location.getAccuracy() - currentLocation.getAccuracy());
-        boolean isLessAccurate = accuracyDelta > 0;
-        boolean isMoreAccurate = accuracyDelta < 0;
-        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
-
-        boolean isFromSameProvider = isSameProvider(location.getProvider(), currentLocation.getProvider());
-
-        if (isMoreAccurate) {
-            return true;
-        } else if (isNewer && !isSignificantlyLessAccurate) {
-            return true;
-        } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
-            return true;
-        }
-        return false;
-    }
-
-    private static boolean isSameProvider(String provider1, String provider2) {
-        if (provider1 == null) {
-            return provider2 == null;
-        }
-        return provider1.equals(provider2);
     }
 
     private void notifyProviderDisabled() {

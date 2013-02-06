@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SentinelMobile.iml" filepath="$PROJECT_DIR$/SentinelMobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SentinelMobileTest/SentinelMobileTest.iml" filepath="$PROJECT_DIR$/SentinelMobileTest/SentinelMobileTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/google-play-services-lib/google-play-services-lib.iml" filepath="$PROJECT_DIR$/google-play-services-lib/google-play-services-lib.iml" />
     </modules>
   </component>
