@@ -2,22 +2,22 @@ package com.sentinel.helper;
 
 import android.location.Location;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Utils {
     public static String getFormattedHrsMinsSecsTimeString(final long timeInMillis) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timeInMillis);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-        return simpleDateFormat.format(cal.getTime());
+        return String.format("%d:%d:%d",
+                TimeUnit.MILLISECONDS.toHours(timeInMillis),
+                TimeUnit.MILLISECONDS.toMinutes(timeInMillis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(timeInMillis)),
+                TimeUnit.MILLISECONDS.toSeconds(timeInMillis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeInMillis)));
+
     }
 
     public static String getFormattedMinsSecsTimeString(final long timeInMillis) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timeInMillis);
-        SimpleDateFormat simgleDateFormat = new SimpleDateFormat("mm:ss");
-        return simgleDateFormat.format(cal.getTime());
+
+        return String.format("%d:%d",
+                TimeUnit.MILLISECONDS.toMinutes(timeInMillis),
+                TimeUnit.MILLISECONDS.toSeconds(timeInMillis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeInMillis)));
     }
 
     public static boolean checkUpdateIsMoreAccurate(Location lastLocation, Location newLocation, final int TIME_BETWEEN_UPDATES) {

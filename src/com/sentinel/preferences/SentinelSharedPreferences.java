@@ -137,6 +137,10 @@ public class SentinelSharedPreferences {
         return oSentinelSharedPreferences.getLong(BREAK_LENGTH, 0);
     }
 
+    public long getBreakTakenTime() {
+        return oSentinelSharedPreferences.getLong(BREAK_TAKEN_DATE_TIME, 0);
+    }
+
     /*public long getNextBreak() {
         return oSentinelSharedPreferences.getLong(NEXT_BREAK, 0);
     }

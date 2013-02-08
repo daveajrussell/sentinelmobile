@@ -1,5 +1,6 @@
 package com.sentinel.authentication;
 
+import android.content.pm.ActivityInfo;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.EditText;
@@ -115,7 +116,7 @@ public class SentineLoginTest extends ActivityInstrumentationTestCase2<SentinelL
     }
 
     public void testReorientActivity() throws Exception {
-        solo.setActivityOrientation(2);
+        solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         assertTrue("Username field should be disabled", txtUsername.isEnabled());
         assertTrue("Password field should be disabled", txtPassword.isEnabled());
@@ -123,7 +124,7 @@ public class SentineLoginTest extends ActivityInstrumentationTestCase2<SentinelL
     }
 
     public void testReorientedLogin() throws Exception {
-        solo.setActivityOrientation(2);
+        solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         performLogin();
         performLogout();
     }

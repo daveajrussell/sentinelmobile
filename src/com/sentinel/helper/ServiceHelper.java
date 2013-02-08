@@ -2,9 +2,7 @@ package com.sentinel.helper;
 
 import android.content.Context;
 import android.util.Log;
-import com.sentinel.tracking.BufferedGeospatialDataAsyncTask;
-import com.sentinel.tracking.HistoricalGeospatialDataAsyncTask;
-import com.sentinel.tracking.LocationServiceAsyncTask;
+import com.sentinel.tracking.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -55,7 +53,7 @@ public class ServiceHelper {
     public static String doPostAndLogin(Context context, String methodName, String url, String entity) {
         doPostResult = doPost(methodName, url, entity);
 
-        if (doPostResult == ResponseStatusHelper.OK_RESULT) {
+        if (doPostResult.equals(ResponseStatusHelper.OK_RESULT)) {
             LoginHelper.loginToSystem(httpResponse, context);
         }
 
@@ -97,5 +95,13 @@ public class ServiceHelper {
 
     public static void sendHistoricalDataToLocationService(final Context context, final String historicalGeospatialJson) {
         new HistoricalGeospatialDataAsyncTask(context).execute(historicalGeospatialJson);
+    }
+
+    public static void sendSpeedingNotification(final Context context, final String speedingNotificationJson) {
+        new SpeedingNotificationAsyncTask(context).execute(speedingNotificationJson);
+    }
+
+    public static void sendOrientationNotification(final Context context, final String orientationNotificationJson) {
+        new OrientationNotificationAsyncTask(context).execute(orientationNotificationJson);
     }
 }

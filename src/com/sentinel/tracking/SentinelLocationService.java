@@ -16,6 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import com.sentinel.app.R;
 import com.sentinel.app.Sentinel;
 import com.sentinel.connection.ConnectionManager;
+import com.sentinel.helper.JsonHelper;
 import com.sentinel.helper.ServiceHelper;
 import com.sentinel.helper.TrackingHelper;
 import com.sentinel.helper.Utils;
@@ -27,6 +28,10 @@ public class SentinelLocationService extends Service {
     private static final int TIME;
     private static final int DISTANCE;
     private static final int LOCATION_NOTIFICATION_ID;
+    private static final int SPEEDING_NOTIFICATION_ID;
+    private static final int ORIENTATION_NOTIFICATION_ID;
+    private static final double MAX_SPEED;
+    private static final int LANDSCAPE;
 
     public static boolean isJUnit = false;
 
@@ -34,6 +39,10 @@ public class SentinelLocationService extends Service {
         TIME = 20000;
         DISTANCE = 10;
         LOCATION_NOTIFICATION_ID = 1;
+        SPEEDING_NOTIFICATION_ID = 2;
+        ORIENTATION_NOTIFICATION_ID = 3;
+        MAX_SPEED = 134.2161774;
+        LANDSCAPE = 2;
     }
 
     private static Location currentLocation;
@@ -43,6 +52,14 @@ public class SentinelLocationService extends Service {
     private final class SentinelLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
+            if (location.getSpeed() > MAX_SPEED) {
+                handleExcessSpeed(location);
+            }
+
+            if (getApplicationContext().getResources().getConfiguration().orientation == LANDSCAPE) {
+                handleDeviceOrientationIsLandscape(location);
+            }
+
             if (Utils.checkUpdateIsMoreAccurate(currentLocation, location, TIME)) {
                 handleLocationChanged(location);
             }
@@ -67,6 +84,8 @@ public class SentinelLocationService extends Service {
 
     private LocationManager sentinelLocationManager;
     private NotificationCompat.Builder locationServiceNotificationBuilder;
+    private NotificationCompat.Builder speedingNotificationBuilder;
+    private NotificationCompat.Builder orientationNotificationBuilder;
     private NotificationManager notificationManager;
 
     @Override
@@ -80,6 +99,9 @@ public class SentinelLocationService extends Service {
         sentinelLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, sentinelLocationListener);
 
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this);
+        speedingNotificationBuilder = new NotificationCompat.Builder(this);
+        orientationNotificationBuilder = new NotificationCompat.Builder(this);
+
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         oSentinelDB = new SentinelBuffferedGeospatialDataDB(this);
@@ -133,7 +155,7 @@ public class SentinelLocationService extends Service {
     private void startSentinelLocationNotifications() {
         Intent intent = new Intent(this, Sentinel.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        locationServiceNotificationBuilder = new NotificationCompat.Builder(this)
+        locationServiceNotificationBuilder
                 .setContentText("Sentinel Running")
                 .setSubText("Determining Location...")
                 .setSmallIcon(R.drawable.ic_launcher)
@@ -145,15 +167,45 @@ public class SentinelLocationService extends Service {
         notificationManager.notify(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }
 
+    public void handleDeviceOrientationIsLandscape(final Location location) {
+        orientationNotificationBuilder
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentTitle("Caution")
+                .setContentText("Device is not oriented correctly.")
+                .setOngoing(true)
+                .setAutoCancel(true);
+        notificationManager.notify(ORIENTATION_NOTIFICATION_ID, orientationNotificationBuilder.build());
+
+        if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
+            String orientationNotification = JsonHelper.getGeospatialJsonString(this, location);
+            ServiceHelper.sendOrientationNotification(this, orientationNotification);
+            handleLocationChanged(location);
+        }
+    }
+
+    public void handleExcessSpeed(final Location location) {
+        speedingNotificationBuilder
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentTitle("Caution")
+                .setContentText("Speed exceeded legal limits.")
+                .setOngoing(true)
+                .setAutoCancel(true);
+        notificationManager.notify(SPEEDING_NOTIFICATION_ID, speedingNotificationBuilder.build());
+
+        if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
+            String speedingNotificationJson = JsonHelper.getGeospatialJsonString(this, location);
+            ServiceHelper.sendSpeedingNotification(this, speedingNotificationJson);
+            handleLocationChanged(location);
+        }
+    }
+
     public void handleLocationChanged(final Location location) {
         currentLocation = location;
         notifyLocationUpdate(location);
 
-        GeospatialInformation oGeospatialInformation = TrackingHelper.buildGeospatialInformationObject(this, location);
-        oSentinelDB.addGeospatialData(oGeospatialInformation);
-        String strGeospatialInformationJson;
-
-        strGeospatialInformationJson = oSentinelDB.getBufferedGeospatialDataJsonString();
+        String strGeospatialInformationJson = addLocationToDatabaseAndReturnLocationJson(location);
 
         if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
             if (oSentinelDB.getBufferedGeospatialDataCount() >= 2) {
@@ -162,8 +214,14 @@ public class SentinelLocationService extends Service {
                 ServiceHelper.sendGISToLocationService(this, strGeospatialInformationJson);
             }
         }
-
         oSentinelDB.closeSentinelDatabase();
+    }
+
+    private String addLocationToDatabaseAndReturnLocationJson(final Location location) {
+        GeospatialInformation oGeospatialInformation = TrackingHelper.buildGeospatialInformationObject(this, location);
+        oSentinelDB.addGeospatialData(oGeospatialInformation);
+
+        return oSentinelDB.getBufferedGeospatialDataJsonString();
     }
 
     private void notifyProviderDisabled() {

@@ -36,11 +36,15 @@ import java.util.Calendar;
 public class Sentinel extends Activity {
 
     public static final String NEW_SESSION;
+    public static final String RESUME_SESSION;
+    public static final String RESUME_MESSAGE;
     private static final int TIME;
     private static final int DISTANCE;
 
     static {
         NEW_SESSION = "NEW_SESSION";
+        RESUME_SESSION = "RESUME_SESSION";
+        RESUME_MESSAGE = "RESUME_MESSAGE";
         TIME = 60000;
         DISTANCE = 100;
     }
@@ -52,17 +56,6 @@ public class Sentinel extends Activity {
     private SentinelSharedPreferences sentinelSharedPreferences;
     private LocationListener sentinelLocationListener;
     private LocationManager sentinelLocationManager;
-
-    private static Criteria getGeoSpatialCriteria() {
-        new CriteriaBuilder()
-                .setAccuracy(Criteria.ACCURACY_FINE)
-                .setPowerRequirement(Criteria.POWER_HIGH)
-                .setAltitudeRequired(false)
-                .setBearingRequired(false)
-                .setSpeedRequired(false)
-                .setCostAllowed(true);
-        return CriteriaBuilder.build();
-    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +73,19 @@ public class Sentinel extends Activity {
 
             sentinelSharedPreferences = new SentinelSharedPreferences(this);
             locationServicesIntent = new Intent(this, SentinelLocationService.class);
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Error")
+                    .setMessage("This device was found to be incompatible with Google Play Services." +
+                            "Please check your version of Google Play.")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
         }
     }
 
@@ -100,6 +106,9 @@ public class Sentinel extends Activity {
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
+
+        int orientaton = getApplicationContext().getResources().getConfiguration().orientation;
+        Toast.makeText(getApplicationContext(), String.format("%d", orientaton), Toast.LENGTH_SHORT).show();
     }
 
     protected void onDestroy() {
@@ -110,23 +119,19 @@ public class Sentinel extends Activity {
     public void launchSentinel() {
         Intent intent = getIntent();
 
-        if (null != intent.getStringExtra("CLOCK_IN_MESSAGE")) {
-            new AlertDialog.Builder(this)
-                    .setTitle("Notice")
-                    .setMessage(intent.getStringExtra("CLOCK_IN_MESSAGE"))
-                    .setPositiveButton("Clock In", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            startLocationService();
-                        }
-                    }).show();
+        if (intent.getBooleanExtra(NEW_SESSION, false)) {
+            startLocationService();
+            intent.removeExtra(NEW_SESSION);
         }
 
-        if (intent.getBooleanExtra("NEW_SESSION", false)) {
+        if (intent.getBooleanExtra(RESUME_SESSION, false)) {
             startLocationService();
+            intent.removeExtra(RESUME_SESSION);
         }
 
-        if (intent.getBooleanExtra("RESUME_SESSION", false)) {
-            startLocationService();
+        if (intent.hasExtra(RESUME_MESSAGE)) {
+            Toast.makeText(this, intent.getStringExtra(RESUME_MESSAGE), Toast.LENGTH_LONG).show();
+            intent.removeExtra(RESUME_MESSAGE);
         }
 
         startLocationUpdates();
@@ -167,12 +172,19 @@ public class Sentinel extends Activity {
 
     protected void performLogout() {
 
-        String time = Utils.getFormattedHrsMinsSecsTimeString(sentinelSharedPreferences.getDrivingEndAlarm());
+        long lngShiftEndTimeDifference = sentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
+        String time = Utils.getFormattedHrsMinsSecsTimeString(lngShiftEndTimeDifference);
         String message = String.format("You still have %1$s of your shift remaining. Are you sure you wish to logout?", time);
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.alert_title)
                 .setMessage(message)
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -189,12 +201,6 @@ public class Sentinel extends Activity {
 
                         new LogoutAsyncTask().execute(userCredentialsJson);
                     }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
                 }).show();
     }
 
@@ -207,13 +213,26 @@ public class Sentinel extends Activity {
     }
 
     protected void startLocationUpdates() {
-        sentinelLocationListener = new SentinelLocationListener();
+        sentinelLocationListener = new sentinelLocationListener();
         sentinelLocationManager = ((LocationManager) getSystemService(LOCATION_SERVICE));
 
         Criteria criteria = getGeoSpatialCriteria();
 
         String provider = sentinelLocationManager.getBestProvider(criteria, true);
         sentinelLocationManager.requestLocationUpdates(provider, TIME, DISTANCE, sentinelLocationListener);
+
+        updateLocation(getLastLocation());
+    }
+
+    private static Criteria getGeoSpatialCriteria() {
+        new CriteriaBuilder()
+                .setAccuracy(Criteria.ACCURACY_FINE)
+                .setPowerRequirement(Criteria.POWER_HIGH)
+                .setAltitudeRequired(false)
+                .setBearingRequired(false)
+                .setSpeedRequired(false)
+                .setCostAllowed(true);
+        return CriteriaBuilder.build();
     }
 
     protected void stopLocationUpdates() {
@@ -246,11 +265,23 @@ public class Sentinel extends Activity {
                     .icon(BitmapDescriptorFactory.defaultMarker(210)));
 
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
-            lastLocation = location;
+            setLastLocation(location);
         }
     }
 
-    private final class SentinelLocationListener implements LocationListener {
+    protected Location getLastLocation() {
+        if (null != lastLocation)
+            return lastLocation;
+        else
+            return null;
+    }
+
+    protected void setLastLocation(Location location) {
+        if (null != location)
+            lastLocation = location;
+    }
+
+    private final class sentinelLocationListener implements LocationListener {
         public void onLocationChanged(Location location) {
             if (Utils.checkUpdateIsMoreAccurate(lastLocation, location, TIME)) {
                 updateLocation(location);

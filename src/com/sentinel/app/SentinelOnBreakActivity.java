@@ -1,7 +1,9 @@
 package com.sentinel.app;
 
-import android.app.*;
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
@@ -18,16 +20,22 @@ import com.sentinel.tracking.SentinelLocationService;
 
 public class SentinelOnBreakActivity extends Activity {
     private static final int NOTIFICATION_ID;
+    private static final long FORTY_FIVE_MINUTES;
+    private static final long FOUR_HOURS_TWENTY;
+    private static final long FOUR_HOURS_THIRTY;
 
     static {
         NOTIFICATION_ID = 1;
+        FORTY_FIVE_MINUTES = 2700000;
+        FOUR_HOURS_TWENTY = 15600000;
+        FOUR_HOURS_THIRTY = 16200000;
     }
 
     private static Chronometer countdownTimer;
     private static Button btnClockIn;
     private static TextView tvRemaining;
     private static NotificationManager notificationManager;
-    private static SentinelSharedPreferences oSentinelSharedPreferences;
+    private static SentinelSharedPreferences sentinelSharedPreferences;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +46,7 @@ public class SentinelOnBreakActivity extends Activity {
         btnClockIn = (Button) findViewById(R.id.btnClockIn);
 
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        oSentinelSharedPreferences = new SentinelSharedPreferences(this);
+        sentinelSharedPreferences = new SentinelSharedPreferences(this);
     }
 
     protected void onResume() {
@@ -46,24 +54,13 @@ public class SentinelOnBreakActivity extends Activity {
 
         setBreak();
 
-        if (oSentinelSharedPreferences.clockedOut())
+        if (sentinelSharedPreferences.clockedOut()) {
             resumeBreakActivity();
-        else if (userIsAllowedToTakeBreak()) {
-            if (oSentinelSharedPreferences.clockedIn())
-                performClockOut();
+        } else if (isUserAllowedToTakeABreak() && sentinelSharedPreferences.clockedIn()) {
+            performClockOut();
         } else {
-
-            //String time = Utils.getFormattedMinsSecsTimeString();
-            //String message = String.format("You still have %1$s of your shift remaining. Are you sure you wish to logout?", time);
-
-            new AlertDialog.Builder(this)
-                    .setTitle("Warning")
-                    .setMessage("You may not begin your recorded break yet.")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            performClockIn();
-                        }
-                    }).show();
+            String message = "You may not begin your recorded break yet.";
+            performClockIn(message);
         }
 
         super.onResume();
@@ -78,9 +75,20 @@ public class SentinelOnBreakActivity extends Activity {
         tvRemaining.setTextColor(elementColor);
     }
 
+    private void performClockIn(String message) {
+        notificationManager.cancel(NOTIFICATION_ID);
+        sentinelSharedPreferences.setClockedIn();
+
+        Intent sentinelIntent = new Intent(this, Sentinel.class);
+        sentinelIntent.putExtra(Sentinel.RESUME_SESSION, true);
+        sentinelIntent.putExtra(Sentinel.RESUME_MESSAGE, message);
+
+        startActivity(sentinelIntent);
+    }
+
     private void performClockOut() {
-        oSentinelSharedPreferences.setClockedOut();
-        oSentinelSharedPreferences.setBreakTakenDateTime(System.currentTimeMillis());
+        sentinelSharedPreferences.setClockedOut();
+        sentinelSharedPreferences.setBreakTakenDateTime(System.currentTimeMillis());
 
         stopLocationService();
 
@@ -92,7 +100,7 @@ public class SentinelOnBreakActivity extends Activity {
     }
 
     private void resumeBreakActivity() {
-        long lngBreak = oSentinelSharedPreferences.getBreakLength() - (System.currentTimeMillis() - oSentinelSharedPreferences.getBreakStartDateTime());
+        long lngBreak = sentinelSharedPreferences.getBreakLength() - (System.currentTimeMillis() - sentinelSharedPreferences.getBreakStartDateTime());
 
         if (lngBreak <= 0) {
             setBreakOverDisplay();
@@ -103,11 +111,10 @@ public class SentinelOnBreakActivity extends Activity {
     private void setCowndownTimer() {
         setUIElementProperties(Color.BLACK, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
 
-        long lngBreak = oSentinelSharedPreferences.getBreakLength();
+        long breakLength = sentinelSharedPreferences.getBreakLength();
 
-        CountDownTimer breakTimer = new CountDownTimer(lngBreak, 1000) {
+        CountDownTimer breakTimer = new CountDownTimer(breakLength, 1000) {
             public void onTick(long millisUntilFinished) {
-
                 String timer = Utils.getFormattedMinsSecsTimeString(millisUntilFinished);
                 countdownTimer.setText(timer);
             }
@@ -117,7 +124,6 @@ public class SentinelOnBreakActivity extends Activity {
                 setBreakOverNotification();
             }
         };
-
         breakTimer.start();
     }
 
@@ -127,17 +133,9 @@ public class SentinelOnBreakActivity extends Activity {
 
         btnClockIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                performClockIn();
+                performClockIn(null);
             }
         });
-    }
-
-    private void performClockIn() {
-        notificationManager.cancel(NOTIFICATION_ID);
-        oSentinelSharedPreferences.setClockedIn();
-        Intent sentinelIntent = new Intent(this, Sentinel.class);
-        sentinelIntent.putExtra("RESUME_SESSION", true);
-        startActivity(sentinelIntent);
     }
 
     private void setBreakOverNotification() {
@@ -156,26 +154,27 @@ public class SentinelOnBreakActivity extends Activity {
     }
 
     private static void setBreak() {
-        long sessionDelta = getSessionDelta();
+        long sessionBeginAndTimeNowDifference = getSessionBeginAndTimeNowDifference();
 
-        if ((sessionDelta >= 6900000) && (sessionDelta <= 7500000)) {
-            oSentinelSharedPreferences.setBreakLength(900000);
-        } else if ((sessionDelta >= 15900000) && (sessionDelta <= 16500000)) {
-            oSentinelSharedPreferences.setBreakLength(2700000);
-        } else if ((sessionDelta >= 16800000) && (sessionDelta <= 17400000)) {
-            oSentinelSharedPreferences.setBreakLength(1800000);
-        } else {
-            oSentinelSharedPreferences.setBreakLength(0);
-        }
+        if (drivingFourHoursThirtyMinutes(sessionBeginAndTimeNowDifference))
+            sentinelSharedPreferences.setBreakLength(FORTY_FIVE_MINUTES);
+        else
+            sentinelSharedPreferences.setBreakLength(0);
     }
 
-    private static long getSessionDelta() {
-        long lngSessionBegin = oSentinelSharedPreferences.getSessionBeginDateTime();
-        long lngNow = System.currentTimeMillis();
-        return lngNow - lngSessionBegin;
+    private static long getSessionBeginAndTimeNowDifference() {
+        long timeSessionBegan = sentinelSharedPreferences.getSessionBeginDateTime();
+        long timeNow = System.currentTimeMillis();
+        return timeNow - timeSessionBegan;
     }
 
-    private static boolean userIsAllowedToTakeBreak() {
-        return 0 < oSentinelSharedPreferences.getBreakLength();
+    private static boolean isUserAllowedToTakeABreak() {
+        return 0 < sentinelSharedPreferences.getBreakLength();
+    }
+
+    private static boolean drivingFourHoursThirtyMinutes(final long sessionBeginAndTimeNowDifference) {
+        return 0 == sentinelSharedPreferences.getBreakTakenTime() &&
+                sessionBeginAndTimeNowDifference >= FOUR_HOURS_TWENTY &&
+                sessionBeginAndTimeNowDifference <= FOUR_HOURS_THIRTY;
     }
 }
