@@ -23,11 +23,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sentinel.asset.GeotagDeliveryZXingActvity;
 import com.sentinel.authentication.SentinelLogin;
-import com.sentinel.helper.AuthenticationHelper;
-import com.sentinel.helper.CriteriaBuilder;
-import com.sentinel.helper.TrackingHelper;
-import com.sentinel.helper.Utils;
 import com.sentinel.preferences.SentinelSharedPreferences;
+import com.sentinel.utils.AuthenticationHelper;
+import com.sentinel.utils.CriteriaBuilder;
+import com.sentinel.utils.TrackingHelper;
+import com.sentinel.utils.Utils;
 
 import java.util.Calendar;
 

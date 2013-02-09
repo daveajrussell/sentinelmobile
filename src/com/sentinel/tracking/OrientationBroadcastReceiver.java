@@ -9,9 +9,9 @@ import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 import com.sentinel.connection.ConnectionManager;
-import com.sentinel.helper.JsonBuilder;
-import com.sentinel.helper.ServiceHelper;
-import com.sentinel.helper.TrackingHelper;
+import com.sentinel.utils.JsonBuilder;
+import com.sentinel.utils.ServiceHelper;
+import com.sentinel.utils.TrackingHelper;
 
 public class OrientationBroadcastReceiver extends BroadcastReceiver {
 

@@ -9,6 +9,7 @@ import android.view.View;
 import com.jayway.android.robotium.solo.Solo;
 import com.sentinel.authentication.SentinelLogin;
 import com.sentinel.preferences.SentinelSharedPreferences;
+import com.sentinel.utils.Time;
 
 public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin> {
 
@@ -110,7 +111,7 @@ public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin
         SentinelSharedPreferences sentinelSharedPreferences = new SentinelSharedPreferences(getActivity().getApplicationContext());
 
         long timeSessionBegan = sentinelSharedPreferences.getSessionBeginDateTime();
-        long mockSessionBegan = timeSessionBegan - SentinelOnBreakActivity.FOUR_HOURS_TWENTY;
+        long mockSessionBegan = timeSessionBegan - Time.FOUR_HOURS_TWENTY;
         sentinelSharedPreferences.setSessionBeginDateTime(mockSessionBegan);
 
         SentinelOnBreakActivity.isJunit = true;
@@ -123,5 +124,10 @@ public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin
         assertTrue("The clock in button should become visible", View.VISIBLE == btnClockInView.getVisibility());
         solo.clickOnView(btnClockInView);
         solo.assertCurrentActivity("Current activity should be Sentinel activity", Sentinel.class);
+    }
+
+    public void testShiftEnding() throws Exception {
+
+
     }
 }

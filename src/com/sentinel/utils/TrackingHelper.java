@@ -1,4 +1,4 @@
-package com.sentinel.helper;
+package com.sentinel.utils;
 
 import android.content.Context;
 import android.content.Intent;

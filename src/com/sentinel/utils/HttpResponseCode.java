@@ -1,10 +1,10 @@
-package com.sentinel.helper;
+package com.sentinel.utils;
 
 /**
  * David Russell
  * 23/01/13
  */
-public abstract class ResponseStatusHelper {
+public abstract class HttpResponseCode {
     public static final int OK = 200;
     public static final int BAD_REQUEST = 400;
     public static final int UNAUTHORIZED = 401;

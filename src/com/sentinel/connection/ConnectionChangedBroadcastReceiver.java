@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import com.sentinel.helper.ServiceHelper;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
+import com.sentinel.utils.ServiceHelper;
 //import android.net.NetworkInfo;
 
 /**

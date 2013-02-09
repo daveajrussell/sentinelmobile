@@ -1,7 +1,7 @@
 package com.sentinel.tracking;
 
 import android.os.AsyncTask;
-import com.sentinel.helper.ServiceHelper;
+import com.sentinel.utils.ServiceHelper;
 
 public class SpeedingNotificationAsyncTask extends AsyncTask<String, Integer, String> {
 
@@ -20,7 +20,7 @@ public class SpeedingNotificationAsyncTask extends AsyncTask<String, Integer, St
     protected String doInBackground(String... strings) {
         if (!strings[0].isEmpty()) {
             geoDataJson = strings[0];
-            processResult = ServiceHelper.doPost(METHOD_NAME, URL, geoDataJson);
+            processResult = ServiceHelper.doPost(null, METHOD_NAME, URL, geoDataJson, false);
         }
         return processResult;
     }

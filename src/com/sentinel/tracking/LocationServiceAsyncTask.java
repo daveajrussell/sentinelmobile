@@ -2,9 +2,9 @@ package com.sentinel.tracking;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.sentinel.helper.ResponseStatusHelper;
-import com.sentinel.helper.ServiceHelper;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
+import com.sentinel.utils.HttpResponseCode;
+import com.sentinel.utils.ServiceHelper;
 
 public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String> {
 
@@ -28,14 +28,14 @@ public class LocationServiceAsyncTask extends AsyncTask<String, Integer, String>
 
         if (!strings[0].isEmpty()) {
             geoDataJson = strings[0];
-            strProcessResult = ServiceHelper.doPost(METHOD_NAME, URL, geoDataJson);
+            strProcessResult = ServiceHelper.doPost(null, METHOD_NAME, URL, geoDataJson, false);
         }
         return strProcessResult;
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if (result == ResponseStatusHelper.OK_RESULT) {
+        if (result == HttpResponseCode.OK_RESULT) {
             oSentinelDB.deleteGeospatialData();
         }
     }

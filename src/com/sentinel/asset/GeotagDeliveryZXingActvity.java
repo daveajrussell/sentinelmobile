@@ -9,9 +9,9 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.sentinel.app.Sentinel;
-import com.sentinel.helper.JsonBuilder;
-import com.sentinel.helper.ResponseStatusHelper;
-import com.sentinel.helper.ServiceHelper;
+import com.sentinel.utils.HttpResponseCode;
+import com.sentinel.utils.JsonBuilder;
+import com.sentinel.utils.ServiceHelper;
 
 /**
  * David Russell
@@ -58,14 +58,14 @@ public class GeotagDeliveryZXingActvity extends Activity {
             if (!strings[0].isEmpty()) {
                 String assetID = strings[0];
                 String strGeoTaggedAssetJson = JsonBuilder.geoTaggedAssetJson(mContext, assetID);
-                processResult = ServiceHelper.doPost(METHOD_NAME, URL, strGeoTaggedAssetJson);
+                processResult = ServiceHelper.doPost(null, METHOD_NAME, URL, strGeoTaggedAssetJson, false);
             }
             return processResult;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals(ResponseStatusHelper.OK_RESULT)) {
+            if (result.equals(HttpResponseCode.OK_RESULT)) {
                 Toast.makeText(mContext, "Delivery Successful", Toast.LENGTH_LONG).show();
                 Intent sentinelIntent = new Intent(mContext, Sentinel.class);
                 sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

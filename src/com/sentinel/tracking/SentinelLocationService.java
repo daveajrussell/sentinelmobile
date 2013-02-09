@@ -17,12 +17,12 @@ import android.support.v4.app.NotificationCompat;
 import com.sentinel.app.R;
 import com.sentinel.app.Sentinel;
 import com.sentinel.connection.ConnectionManager;
-import com.sentinel.helper.JsonBuilder;
-import com.sentinel.helper.ServiceHelper;
-import com.sentinel.helper.TrackingHelper;
-import com.sentinel.helper.Utils;
 import com.sentinel.models.GeospatialInformation;
 import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
+import com.sentinel.utils.JsonBuilder;
+import com.sentinel.utils.ServiceHelper;
+import com.sentinel.utils.TrackingHelper;
+import com.sentinel.utils.Utils;
 
 
 public class SentinelLocationService extends Service {

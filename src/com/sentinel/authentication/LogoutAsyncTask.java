@@ -1,7 +1,7 @@
 package com.sentinel.authentication;
 
 import android.os.AsyncTask;
-import com.sentinel.helper.ServiceHelper;
+import com.sentinel.utils.ServiceHelper;
 
 /**
  * David Russell
@@ -20,7 +20,7 @@ public class LogoutAsyncTask extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... strings) {
         if (strings[0] != null) {
             String userCredentialsJson = strings[0];
-            return ServiceHelper.doPost(METHOD_NAME, URL, userCredentialsJson);
+            return ServiceHelper.doPost(null, METHOD_NAME, URL, userCredentialsJson, false);
         } else
             return "";
     }

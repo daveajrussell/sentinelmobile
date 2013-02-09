@@ -1,4 +1,4 @@
-package com.sentinel.helper;
+package com.sentinel.utils;
 
 import android.location.Criteria;
 
@@ -29,7 +29,7 @@ public final class CriteriaBuilder {
         return this;
     }
 
-    public final CriteriaBuilder setSpeedRequired(boolean  speedRequired) {
+    public final CriteriaBuilder setSpeedRequired(boolean speedRequired) {
         mCriteria.setSpeedRequired(speedRequired);
         return this;
     }

@@ -14,22 +14,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import com.sentinel.helper.Utils;
 import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.tracking.SentinelLocationService;
+import com.sentinel.utils.Time;
+import com.sentinel.utils.Utils;
 
 public class SentinelOnBreakActivity extends Activity {
     private static final int NOTIFICATION_ID;
-    public static final long FORTY_FIVE_MINUTES;
-    public static final long FOUR_HOURS_TWENTY;
-    public static final long FOUR_HOURS_THIRTY;
+
     public static boolean isJunit = false;
 
     static {
         NOTIFICATION_ID = 1;
-        FORTY_FIVE_MINUTES = 2700000;
-        FOUR_HOURS_TWENTY = 15600000;
-        FOUR_HOURS_THIRTY = 16200000;
     }
 
     private static Chronometer countdownTimer;
@@ -164,7 +160,7 @@ public class SentinelOnBreakActivity extends Activity {
         long sessionBeginAndTimeNowDifference = getSessionBeginAndTimeNowDifference();
 
         if (drivingFourHoursThirtyMinutes(sessionBeginAndTimeNowDifference))
-            sentinelSharedPreferences.setBreakLength(FORTY_FIVE_MINUTES);
+            sentinelSharedPreferences.setBreakLength(Time.FORTY_FIVE_MINUTES);
         else
             sentinelSharedPreferences.setBreakLength(0);
     }
@@ -181,7 +177,7 @@ public class SentinelOnBreakActivity extends Activity {
 
     private static boolean drivingFourHoursThirtyMinutes(final long sessionBeginAndTimeNowDifference) {
         return 0 == sentinelSharedPreferences.getBreakTakenTime() &&
-                sessionBeginAndTimeNowDifference >= FOUR_HOURS_TWENTY &&
-                sessionBeginAndTimeNowDifference <= FOUR_HOURS_THIRTY;
+                sessionBeginAndTimeNowDifference >= Time.FOUR_HOURS_TWENTY &&
+                sessionBeginAndTimeNowDifference <= Time.FOUR_HOURS_THIRTY;
     }
 }

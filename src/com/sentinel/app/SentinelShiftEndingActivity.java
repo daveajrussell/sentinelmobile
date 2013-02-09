@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import com.sentinel.helper.*;
 import com.sentinel.preferences.SentinelSharedPreferences;
+import com.sentinel.utils.*;
 
 public class SentinelShiftEndingActivity extends Activity {
 
@@ -195,7 +195,7 @@ public class SentinelShiftEndingActivity extends Activity {
             if (!strings[0].isEmpty()) {
                 userLocationJson = strings[0];
 
-                ServiceHelper.doPost(METHOD_NAME, URL, userLocationJson);
+                ServiceHelper.doPost(null, METHOD_NAME, URL, userLocationJson, false);
             }
 
             return "";

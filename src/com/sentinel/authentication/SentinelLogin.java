@@ -19,19 +19,23 @@ import android.widget.Toast;
 import com.sentinel.app.R;
 import com.sentinel.app.Sentinel;
 import com.sentinel.app.SentinelShiftEndingActivity;
-import com.sentinel.helper.JsonBuilder;
-import com.sentinel.helper.ResponseStatusHelper;
-import com.sentinel.helper.ServiceHelper;
 import com.sentinel.models.Credentials;
 import com.sentinel.preferences.SentinelSharedPreferences;
+import com.sentinel.utils.HttpResponseCode;
+import com.sentinel.utils.JsonBuilder;
+import com.sentinel.utils.ServiceHelper;
+import com.sentinel.utils.Time;
 
 public class SentinelLogin extends Activity {
 
     public static final String CANCEL_ALARM;
 
+
     static {
         CANCEL_ALARM = "CANCEL_ALARM";
     }
+
+    public static boolean isJunit = false;
 
     private static Credentials oUserCredentials;
     private static String strCredentialsJSONString;
@@ -142,7 +146,7 @@ public class SentinelLogin extends Activity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         if (setOrCancel) {
-            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - 30000;
+            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - Time.FIVE_MINUTES;
             alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);
@@ -163,16 +167,20 @@ public class SentinelLogin extends Activity {
         protected String doInBackground(String... strings) {
             if (!strings[0].isEmpty()) {
                 loginCredentialsJson = strings[0];
-                return ServiceHelper.doPostAndLogin(context, METHOD_NAME, URL, loginCredentialsJson);
+                return ServiceHelper.doPost(context, METHOD_NAME, URL, loginCredentialsJson, true);
             } else
                 return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals(ResponseStatusHelper.OK_RESULT)) {
+            if (result.equals(HttpResponseCode.OK_RESULT)) {
                 Toast.makeText(context, "Authentication Successful", Toast.LENGTH_LONG).show();
-                sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + /*32400000*/35000);
+                if (!isJunit) {
+                    sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + Time.NINE_HOURS);
+                } else {
+                    sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 35000);
+                }
                 sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
                 setAlarm(true);
