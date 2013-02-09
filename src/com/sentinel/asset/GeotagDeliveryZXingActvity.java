@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.sentinel.app.Sentinel;
-import com.sentinel.helper.AssetHelper;
+import com.sentinel.helper.JsonBuilder;
 import com.sentinel.helper.ResponseStatusHelper;
 import com.sentinel.helper.ServiceHelper;
 
@@ -56,8 +56,8 @@ public class GeotagDeliveryZXingActvity extends Activity {
         @Override
         protected String doInBackground(String... strings) {
             if (!strings[0].isEmpty()) {
-                String strAssetID = strings[0];
-                String strGeoTaggedAssetJson = AssetHelper.getGeoTaggedAssetJson(mContext, strAssetID);
+                String assetID = strings[0];
+                String strGeoTaggedAssetJson = JsonBuilder.geoTaggedAssetJson(mContext, assetID);
                 processResult = ServiceHelper.doPost(METHOD_NAME, URL, strGeoTaggedAssetJson);
             }
             return processResult;

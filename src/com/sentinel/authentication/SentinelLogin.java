@@ -18,8 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.sentinel.app.R;
 import com.sentinel.app.Sentinel;
-import com.sentinel.app.SentinelNearingLegalDrivingTimeActivity;
-import com.sentinel.helper.JsonHelper;
+import com.sentinel.app.SentinelShiftEndingActivity;
+import com.sentinel.helper.JsonBuilder;
 import com.sentinel.helper.ResponseStatusHelper;
 import com.sentinel.helper.ServiceHelper;
 import com.sentinel.models.Credentials;
@@ -49,7 +49,6 @@ public class SentinelLogin extends Activity {
             ConnectivityManager oConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo oNetInfo = oConnectivityManager.getActiveNetworkInfo();
             if (null != oNetInfo && oNetInfo.isConnectedOrConnecting()) {
-                Toast.makeText(context, "Connection Regained.", Toast.LENGTH_LONG).show();
                 btnLogin.setEnabled(true);
             } else {
                 Toast.makeText(context, "No Network Connectivity.", Toast.LENGTH_LONG).show();
@@ -67,6 +66,7 @@ public class SentinelLogin extends Activity {
         Intent intent = getIntent();
         if (intent.getBooleanExtra(CANCEL_ALARM, false)) {
             setAlarm(false);
+            intent.removeExtra(CANCEL_ALARM);
         }
 
         btnLogin = (Button) findViewById(R.id.btn_login);
@@ -88,7 +88,7 @@ public class SentinelLogin extends Activity {
                     setUIElementsEnabled(false);
 
                     oUserCredentials = new Credentials(txtUsername.getText().toString(), txtPassword.getText().toString());
-                    strCredentialsJSONString = JsonHelper.getUserCredentialsJsonFromCredentials(oUserCredentials);
+                    strCredentialsJSONString = JsonBuilder.userCredentialsJson(oUserCredentials);
 
                     loginServiceAsyncTask = new LoginServiceAsyncTask(getApplicationContext());
                     loginServiceAsyncTask.execute(strCredentialsJSONString);
@@ -137,16 +137,16 @@ public class SentinelLogin extends Activity {
     private void setAlarm(boolean setOrCancel) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        Intent intent = new Intent(this, SentinelNearingLegalDrivingTimeActivity.class);
+        Intent intent = new Intent(this, SentinelShiftEndingActivity.class);
+        intent.putExtra(SentinelShiftEndingActivity.SHIFT_ENDING, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         if (setOrCancel) {
-            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm();
+            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - 30000;
             alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);
         }
-
     }
 
     private class LoginServiceAsyncTask extends AsyncTask<String, Integer, String> {
@@ -172,7 +172,7 @@ public class SentinelLogin extends Activity {
         protected void onPostExecute(String result) {
             if (result.equals(ResponseStatusHelper.OK_RESULT)) {
                 Toast.makeText(context, "Authentication Successful", Toast.LENGTH_LONG).show();
-                sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 32400000);
+                sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + /*32400000*/35000);
                 sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
                 setAlarm(true);

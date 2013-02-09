@@ -97,11 +97,11 @@ public class ServiceHelper {
         new HistoricalGeospatialDataAsyncTask(context).execute(historicalGeospatialJson);
     }
 
-    public static void sendSpeedingNotification(final Context context, final String speedingNotificationJson) {
-        new SpeedingNotificationAsyncTask(context).execute(speedingNotificationJson);
+    public static void sendSpeedingNotification(final String speedingNotificationJson) {
+        new SpeedingNotificationAsyncTask().execute(speedingNotificationJson);
     }
 
-    public static void sendOrientationNotification(final Context context, final String orientationNotificationJson) {
-        new OrientationNotificationAsyncTask(context).execute(orientationNotificationJson);
+    public static void sendOrientationNotification(final String orientationNotificationJson) {
+        new OrientationNotificationAsyncTask().execute(orientationNotificationJson);
     }
 }

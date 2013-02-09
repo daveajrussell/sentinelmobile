@@ -19,6 +19,8 @@ public class SentinelSharedPreferences {
     private static final String CLOCKED_IN;
     private static final String CLOCKED_OUT;
     private static final String BREAK_LENGTH;
+    private static final String SHIFT_ENDING;
+    private static final String SHIFT_ENDED;
     //private static final String NEXT_BREAK_LENGTH;
     //private static final String NEXT_BREAK;
 
@@ -32,6 +34,8 @@ public class SentinelSharedPreferences {
         CLOCKED_IN = "CLOCKED_IN";
         CLOCKED_OUT = "CLOCKED_OUT";
         BREAK_LENGTH = "BREAK_LENGTH";
+        SHIFT_ENDING = "SHIFT_ENDING";
+        SHIFT_ENDED = "SHIFT_ENDED";
         //NEXT_BREAK_LENGTH = "NEXT_BREAK_LENGTH";
         //NEXT_BREAK = "NEXT_BREAK";
     }
@@ -93,6 +97,18 @@ public class SentinelSharedPreferences {
         sentinelSharedPreferencesEditor.apply();
     }
 
+    public void setShiftEnding(boolean shiftEnding) {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.putBoolean(SHIFT_ENDING, shiftEnding);
+        sentinelSharedPreferencesEditor.apply();
+    }
+
+    public void setShiftEnded(boolean shiftEnded) {
+        SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
+        sentinelSharedPreferencesEditor.putBoolean(SHIFT_ENDED, shiftEnded);
+        sentinelSharedPreferencesEditor.apply();
+    }
+
     /*public void setNextBreak(long lngNextBreak) {
         SharedPreferences.Editor sentinelSharedPreferencesEditor = oSentinelSharedPreferences.edit();
         sentinelSharedPreferencesEditor.putLong(NEXT_BREAK, lngNextBreak);
@@ -111,6 +127,10 @@ public class SentinelSharedPreferences {
 
     public boolean clockedOut() {
         return oSentinelSharedPreferences.getBoolean(CLOCKED_OUT, false);
+    }
+
+    public boolean shiftEnding() {
+        return oSentinelSharedPreferences.getBoolean(SHIFT_ENDING, false);
     }
 
     public String getUserIdentification() {

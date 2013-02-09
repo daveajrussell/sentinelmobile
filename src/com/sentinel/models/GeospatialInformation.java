@@ -10,22 +10,18 @@ public class GeospatialInformation {
     private double dSpeed;
     private int iOrientation;
 
-    public GeospatialInformation(int sessionID, String id, long stamp, double lng, double lat, int orientation, double speed) {
+    public GeospatialInformation(int sessionID, String id, long stamp, double lng, double lat, double speed, int orientation) {
         iSessionID = sessionID;
         oUserIndentification = id;
         setDateTimeStamp(stamp);
         dLongitude = lng;
         dLatitude = lat;
-        iOrientation = orientation;
         dSpeed = speed;
+        iOrientation = orientation;
     }
 
     public String getUserIndentification() {
         return oUserIndentification;
-    }
-
-    public void setUserIndentification(String oUserIndentification) {
-        this.oUserIndentification = oUserIndentification;
     }
 
     public long getDateTimeStamp() {
@@ -40,39 +36,19 @@ public class GeospatialInformation {
         return dLatitude;
     }
 
-    public void setLatitude(double dLatitude) {
-        this.dLatitude = dLatitude;
-    }
-
     public double getLongitude() {
         return dLongitude;
-    }
-
-    public void setLongitude(double dLongitude) {
-        this.dLongitude = dLongitude;
     }
 
     public double getSpeed() {
         return dSpeed;
     }
 
-    public void setSpeed(double dSpeed) {
-        this.dSpeed = dSpeed;
-    }
-
     public int getOrientation() {
         return iOrientation;
     }
 
-    public void setOrientation(int iOrientation) {
-        this.iOrientation = iOrientation;
-    }
-
     public int getSessionID() {
         return iSessionID;
-    }
-
-    public void setSessionID(int iSessionID) {
-        this.iSessionID = iSessionID;
     }
 }

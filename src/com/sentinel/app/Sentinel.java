@@ -3,8 +3,7 @@ package com.sentinel.app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,13 +22,12 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sentinel.asset.GeotagDeliveryZXingActvity;
-import com.sentinel.authentication.LogoutAsyncTask;
 import com.sentinel.authentication.SentinelLogin;
+import com.sentinel.helper.AuthenticationHelper;
 import com.sentinel.helper.CriteriaBuilder;
-import com.sentinel.helper.JsonHelper;
+import com.sentinel.helper.TrackingHelper;
 import com.sentinel.helper.Utils;
 import com.sentinel.preferences.SentinelSharedPreferences;
-import com.sentinel.tracking.SentinelLocationService;
 
 import java.util.Calendar;
 
@@ -51,11 +49,24 @@ public class Sentinel extends Activity {
 
     private static Location lastLocation;
 
-    private static Intent locationServicesIntent;
     private GoogleMap googleMap;
     private SentinelSharedPreferences sentinelSharedPreferences;
     private LocationListener sentinelLocationListener;
     private LocationManager sentinelLocationManager;
+
+    private final class SpeedingReceiver extends BroadcastReceiver {
+        private Context mContext;
+
+        private SpeedingReceiver(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String message = intent.getStringExtra("TEST");
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+        }
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +83,7 @@ public class Sentinel extends Activity {
             googleMap.getUiSettings().setZoomControlsEnabled(true);
 
             sentinelSharedPreferences = new SentinelSharedPreferences(this);
-            locationServicesIntent = new Intent(this, SentinelLocationService.class);
+
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
@@ -95,9 +106,13 @@ public class Sentinel extends Activity {
         if ((0 == sentinelSharedPreferences.getSessionID()) && (sentinelSharedPreferences.getUserIdentification().isEmpty())) {
             Toast.makeText(this, "Please login to continue", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, SentinelLogin.class));
-            stopLocationService();
+            TrackingHelper.stopLocationService(this);
         } else if (sentinelSharedPreferences.clockedOut()) {
             startActivity(new Intent(this, SentinelOnBreakActivity.class));
+        } else if (sentinelSharedPreferences.shiftEnding()) {
+            Intent intent = new Intent(this, SentinelShiftEndingActivity.class);
+            intent.putExtra(SentinelShiftEndingActivity.ALERT_SENT, true);
+            startActivity(intent);
         } else {
             launchSentinel();
         }
@@ -106,9 +121,6 @@ public class Sentinel extends Activity {
     protected void onPause() {
         super.onPause();
         stopLocationUpdates();
-
-        int orientaton = getApplicationContext().getResources().getConfiguration().orientation;
-        Toast.makeText(getApplicationContext(), String.format("%d", orientaton), Toast.LENGTH_SHORT).show();
     }
 
     protected void onDestroy() {
@@ -119,13 +131,15 @@ public class Sentinel extends Activity {
     public void launchSentinel() {
         Intent intent = getIntent();
 
+        registerReceiver(new SpeedingReceiver(this), new IntentFilter("com.tracking.SentinelLocationService"));
+
         if (intent.getBooleanExtra(NEW_SESSION, false)) {
-            startLocationService();
+            TrackingHelper.startLocationService(this);
             intent.removeExtra(NEW_SESSION);
         }
 
         if (intent.getBooleanExtra(RESUME_SESSION, false)) {
-            startLocationService();
+            TrackingHelper.startLocationService(this);
             intent.removeExtra(RESUME_SESSION);
         }
 
@@ -163,49 +177,15 @@ public class Sentinel extends Activity {
                 clockOut();
                 break;
             case R.id.logout_action:
-                performLogout();
+                AuthenticationHelper.performLogoutWithDialog(this);
                 break;
         }
 
         return true;
     }
 
-    protected void performLogout() {
-
-        long lngShiftEndTimeDifference = sentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
-        String time = Utils.getFormattedHrsMinsSecsTimeString(lngShiftEndTimeDifference);
-        String message = String.format("You still have %1$s of your shift remaining. Are you sure you wish to logout?", time);
-
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.alert_title)
-                .setMessage(message)
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        stopLocationService();
-                        stopLocationUpdates();
-
-                        String userCredentialsJson = JsonHelper.getUserCredentialsJsonFromSharedPreferences(sentinelSharedPreferences);
-
-                        sentinelSharedPreferences.clearSharedPreferences();
-
-                        Intent loginIntent = new Intent(getApplicationContext(), SentinelLogin.class);
-                        loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(loginIntent);
-
-                        new LogoutAsyncTask().execute(userCredentialsJson);
-                    }
-                }).show();
-    }
-
     protected void clockOut() {
-        stopLocationService();
+        TrackingHelper.stopLocationService(this);
         stopLocationUpdates();
 
         Intent breakIntent = new Intent(this, SentinelOnBreakActivity.class);
@@ -241,16 +221,6 @@ public class Sentinel extends Activity {
             sentinelLocationManager = null;
             sentinelLocationListener = null;
         }
-    }
-
-    protected void startLocationService() {
-        if (null != locationServicesIntent)
-            startService(locationServicesIntent);
-    }
-
-    protected void stopLocationService() {
-        if (null != locationServicesIntent)
-            stopService(locationServicesIntent);
     }
 
     protected void updateLocation(Location location) {

@@ -53,9 +53,8 @@
                 android:name="com.sentinel.asset.GeotagDeliveryZXingActvity"
                 android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-                android:name="com.sentinel.app.SentinelNearingLegalDrivingTimeActivity"
+                android:name=".SentinelShiftEndingActivity"
                 android:theme="@android:style/Theme.NoTitleBar"/>
-
         <service
                 android:name="com.sentinel.tracking.SentinelLocationService"
                 android:enabled="true"
@@ -64,6 +63,12 @@
         <receiver android:name="com.sentinel.connection.ConnectionChangedBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.sentinel.tracking.OrientationBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.sentinel.app.Sentinel"/>
+                <action android:name="com.sentinel.tracking.SentinelLocationService"/>
             </intent-filter>
         </receiver>
 

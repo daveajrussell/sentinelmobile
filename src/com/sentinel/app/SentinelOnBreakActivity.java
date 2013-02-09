@@ -20,9 +20,10 @@ import com.sentinel.tracking.SentinelLocationService;
 
 public class SentinelOnBreakActivity extends Activity {
     private static final int NOTIFICATION_ID;
-    private static final long FORTY_FIVE_MINUTES;
-    private static final long FOUR_HOURS_TWENTY;
-    private static final long FOUR_HOURS_THIRTY;
+    public static final long FORTY_FIVE_MINUTES;
+    public static final long FOUR_HOURS_TWENTY;
+    public static final long FOUR_HOURS_THIRTY;
+    public static boolean isJunit = false;
 
     static {
         NOTIFICATION_ID = 1;
@@ -39,7 +40,7 @@ public class SentinelOnBreakActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.clockin);
+        setContentView(R.layout.breakactivity);
 
         countdownTimer = (Chronometer) findViewById(R.id.countdownTimer);
         tvRemaining = (TextView) findViewById(R.id.tvRemaining);
@@ -49,6 +50,7 @@ public class SentinelOnBreakActivity extends Activity {
         sentinelSharedPreferences = new SentinelSharedPreferences(this);
     }
 
+    @Override
     protected void onResume() {
         setUIElementProperties(Color.BLACK, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
 
@@ -111,7 +113,12 @@ public class SentinelOnBreakActivity extends Activity {
     private void setCowndownTimer() {
         setUIElementProperties(Color.BLACK, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
 
-        long breakLength = sentinelSharedPreferences.getBreakLength();
+        long breakLength;
+        if (!isJunit) {
+            breakLength = sentinelSharedPreferences.getBreakLength();
+        } else {
+            breakLength = 1000;
+        }
 
         CountDownTimer breakTimer = new CountDownTimer(breakLength, 1000) {
             public void onTick(long millisUntilFinished) {

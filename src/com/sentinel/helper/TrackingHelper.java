@@ -1,49 +1,59 @@
 package com.sentinel.helper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import com.sentinel.models.GeospatialInformation;
 import com.sentinel.preferences.SentinelSharedPreferences;
+import com.sentinel.tracking.SentinelLocationService;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * David Russell
  * 24/01/13
  */
 public class TrackingHelper {
-    public static GeospatialInformation getLastKnownGeospatialInformation(final Context context) {
-        LocationManager oLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        List<String> arrProviders = oLocationManager.getProviders(true);
 
-        Location oLocation = null;
+    public static Location lastKnownLocation(final Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = locationManager.getProviders(true);
 
-        for (int i = arrProviders.size() - 1; i >= 0; i--) {
-            oLocation = oLocationManager.getLastKnownLocation(arrProviders.get(i));
-            if (oLocation != null)
+        Location location = null;
+
+        for (int i = providers.size() - 1; i >= 0; i--) {
+            location = locationManager.getLastKnownLocation(providers.get(i));
+            if (location != null)
                 break;
         }
 
-        if (oLocation != null)
-            return buildGeospatialInformationObject(context, oLocation);
-        else
-            return null;
+        return location;
     }
 
-    public static GeospatialInformation buildGeospatialInformationObject(final Context context, final Location location) {
+    public static GeospatialInformation getGeospatialInformation(final Context context) {
         SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(context);
+        Location location = lastKnownLocation(context);
+
         return new GeospatialInformation
                 (
                         oSentinelSharedPreferences.getSessionID(),
                         oSentinelSharedPreferences.getUserIdentification(),
-                        Calendar.getInstance(TimeZone.getTimeZone("gmt+1")).getTimeInMillis(),
+                        System.currentTimeMillis(),
                         location.getLongitude(),
                         location.getLatitude(),
-                        context.getResources().getConfiguration().orientation,
-                        location.getSpeed()
+                        location.getSpeed(),
+                        context.getResources().getConfiguration().orientation
                 );
+    }
+
+    public static void startLocationService(final Context context) {
+        Intent locationServicesIntent = new Intent(context, SentinelLocationService.class);
+        context.startService(locationServicesIntent);
+    }
+
+    public static void stopLocationService(final Context context) {
+        Intent locationServicesIntent = new Intent(context, SentinelLocationService.class);
+        context.stopService(locationServicesIntent);
     }
 }
