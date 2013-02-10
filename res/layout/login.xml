@@ -4,18 +4,19 @@
 <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="@drawable/background_grad" android:clickable="true"
+        android:background="@android:drawable/dialog_holo_dark_frame" android:clickable="true"
         android:gravity="center|center_horizontal|clip_horizontal|clip_vertical"
         android:orientation="horizontal">
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_gravity="center">
+            android:layout_height="wrap_content" android:layout_gravity="center"
+            >
         <TextView
                 android:layout_width="@dimen/login_dimen_text"
                 android:layout_height="wrap_content"
                 android:text="@string/username"
-                android:id="@+id/tvUsername" android:textColor="#000000" android:layout_gravity="center_horizontal"
+                android:id="@+id/tvUsername" android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="5dp" android:layout_marginRight="5dp"
                 android:textSize="16dp"/>
         <EditText
@@ -25,12 +26,13 @@
                 android:inputType="text" android:layout_alignLeft="@+id/txt_password"
                 android:layout_alignParentTop="true"
                 android:layout_alignRight="@+id/txt_password" android:layout_row="0"
-                android:layout_column="0" android:gravity="center_vertical" android:layout_gravity="center_horizontal"/>
+                android:layout_column="0" android:gravity="center_vertical" android:layout_gravity="center_horizontal"
+                />
         <TextView
                 android:layout_width="@dimen/login_dimen_text"
                 android:layout_height="wrap_content"
                 android:text="@string/password"
-                android:id="@+id/tvPassword" android:layout_gravity="center_horizontal" android:textColor="#000000"
+                android:id="@+id/tvPassword" android:layout_gravity="center_horizontal"
                 android:textSize="16dp"/>
         <EditText
                 android:layout_width="@dimen/login_dimen"
@@ -38,7 +40,8 @@
                 android:id="@+id/txt_password"
                 android:layout_alignLeft="@+id/btn_login" android:layout_above="@+id/btn_login"
                 android:layout_alignRight="@+id/btn_login" android:password="true" android:inputType="text"
-                android:layout_row="1" android:layout_column="0" android:layout_gravity="center_horizontal"/>
+                android:layout_row="1" android:layout_column="0" android:layout_gravity="center_horizontal"
+                />
         <Button
                 android:layout_width="@dimen/login_dimen"
                 android:layout_height="wrap_content"
@@ -48,8 +51,8 @@
                 android:layout_alignParentRight="true" android:layout_row="2" android:layout_column="0"
                 android:layout_gravity="center_horizontal"/>
         <ProgressBar
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:id="@+id/pbAsyncProgress"
                 android:indeterminate="false"
                 android:visibility="invisible"

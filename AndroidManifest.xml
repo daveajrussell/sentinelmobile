@@ -19,6 +19,8 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.SET_DEBUG_APP"/>
 
+    <supports-screens android:anyDensity="true"></supports-screens>
+
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
 
     <uses-feature
@@ -36,7 +38,9 @@
 
         <uses-library android:required="true" android:name="com.google.android.maps"/>
 
-        <activity android:name="com.sentinel.app.Sentinel">
+        <activity
+                android:name="com.sentinel.app.Sentinel"
+                android:theme="@android:style/Theme.Holo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -45,16 +49,16 @@
 
         <activity
                 android:name="com.sentinel.authentication.SentinelLogin"
-                android:theme="@android:style/Theme.Light.NoTitleBar"/>
+                android:theme="@android:style/Theme.Holo.NoActionBar"/>
         <activity
                 android:name="com.sentinel.app.SentinelOnBreakActivity"
-                android:theme="@android:style/Theme.NoTitleBar"/>
+                android:theme="@android:style/Theme.Holo.NoActionBar"/>
         <activity
                 android:name="com.sentinel.asset.GeotagDeliveryZXingActvity"
                 android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
                 android:name=".SentinelShiftEndingActivity"
-                android:theme="@android:style/Theme.NoTitleBar"/>
+                android:theme="@android:style/Theme.Holo.NoActionBar"/>
         <service
                 android:name="com.sentinel.tracking.SentinelLocationService"
                 android:enabled="true"

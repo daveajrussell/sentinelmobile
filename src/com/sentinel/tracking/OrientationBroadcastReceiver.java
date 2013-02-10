@@ -30,7 +30,7 @@ public class OrientationBroadcastReceiver extends BroadcastReceiver {
         orientationNotificationBuilder
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentTitle("Sentienl")
+                .setContentTitle("Sentinel")
                 .setContentText("Caution")
                 .setSubText("Device is not oriented correctly.");
         notificationManager.notify(ORIENTATION_NOTIFICATION_ID, orientationNotificationBuilder.build());
@@ -40,7 +40,6 @@ public class OrientationBroadcastReceiver extends BroadcastReceiver {
         if (ConnectionManager.deviceIsConnected(context)) {
             String orientationNotification = JsonBuilder.geospatialDataJson(context, location);
             ServiceHelper.sendOrientationNotification(orientationNotification);
-            //handleLocationChanged(location);
         }
 
         String message = intent.getStringExtra(ORIENTATION);

@@ -33,6 +33,7 @@ public class SentinelLocationService extends Service {
     private static final double MAX_SPEED;
 
     public static boolean isJUnit = false;
+    private static boolean ignoreOrientation = false;
 
     static {
         TIME = 20000;
@@ -126,10 +127,12 @@ public class SentinelLocationService extends Service {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Intent intent = new Intent(this, OrientationBroadcastReceiver.class);
-            intent.putExtra(OrientationBroadcastReceiver.ORIENTATION, "Device is not oriented correctly.");
-            sendBroadcast(intent);
+        if (!ignoreOrientation) {
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Intent intent = new Intent(this, OrientationBroadcastReceiver.class);
+                intent.putExtra(OrientationBroadcastReceiver.ORIENTATION, "Device is not oriented correctly.");
+                sendBroadcast(intent);
+            }
         }
     }
 
@@ -180,10 +183,6 @@ public class SentinelLocationService extends Service {
                 .setAutoCancel(true);
         notificationManager.notify(SPEEDING_NOTIFICATION_ID, speedingNotificationBuilder.build());
 
-        Intent intent = new Intent(this, Sentinel.class);
-        intent.putExtra("TEST", "Speeding Broadcast");
-        sendBroadcast(intent);
-
         if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
             String speedingNotificationJson = JsonBuilder.geospatialDataJson(this, location);
             ServiceHelper.sendSpeedingNotification(speedingNotificationJson);
@@ -205,6 +204,10 @@ public class SentinelLocationService extends Service {
             }
         }
         oSentinelDB.closeSentinelDatabase();
+    }
+
+    public static void ignoreOrientationChanges(final boolean ignore) {
+        ignoreOrientation = ignore;
     }
 
     private String addLocationToDatabaseAndReturnLocationJson() {

@@ -52,7 +52,7 @@ public class SentinelShiftEndingActivity extends Activity {
 
     @Override
     protected void onResume() {
-        setUIElementProperties(Color.BLACK, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
+        setUIElementProperties(Color.LTGRAY, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
 
         if (sentinelSharedPreferences.shiftEnding()) {
             resumeShiftEndingActivity();
@@ -112,7 +112,7 @@ public class SentinelShiftEndingActivity extends Activity {
     }
 
     private void resumeShiftEndingActivity() {
-        setUIElementProperties(Color.BLACK, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
+        setUIElementProperties(Color.LTGRAY, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
         long shiftEnding = sentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
 
         if (shiftEnding <= 0) {
@@ -131,12 +131,12 @@ public class SentinelShiftEndingActivity extends Activity {
     }
 
     private void setCowndownTimer() {
-        setUIElementProperties(Color.BLACK, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
+        setUIElementProperties(Color.LTGRAY, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
 
         if (!isJunit) {
             shiftEnding = sentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
         } else {
-            shiftEnding = 1000;
+            shiftEnding = 5000;
         }
 
         CountDownTimer breakTimer = new CountDownTimer(shiftEnding, 1000) {

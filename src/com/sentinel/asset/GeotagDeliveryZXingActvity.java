@@ -24,6 +24,7 @@ public class GeotagDeliveryZXingActvity extends Activity {
         super.onCreate(savedInstanceState);
 
         IntentIntegrator integrator = new IntentIntegrator(GeotagDeliveryZXingActvity.this);
+
         integrator.initiateScan(IntentIntegrator.QR_CODE_TYPES);
     }
 
@@ -37,7 +38,7 @@ public class GeotagDeliveryZXingActvity extends Activity {
                 Toast.makeText(this, "Scan Successful", Toast.LENGTH_SHORT).show();
                 new AssetServiceAsyncTask(this).execute(strResultContents);
             } else {
-                Toast.makeText(this, "Scan Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Scan Unsuccessful", Toast.LENGTH_SHORT).show();
                 Intent sentinelIntent = new Intent(this, Sentinel.class);
                 startActivity(sentinelIntent);
             }

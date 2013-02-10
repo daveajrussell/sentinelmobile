@@ -15,9 +15,9 @@ public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin
 
     private View btnLoginView;
     private View btnClockInView;
+    private View btnClockOutView;
     private Sentinel sentinelActivity;
     private Solo solo;
-    private Handler handler;
 
     public SentinelTest() {
         super(SentinelLogin.class);
@@ -28,13 +28,17 @@ public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin
         solo = new Solo(getInstrumentation(), getActivity());
         btnLoginView = solo.getView(R.id.btn_login);
         btnClockInView = solo.getView(R.id.btnClockIn);
+        SentinelLogin.isJunit = true;
+        SentinelShiftEndingActivity.isJunit = true;
         sentinelActivity = performLogin();
-        handler = new Handler(Looper.getMainLooper());
+
     }
 
     @Override
     public void tearDown() throws Exception {
-        performLogout();
+        if (solo.getCurrentActivity().getClass() == Sentinel.class) {
+            performLogout();
+        }
         solo.finishOpenedActivities();
     }
 
@@ -65,14 +69,18 @@ public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin
         location.setLatitude(52.800000);
         location.setLongitude(-2.000000);
 
+        final Handler handler = new Handler(Looper.getMainLooper());
+
         handler.post(new Runnable() {
             @Override
             public void run() {
-                sentinelActivity.updateLocation(location);
                 assertNotNull("Last location should not be null", sentinelActivity.getLastLocation());
-                assertEquals("Last location should equal the location set by update location", sentinelActivity.getLastLocation(), location);
+                assertEquals("Latitudes should be equal", sentinelActivity.getLastLocation().getLatitude(), location.getLatitude());
+                assertEquals("Longitudes should be equal", sentinelActivity.getLastLocation().getLongitude(), location.getLongitude());
             }
         });
+
+        solo.assertCurrentActivity("Yeah", Sentinel.class);
     }
 
     public void testReorientingPreservesCurrentLocation() throws Exception {
@@ -80,30 +88,34 @@ public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin
         location.setLatitude(52.800000);
         location.setLongitude(-2.000000);
 
+        final Handler handler = new Handler(Looper.getMainLooper());
+
         handler.post(new Runnable() {
             @Override
             public void run() {
                 sentinelActivity.updateLocation(location);
                 solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 assertNotNull("Last location should not be null", sentinelActivity.getLastLocation());
-                assertEquals("Last location should equal the location set by update location", sentinelActivity.getLastLocation(), location);
-                solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                assertEquals("Latitudes should be equal", sentinelActivity.getLastLocation().getLatitude(), location.getLatitude());
+                assertEquals("Longitudes should be equal", sentinelActivity.getLastLocation().getLongitude(), location.getLongitude());
+                //solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
             }
         });
+
+        solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     public void testClickLogoutShowsAlertDialog() throws Exception {
         solo.clickOnMenuItem("Logout");
-        assertTrue("A dialog should be shown that confirms the logout action", solo.waitForText("You still have "));
-        solo.clickOnText("No");
-        assertTrue("The dialog should close and return to the previous activity", solo.waitForDialogToClose(1000));
+        assertTrue(solo.searchText("Are you sure you wish to logout?"));
+        /* Robotium doesn't seem to be clicking on the "No" button, using goBack() instead */
+        solo.goBack();
         solo.assertCurrentActivity("Current activity should be Sentinel activity", Sentinel.class);
     }
 
     public void testClockOutShowsNotification() throws Exception {
         solo.clickOnActionBarItem(R.id.clock_out_action);
-        solo.assertCurrentActivity("Current activity should be the break activity", SentinelOnBreakActivity.class);
-        assertTrue("Notification should be shown", solo.waitForText("You cannot begin your recorded break yet."));
+        assertTrue("Notification should be shown", solo.waitForText("You may not begin your recorded break yet.", 1, 2000));
         solo.assertCurrentActivity("Current activity should return to the Sentinel activity", Sentinel.class);
     }
 
@@ -127,7 +139,27 @@ public class SentinelTest extends ActivityInstrumentationTestCase2<SentinelLogin
     }
 
     public void testShiftEnding() throws Exception {
-
-
+        //assertTrue("Within 30 seconds the Activity should switch to Shift Ending", solo.waitForActivity(SentinelShiftEndingActivity.class.getName(), 30000));
+        solo.waitForText("Remaining");
+        btnClockOutView = solo.getView(R.id.btnClockOut);
+        assertTrue("The clock out button should be invisible", View.INVISIBLE == btnClockOutView.getVisibility());
+        assertTrue("After 1 second, the shift should end", solo.waitForText("00:00"));
+        assertTrue("The clock out button should become visible", View.VISIBLE == btnClockOutView.getVisibility());
+        solo.clickOnView(btnClockOutView);
+        solo.assertCurrentActivity("Current activity should be Sentinel activity", SentinelLogin.class);
     }
+
+    public void testPhoneReorientation() throws Exception {
+        solo.setActivityOrientation(Solo.LANDSCAPE);
+        assertTrue("Alert should be displayed", solo.waitForText("Device is not oriented correctly."));
+        solo.setActivityOrientation(Solo.PORTRAIT);
+    }
+
+    /* Can't unit test as this starts an activity to a different application and robotium doesn't
+    * work across multiple instances */
+    /*public void testScanDeliveryItemLaunchesZXIngActiviy() throws Exception {
+        solo.clickOnText("Scan Delivery Item");
+        solo.assertCurrentActivity("Current activity should be ZXing activity", GeotagDeliveryZXingActvity.class);
+        solo.finishOpenedActivities();
+    }*/
 }

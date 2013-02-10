@@ -118,14 +118,36 @@ public class SentineLoginTest extends ActivityInstrumentationTestCase2<SentinelL
     public void testReorientActivity() throws Exception {
         solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        assertTrue("Username field should be disabled", txtUsername.isEnabled());
-        assertTrue("Password field should be disabled", txtPassword.isEnabled());
-        assertTrue("Login button should be disabled", btnLoginView.isEnabled());
+        assertTrue("Username field should be enabled", txtUsername.isEnabled());
+        assertTrue("Password field should be enabled", txtPassword.isEnabled());
+        assertTrue("Login button should be enabled", btnLoginView.isEnabled());
+    }
+
+    public void testReorientingActivityAndLoggingInShouldDisplayMessage() throws Exception {
+        solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        assertTrue("Clock in button should be clickable", btnLoginView.isClickable());
+        assertTrue("Clock in button should be clickable", btnLoginView.isEnabled());
+        assertTrue("Clock in button should be clickable", btnLoginView.hasOnClickListeners());
+
+        solo.clickOnText("Clock In");
+        solo.assertCurrentActivity("Sentinel Activitiy should have launched", Sentinel.class);
+
+        assertTrue("Notification should be displayed", solo.waitForText("Device is oriented incorrectly."));
+
+        performLogout();
     }
 
     public void testReorientedLogin() throws Exception {
         solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        performLogin();
+
+        assertTrue("Clock in button should be clickable", btnLoginView.isClickable());
+        assertTrue("Clock in button should be clickable", btnLoginView.isEnabled());
+        assertTrue("Clock in button should be clickable", btnLoginView.hasOnClickListeners());
+
+        solo.clickOnText("Clock In");
+        solo.assertCurrentActivity("Sentinel Activitiy should have launched", Sentinel.class);
+
         performLogout();
     }
 

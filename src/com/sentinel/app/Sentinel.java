@@ -3,7 +3,8 @@ package com.sentinel.app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.content.*;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sentinel.asset.GeotagDeliveryZXingActvity;
 import com.sentinel.authentication.SentinelLogin;
 import com.sentinel.preferences.SentinelSharedPreferences;
+import com.sentinel.tracking.SentinelLocationService;
 import com.sentinel.utils.AuthenticationHelper;
 import com.sentinel.utils.CriteriaBuilder;
 import com.sentinel.utils.TrackingHelper;
@@ -53,20 +55,6 @@ public class Sentinel extends Activity {
     private SentinelSharedPreferences sentinelSharedPreferences;
     private LocationListener sentinelLocationListener;
     private LocationManager sentinelLocationManager;
-
-    private final class SpeedingReceiver extends BroadcastReceiver {
-        private Context mContext;
-
-        private SpeedingReceiver(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("TEST");
-            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
-        }
-    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +91,8 @@ public class Sentinel extends Activity {
     protected void onResume() {
         super.onResume();
 
+        SentinelLocationService.ignoreOrientationChanges(false);
+
         if ((0 == sentinelSharedPreferences.getSessionID()) && (sentinelSharedPreferences.getUserIdentification().isEmpty())) {
             Toast.makeText(this, "Please login to continue", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, SentinelLogin.class));
@@ -131,8 +121,6 @@ public class Sentinel extends Activity {
     public void launchSentinel() {
         Intent intent = getIntent();
 
-        registerReceiver(new SpeedingReceiver(this), new IntentFilter("com.tracking.SentinelLocationService"));
-
         if (intent.getBooleanExtra(NEW_SESSION, false)) {
             TrackingHelper.startLocationService(this);
             intent.removeExtra(NEW_SESSION);
@@ -144,7 +132,7 @@ public class Sentinel extends Activity {
         }
 
         if (intent.hasExtra(RESUME_MESSAGE)) {
-            Toast.makeText(this, intent.getStringExtra(RESUME_MESSAGE), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, intent.getStringExtra(RESUME_MESSAGE), Toast.LENGTH_SHORT).show();
             intent.removeExtra(RESUME_MESSAGE);
         }
 
@@ -170,6 +158,7 @@ public class Sentinel extends Activity {
 
         switch (item.getItemId()) {
             case R.id.scan_qr_action:
+                SentinelLocationService.ignoreOrientationChanges(true);
                 Intent zxingIntent = new Intent(this, GeotagDeliveryZXingActvity.class);
                 startActivity(zxingIntent);
                 break;

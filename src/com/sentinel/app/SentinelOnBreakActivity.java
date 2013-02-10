@@ -48,7 +48,7 @@ public class SentinelOnBreakActivity extends Activity {
 
     @Override
     protected void onResume() {
-        setUIElementProperties(Color.BLACK, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
+        setUIElementProperties(Color.LTGRAY, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
 
         setBreak();
 
@@ -107,7 +107,7 @@ public class SentinelOnBreakActivity extends Activity {
     }
 
     private void setCowndownTimer() {
-        setUIElementProperties(Color.BLACK, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
+        setUIElementProperties(Color.LTGRAY, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
 
         long breakLength;
         if (!isJunit) {

@@ -30,7 +30,6 @@ public class SentinelLogin extends Activity {
 
     public static final String CANCEL_ALARM;
 
-
     static {
         CANCEL_ALARM = "CANCEL_ALARM";
     }
@@ -53,10 +52,9 @@ public class SentinelLogin extends Activity {
             ConnectivityManager oConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo oNetInfo = oConnectivityManager.getActiveNetworkInfo();
             if (null != oNetInfo && oNetInfo.isConnectedOrConnecting()) {
-                btnLogin.setEnabled(true);
+                setUINoConnectivity(false);
             } else {
-                Toast.makeText(context, "No Network Connectivity.", Toast.LENGTH_LONG).show();
-                btnLogin.setEnabled(false);
+                setUINoConnectivity(true);
             }
         }
     }
@@ -131,6 +129,16 @@ public class SentinelLogin extends Activity {
         txtPassword.setEnabled(enabled);
     }
 
+    private static void setUINoConnectivity(boolean noConnectivity) {
+        if (noConnectivity) {
+            setUIElementsEnabled(false);
+            btnLogin.setText(R.string.no_connectivity_title);
+        } else {
+            setUIElementsEnabled(true);
+            btnLogin.setText(R.string.clock_in_title);
+        }
+    }
+
     private void startSentinelActivity() {
         sentinelSharedPreferences.setClockedIn();
         Intent sentinelIntent = new Intent(this, Sentinel.class);
@@ -146,8 +154,14 @@ public class SentinelLogin extends Activity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         if (setOrCancel) {
-            long lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - Time.FIVE_MINUTES;
-            alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
+            long lngEndDrivingAlarm;
+            if (!isJunit) {
+                lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - Time.FIVE_MINUTES;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
+            } else {
+                lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - 20000;
+                alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
+            }
         } else {
             alarmManager.cancel(pendingIntent);
         }
@@ -175,18 +189,18 @@ public class SentinelLogin extends Activity {
         @Override
         protected void onPostExecute(String result) {
             if (result.equals(HttpResponseCode.OK_RESULT)) {
-                Toast.makeText(context, "Authentication Successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Authentication Successful", Toast.LENGTH_SHORT).show();
                 if (!isJunit) {
                     sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + Time.NINE_HOURS);
                 } else {
-                    sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 35000);
+                    sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 30000);
                 }
                 sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
                 setAlarm(true);
                 startSentinelActivity();
             } else {
-                Toast.makeText(context, "Authentication Unsuccessful", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Authentication Unsuccessful", Toast.LENGTH_SHORT).show();
                 setUIElementsEnabled(true);
             }
         }
