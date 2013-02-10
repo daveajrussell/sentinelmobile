@@ -1,4 +1,4 @@
-package com.sentinel.tracking;
+package com.sentinel.services;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;

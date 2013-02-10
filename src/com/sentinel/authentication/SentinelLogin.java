@@ -36,14 +36,14 @@ public class SentinelLogin extends Activity {
 
     public static boolean isJunit = false;
 
-    private static Credentials oUserCredentials;
-    private static String strCredentialsJSONString;
+    private static Credentials mUserCredentials;
+    private static String mCredentialsJSONString;
     private static Button btnLogin;
     private static EditText txtUsername;
     private static EditText txtPassword;
     private static ProgressBar pbAsyncProgress;
-    private SentinelSharedPreferences sentinelSharedPreferences;
-    private LoginServiceAsyncTask loginServiceAsyncTask;
+    private SentinelSharedPreferences mSentinelSharedPreferences;
+    private LoginServiceAsyncTask mLoginServiceAsyncTask;
 
     private class loginConnectionChangedReceiver extends BroadcastReceiver {
 
@@ -76,7 +76,7 @@ public class SentinelLogin extends Activity {
         txtPassword = (EditText) findViewById(R.id.txt_password);
         pbAsyncProgress = (ProgressBar) findViewById(R.id.pbAsyncProgress);
 
-        sentinelSharedPreferences = new SentinelSharedPreferences(this);
+        mSentinelSharedPreferences = new SentinelSharedPreferences(this);
 
         /* DEBUG */
         txtUsername.setText("DR_DRIVER");
@@ -89,11 +89,11 @@ public class SentinelLogin extends Activity {
                 if ((txtUsername.getText().length() > 0) && (txtPassword.getText().length() > 0)) {
                     setUIElementsEnabled(false);
 
-                    oUserCredentials = new Credentials(txtUsername.getText().toString(), txtPassword.getText().toString());
-                    strCredentialsJSONString = JsonBuilder.userCredentialsJson(oUserCredentials);
+                    mUserCredentials = new Credentials(txtUsername.getText().toString(), txtPassword.getText().toString());
+                    mCredentialsJSONString = JsonBuilder.userCredentialsJson(mUserCredentials);
 
-                    loginServiceAsyncTask = new LoginServiceAsyncTask(getApplicationContext());
-                    loginServiceAsyncTask.execute(strCredentialsJSONString);
+                    mLoginServiceAsyncTask = new LoginServiceAsyncTask(getApplicationContext());
+                    mLoginServiceAsyncTask.execute(mCredentialsJSONString);
                 } else if (txtPassword.getText().length() <= 0 && txtUsername.getText().length() > 0) {
                     Toast.makeText(getApplicationContext(), "You must enter a valid password", Toast.LENGTH_SHORT).show();
                 } else if (txtUsername.getText().length() <= 0 && txtPassword.getText().length() > 0) {
@@ -109,12 +109,12 @@ public class SentinelLogin extends Activity {
     protected void onResume() {
         super.onResume();
 
-        if (sentinelSharedPreferences.clockedIn()) {
+        if (mSentinelSharedPreferences.clockedIn()) {
             startActivity(new Intent(getApplicationContext(), Sentinel.class));
         }
 
-        if (loginServiceAsyncTask != null) {
-            AsyncTask.Status loginTaskStatus = loginServiceAsyncTask.getStatus();
+        if (mLoginServiceAsyncTask != null) {
+            AsyncTask.Status loginTaskStatus = mLoginServiceAsyncTask.getStatus();
 
             if (loginTaskStatus == AsyncTask.Status.RUNNING || loginTaskStatus == AsyncTask.Status.PENDING) {
                 setUIElementsEnabled(false);
@@ -140,7 +140,7 @@ public class SentinelLogin extends Activity {
     }
 
     private void startSentinelActivity() {
-        sentinelSharedPreferences.setClockedIn();
+        mSentinelSharedPreferences.setClockedIn();
         Intent sentinelIntent = new Intent(this, Sentinel.class);
         sentinelIntent.putExtra(Sentinel.NEW_SESSION, true);
         startActivity(sentinelIntent);
@@ -156,10 +156,10 @@ public class SentinelLogin extends Activity {
         if (setOrCancel) {
             long lngEndDrivingAlarm;
             if (!isJunit) {
-                lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - Time.FIVE_MINUTES;
+                lngEndDrivingAlarm = mSentinelSharedPreferences.getDrivingEndAlarm() - Time.FIVE_MINUTES;
                 alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
             } else {
-                lngEndDrivingAlarm = sentinelSharedPreferences.getDrivingEndAlarm() - 20000;
+                lngEndDrivingAlarm = mSentinelSharedPreferences.getDrivingEndAlarm() - 20000;
                 alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
             }
         } else {
@@ -191,11 +191,11 @@ public class SentinelLogin extends Activity {
             if (result.equals(HttpResponseCode.OK_RESULT)) {
                 Toast.makeText(context, "Authentication Successful", Toast.LENGTH_SHORT).show();
                 if (!isJunit) {
-                    sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + Time.NINE_HOURS);
+                    mSentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + Time.NINE_HOURS);
                 } else {
-                    sentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 30000);
+                    mSentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 30000);
                 }
-                sentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
+                mSentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 
                 setAlarm(true);
                 startSentinelActivity();

@@ -25,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.sentinel.asset.GeotagDeliveryZXingActvity;
 import com.sentinel.authentication.SentinelLogin;
 import com.sentinel.preferences.SentinelSharedPreferences;
-import com.sentinel.tracking.SentinelLocationService;
+import com.sentinel.services.SentinelLocationService;
 import com.sentinel.utils.AuthenticationHelper;
 import com.sentinel.utils.CriteriaBuilder;
 import com.sentinel.utils.TrackingHelper;
@@ -51,10 +51,10 @@ public class Sentinel extends Activity {
 
     private static Location lastLocation;
 
-    private GoogleMap googleMap;
-    private SentinelSharedPreferences sentinelSharedPreferences;
-    private LocationListener sentinelLocationListener;
-    private LocationManager sentinelLocationManager;
+    private GoogleMap mGoogleMap;
+    private SentinelSharedPreferences mSentinelSharedPreferences;
+    private LocationListener mSentinelLocationListener;
+    private LocationManager mSentinelLocationManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,12 +65,12 @@ public class Sentinel extends Activity {
 
             FragmentManager fragmentManager = getFragmentManager();
             MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.map);
-            googleMap = mapFragment.getMap();
-            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            googleMap.getUiSettings().setCompassEnabled(true);
-            googleMap.getUiSettings().setZoomControlsEnabled(true);
+            mGoogleMap = mapFragment.getMap();
+            mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mGoogleMap.getUiSettings().setCompassEnabled(true);
+            mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
 
-            sentinelSharedPreferences = new SentinelSharedPreferences(this);
+            mSentinelSharedPreferences = new SentinelSharedPreferences(this);
 
         } else {
             new AlertDialog.Builder(this)
@@ -93,13 +93,13 @@ public class Sentinel extends Activity {
 
         SentinelLocationService.ignoreOrientationChanges(false);
 
-        if ((0 == sentinelSharedPreferences.getSessionID()) && (sentinelSharedPreferences.getUserIdentification().isEmpty())) {
+        if ((0 == mSentinelSharedPreferences.getSessionID()) && (mSentinelSharedPreferences.getUserIdentification().isEmpty())) {
             Toast.makeText(this, "Please login to continue", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, SentinelLogin.class));
             TrackingHelper.stopLocationService(this);
-        } else if (sentinelSharedPreferences.clockedOut()) {
+        } else if (mSentinelSharedPreferences.clockedOut()) {
             startActivity(new Intent(this, SentinelOnBreakActivity.class));
-        } else if (sentinelSharedPreferences.shiftEnding()) {
+        } else if (mSentinelSharedPreferences.shiftEnding()) {
             Intent intent = new Intent(this, SentinelShiftEndingActivity.class);
             intent.putExtra(SentinelShiftEndingActivity.ALERT_SENT, true);
             startActivity(intent);
@@ -144,10 +144,10 @@ public class Sentinel extends Activity {
 
         MenuInflater menuInflater = getMenuInflater();
 
-        if (sentinelSharedPreferences.clockedIn()) {
+        if (mSentinelSharedPreferences.clockedIn()) {
             menuInflater.inflate(R.menu.sentinel_menu, menu);
             return true;
-        } else if (sentinelSharedPreferences.clockedOut()) {
+        } else if (mSentinelSharedPreferences.clockedOut()) {
             return false;
         }
         return false;
@@ -182,13 +182,13 @@ public class Sentinel extends Activity {
     }
 
     protected void startLocationUpdates() {
-        sentinelLocationListener = new sentinelLocationListener();
-        sentinelLocationManager = ((LocationManager) getSystemService(LOCATION_SERVICE));
+        mSentinelLocationListener = new sentinelLocationListener();
+        mSentinelLocationManager = ((LocationManager) getSystemService(LOCATION_SERVICE));
 
         Criteria criteria = getGeoSpatialCriteria();
 
-        String provider = sentinelLocationManager.getBestProvider(criteria, true);
-        sentinelLocationManager.requestLocationUpdates(provider, TIME, DISTANCE, sentinelLocationListener);
+        String provider = mSentinelLocationManager.getBestProvider(criteria, true);
+        mSentinelLocationManager.requestLocationUpdates(provider, TIME, DISTANCE, mSentinelLocationListener);
 
         updateLocation(getLastLocation());
     }
@@ -205,10 +205,10 @@ public class Sentinel extends Activity {
     }
 
     protected void stopLocationUpdates() {
-        if ((null != sentinelLocationManager) && (null != sentinelLocationListener)) {
-            sentinelLocationManager.removeUpdates(sentinelLocationListener);
-            sentinelLocationManager = null;
-            sentinelLocationListener = null;
+        if ((null != mSentinelLocationManager) && (null != mSentinelLocationListener)) {
+            mSentinelLocationManager.removeUpdates(mSentinelLocationListener);
+            mSentinelLocationManager = null;
+            mSentinelLocationListener = null;
         }
     }
 
@@ -216,14 +216,14 @@ public class Sentinel extends Activity {
         if (null != location) {
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
-            googleMap.clear();
-            googleMap.addMarker(new MarkerOptions()
+            mGoogleMap.clear();
+            mGoogleMap.addMarker(new MarkerOptions()
                     .position(latlng)
                     .title("Current Location")
                     .snippet("Time: " + Calendar.getInstance().getTime())
                     .icon(BitmapDescriptorFactory.defaultMarker(210)));
 
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
             setLastLocation(location);
         }
     }
@@ -242,7 +242,7 @@ public class Sentinel extends Activity {
 
     private final class sentinelLocationListener implements LocationListener {
         public void onLocationChanged(Location location) {
-            if (Utils.checkUpdateIsMoreAccurate(lastLocation, location, TIME)) {
+            if (Utils.checkUpdateIsMoreAccurate(location, lastLocation, TIME)) {
                 updateLocation(location);
             }
         }

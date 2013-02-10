@@ -1,4 +1,4 @@
-package com.sentinel.tracking;
+package com.sentinel.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,7 +18,7 @@ import com.sentinel.app.R;
 import com.sentinel.app.Sentinel;
 import com.sentinel.connection.ConnectionManager;
 import com.sentinel.models.GeospatialInformation;
-import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
+import com.sentinel.sql.SentinelDB;
 import com.sentinel.utils.JsonBuilder;
 import com.sentinel.utils.ServiceHelper;
 import com.sentinel.utils.TrackingHelper;
@@ -43,9 +43,8 @@ public class SentinelLocationService extends Service {
         MAX_SPEED = 134.2161774;
     }
 
-    private static Location currentLocation;
-
-    private SentinelBuffferedGeospatialDataDB oSentinelDB;
+    private static Location mCurrentLocation;
+    private SentinelDB mSentinelDB;
 
     private final class SentinelLocationListener implements LocationListener {
         @Override
@@ -54,7 +53,7 @@ public class SentinelLocationService extends Service {
                 handleExcessSpeed(location);
             }
 
-            if (Utils.checkUpdateIsMoreAccurate(currentLocation, location, TIME)) {
+            if (Utils.checkUpdateIsMoreAccurate(location, mCurrentLocation, TIME)) {
                 handleLocationChanged(location);
             }
         }
@@ -96,13 +95,13 @@ public class SentinelLocationService extends Service {
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        oSentinelDB = new SentinelBuffferedGeospatialDataDB(this);
+        mSentinelDB = new SentinelDB(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID) {
-        if (0 != oSentinelDB.getBufferedGeospatialDataCount()) {
-            String historicalGeospatialJson = oSentinelDB.getBufferedGeospatialDataJsonString();
+        if (0 != mSentinelDB.getRowCount()) {
+            String historicalGeospatialJson = mSentinelDB.getBufferedGeospatialDataJsonString();
             ServiceHelper.sendHistoricalDataToLocationService(this, historicalGeospatialJson);
         }
 
@@ -191,19 +190,19 @@ public class SentinelLocationService extends Service {
     }
 
     public void handleLocationChanged(final Location location) {
-        currentLocation = location;
+        mCurrentLocation = location;
         notifyLocationUpdate(location);
 
         String strGeospatialInformationJson = addLocationToDatabaseAndReturnLocationJson();
 
         if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
-            if (oSentinelDB.getBufferedGeospatialDataCount() >= 2) {
+            if (mSentinelDB.getRowCount() >= 2) {
                 ServiceHelper.sendBufferedGeospatialDataToLocationService(this, strGeospatialInformationJson);
             } else {
                 ServiceHelper.sendGISToLocationService(this, strGeospatialInformationJson);
             }
         }
-        oSentinelDB.closeSentinelDatabase();
+        mSentinelDB.closeSentinelDatabase();
     }
 
     public static void ignoreOrientationChanges(final boolean ignore) {
@@ -212,9 +211,9 @@ public class SentinelLocationService extends Service {
 
     private String addLocationToDatabaseAndReturnLocationJson() {
         GeospatialInformation oGeospatialInformation = TrackingHelper.getGeospatialInformation(this);
-        oSentinelDB.addGeospatialData(oGeospatialInformation);
+        mSentinelDB.addGeospatialData(oGeospatialInformation);
 
-        return oSentinelDB.getBufferedGeospatialDataJsonString();
+        return mSentinelDB.getBufferedGeospatialDataJsonString();
     }
 
     private void notifyProviderDisabled() {

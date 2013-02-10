@@ -1,30 +1,30 @@
 package com.sentinel.models;
 
 public class User {
-    private String UserKey;
-    private int SessionID;
+    private String mUserKey;
+    private int mSessionID;
 
     public User() {
     }
 
-    public User(String oUserIdentification, int iSessionID) {
-        this.UserKey = oUserIdentification;
-        this.SessionID = iSessionID;
+    public User(String userIdentification, int sessionID) {
+        mUserKey = userIdentification;
+        mSessionID = sessionID;
     }
 
     public String getUserIdentification() {
-        return UserKey;
+        return mUserKey;
     }
 
-    public void setUserIdentification(String oUserIdentification) {
-        this.UserKey = oUserIdentification;
+    public void setUserIdentification(String userIdentification) {
+        mUserKey = userIdentification;
     }
 
     public int getSessionID() {
-        return SessionID;
+        return mSessionID;
     }
 
-    public void setSessionID(int iSessionID) {
-        this.SessionID = iSessionID;
+    public void setSessionID(int sessionID) {
+        mSessionID = sessionID;
     }
 }

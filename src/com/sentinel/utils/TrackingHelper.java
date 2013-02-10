@@ -6,15 +6,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import com.sentinel.models.GeospatialInformation;
 import com.sentinel.preferences.SentinelSharedPreferences;
-import com.sentinel.tracking.SentinelLocationService;
+import com.sentinel.services.SentinelLocationService;
 
 import java.util.List;
 
-/**
- * David Russell
- * 24/01/13
- */
-public class TrackingHelper {
+public abstract class TrackingHelper {
 
     public static Location lastKnownLocation(final Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

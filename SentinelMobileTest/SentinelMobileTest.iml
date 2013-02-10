@@ -51,6 +51,16 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="robotium-solo-3.6-javadoc" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../junit-4.10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="junit-4.10" level="project" />
   </component>
 </module>
 

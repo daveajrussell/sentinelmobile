@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
+import com.sentinel.sql.SentinelDB;
 import com.sentinel.utils.ServiceHelper;
 //import android.net.NetworkInfo;
 
@@ -20,18 +20,19 @@ public class ConnectionChangedBroadcastReceiver extends BroadcastReceiver {
         NetworkInfo oNetInfo = oConnectivityManager.getActiveNetworkInfo();
 
         if (null != oNetInfo && oNetInfo.isConnectedOrConnecting()) {
-            SentinelBuffferedGeospatialDataDB oSentinelDB = new SentinelBuffferedGeospatialDataDB(context);
+            SentinelDB oSentinelDB = new SentinelDB(context);
 
-            if (0 != oSentinelDB.getBufferedGeospatialDataCount()) {
+            if (0 != oSentinelDB.getRowCount()) {
                 String strGeospatialInformationJson;
 
                 strGeospatialInformationJson = oSentinelDB.getBufferedGeospatialDataJsonString();
 
-                if (oSentinelDB.getBufferedGeospatialDataCount() >= 2) {
+                if (oSentinelDB.getRowCount() >= 2) {
                     ServiceHelper.sendBufferedGeospatialDataToLocationService(context, strGeospatialInformationJson);
                 } else {
                     ServiceHelper.sendGISToLocationService(context, strGeospatialInformationJson);
                 }
+
                 oSentinelDB.closeSentinelDatabase();
             }
         }

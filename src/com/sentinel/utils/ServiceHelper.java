@@ -2,7 +2,7 @@ package com.sentinel.utils;
 
 import android.content.Context;
 import android.util.Log;
-import com.sentinel.tracking.*;
+import com.sentinel.services.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -60,7 +61,7 @@
                 android:name=".SentinelShiftEndingActivity"
                 android:theme="@android:style/Theme.Holo.NoActionBar"/>
         <service
-                android:name="com.sentinel.tracking.SentinelLocationService"
+                android:name="com.sentinel.services.SentinelLocationService"
                 android:enabled="true"
                 android:permission="com.sentinel.LOCATION_SERVICE_PERMISSION"/>
 
@@ -69,7 +70,7 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.sentinel.tracking.OrientationBroadcastReceiver">
+        <receiver android:name="com.sentinel.services.OrientationBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.sentinel.app.Sentinel"/>
                 <action android:name="com.sentinel.tracking.SentinelLocationService"/>

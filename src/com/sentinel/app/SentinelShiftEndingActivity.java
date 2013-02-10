@@ -34,9 +34,9 @@ public class SentinelShiftEndingActivity extends Activity {
     private static Chronometer countdownTimer;
     private static Button btnClockOut;
     private static TextView tvRemaining;
-    private static NotificationManager notificationManager;
-    private static SentinelSharedPreferences sentinelSharedPreferences;
-    private static long shiftEnding;
+    private static NotificationManager mNotificationManager;
+    private static SentinelSharedPreferences mSentinelSharedPreferences;
+    private static long mShiftEnding;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,15 +46,15 @@ public class SentinelShiftEndingActivity extends Activity {
         tvRemaining = (TextView) findViewById(R.id.tvRemaining);
         btnClockOut = (Button) findViewById(R.id.btnClockOut);
 
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        sentinelSharedPreferences = new SentinelSharedPreferences(this);
+        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mSentinelSharedPreferences = new SentinelSharedPreferences(this);
     }
 
     @Override
     protected void onResume() {
         setUIElementProperties(Color.LTGRAY, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
 
-        if (sentinelSharedPreferences.shiftEnding()) {
+        if (mSentinelSharedPreferences.shiftEnding()) {
             resumeShiftEndingActivity();
         } else {
             startShiftEndingActivity();
@@ -70,7 +70,7 @@ public class SentinelShiftEndingActivity extends Activity {
         }
 
         if (intent.getBooleanExtra(SHIFT_ENDING, true)) {
-            sentinelSharedPreferences.setShiftEnding(true);
+            mSentinelSharedPreferences.setShiftEnding(true);
             intent.removeExtra(SHIFT_ENDING);
         }
 
@@ -93,7 +93,7 @@ public class SentinelShiftEndingActivity extends Activity {
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
                 .setAutoCancel(true)
                 .build();
-        notificationManager.notify(NOTIFICATION_ID, breakOverNotification);
+        mNotificationManager.notify(NOTIFICATION_ID, breakOverNotification);
 
         setCowndownTimer();
     }
@@ -105,7 +105,7 @@ public class SentinelShiftEndingActivity extends Activity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (setOrCancel) {
-            alarmManager.set(AlarmManager.RTC_WAKEUP, shiftEnding, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, mShiftEnding, pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);
         }
@@ -113,7 +113,7 @@ public class SentinelShiftEndingActivity extends Activity {
 
     private void resumeShiftEndingActivity() {
         setUIElementProperties(Color.LTGRAY, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
-        long shiftEnding = sentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
+        long shiftEnding = mSentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
 
         if (shiftEnding <= 0) {
             setShiftOverDisplay();
@@ -134,12 +134,12 @@ public class SentinelShiftEndingActivity extends Activity {
         setUIElementProperties(Color.LTGRAY, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
 
         if (!isJunit) {
-            shiftEnding = sentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
+            mShiftEnding = mSentinelSharedPreferences.getDrivingEndAlarm() - System.currentTimeMillis();
         } else {
-            shiftEnding = 5000;
+            mShiftEnding = 5000;
         }
 
-        CountDownTimer breakTimer = new CountDownTimer(shiftEnding, 1000) {
+        CountDownTimer breakTimer = new CountDownTimer(mShiftEnding, 1000) {
             public void onTick(long millisUntilFinished) {
                 String timer = Utils.getFormattedMinsSecsTimeString(millisUntilFinished);
                 countdownTimer.setText(timer);
@@ -157,13 +157,14 @@ public class SentinelShiftEndingActivity extends Activity {
         countdownTimer.setText("00:00");
         setUIElementProperties(Color.RED, View.VISIBLE, View.VISIBLE, View.VISIBLE);
 
-        sentinelSharedPreferences.setShiftEnded(true);
+        mSentinelSharedPreferences.setShiftEnded(true);
 
         btnClockOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notificationManager.cancel(NOTIFICATION_ID);
+                mNotificationManager.cancel(NOTIFICATION_ID);
                 AuthenticationHelper.performLogout(getApplicationContext());
+                finish();
             }
         });
     }
@@ -181,7 +182,7 @@ public class SentinelShiftEndingActivity extends Activity {
                 .setContentIntent(pIntent).build();
 
         breakOverNotification.flags = Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(NOTIFICATION_ID, breakOverNotification);
+        mNotificationManager.notify(NOTIFICATION_ID, breakOverNotification);
     }
 
     private class NearingLegalDrivingTimeAsyncTask extends AsyncTask<String, Integer, String> {

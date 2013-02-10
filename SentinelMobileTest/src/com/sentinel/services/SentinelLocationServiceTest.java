@@ -1,4 +1,4 @@
-package com.sentinel.tracking;
+package com.sentinel.services;
 
 import android.content.Intent;
 import android.location.Location;

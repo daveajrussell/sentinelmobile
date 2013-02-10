@@ -1,4 +1,4 @@
-package com.sentinel.tracking;
+package com.sentinel.services;
 
 import android.os.AsyncTask;
 import com.sentinel.utils.ServiceHelper;
@@ -8,8 +8,8 @@ public class SpeedingNotificationAsyncTask extends AsyncTask<String, Integer, St
     private static final String METHOD_NAME;
     private static final String URL;
 
-    private String processResult;
-    private String geoDataJson;
+    private String mProcessResult;
+    private String mGeoDataJson;
 
     static {
         METHOD_NAME = "/PostSpeedingNotification";
@@ -19,9 +19,9 @@ public class SpeedingNotificationAsyncTask extends AsyncTask<String, Integer, St
     @Override
     protected String doInBackground(String... strings) {
         if (!strings[0].isEmpty()) {
-            geoDataJson = strings[0];
-            processResult = ServiceHelper.doPost(null, METHOD_NAME, URL, geoDataJson, false);
+            mGeoDataJson = strings[0];
+            mProcessResult = ServiceHelper.doPost(null, METHOD_NAME, URL, mGeoDataJson, false);
         }
-        return processResult;
+        return mProcessResult;
     }
 }

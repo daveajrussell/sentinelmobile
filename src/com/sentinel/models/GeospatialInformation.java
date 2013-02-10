@@ -2,53 +2,53 @@ package com.sentinel.models;
 
 public class GeospatialInformation {
 
-    private int iSessionID;
-    private String oUserIndentification;
-    private long lTimeStamp;
-    private double dLongitude;
-    private double dLatitude;
-    private double dSpeed;
-    private int iOrientation;
+    private int mSessionID;
+    private String mUserIndentification;
+    private long mTimeStamp;
+    private double mLongitude;
+    private double mLatitude;
+    private double mSpeed;
+    private int mOrientation;
 
     public GeospatialInformation(int sessionID, String id, long stamp, double lng, double lat, double speed, int orientation) {
-        iSessionID = sessionID;
-        oUserIndentification = id;
+        mSessionID = sessionID;
+        mUserIndentification = id;
         setDateTimeStamp(stamp);
-        dLongitude = lng;
-        dLatitude = lat;
-        dSpeed = speed;
-        iOrientation = orientation;
+        mLongitude = lng;
+        mLatitude = lat;
+        mSpeed = speed;
+        mOrientation = orientation;
     }
 
     public String getUserIndentification() {
-        return oUserIndentification;
+        return mUserIndentification;
     }
 
     public long getDateTimeStamp() {
-        return lTimeStamp;
+        return mTimeStamp;
     }
 
     public void setDateTimeStamp(long lTimeStamp) {
-        this.lTimeStamp = lTimeStamp;
+        mTimeStamp = lTimeStamp;
     }
 
     public double getLatitude() {
-        return dLatitude;
+        return mLatitude;
     }
 
     public double getLongitude() {
-        return dLongitude;
+        return mLongitude;
     }
 
     public double getSpeed() {
-        return dSpeed;
+        return mSpeed;
     }
 
     public int getOrientation() {
-        return iOrientation;
+        return mOrientation;
     }
 
     public int getSessionID() {
-        return iSessionID;
+        return mSessionID;
     }
 }

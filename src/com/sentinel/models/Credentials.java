@@ -5,27 +5,27 @@ package com.sentinel.models;
  * 09/12/12
  */
 public class Credentials {
-    private String strUsername;
-    private String strPassword;
+    private String mUsername;
+    private String mPassword;
 
-    public Credentials(String strUsername, String strPassword) {
-        this.strUsername = strUsername;
-        this.strPassword = strPassword;
+    public Credentials(String username, String password) {
+        mUsername = username;
+        mPassword = password;
     }
 
     public String getPassword() {
-        return strPassword;
+        return mPassword;
     }
 
-    public void setPassword(String strPassword) {
-        this.strPassword = strPassword;
+    public void setPassword(String password) {
+        mPassword = password;
     }
 
     public String getUsername() {
-        return strUsername;
+        return mUsername;
     }
 
-    public void setUsername(String strUsername) {
-        this.strUsername = strUsername;
+    public void setUsername(String username) {
+        mUsername = username;
     }
 }

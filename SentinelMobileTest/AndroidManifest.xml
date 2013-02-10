@@ -9,12 +9,12 @@
          which is needed when building test cases. -->
     <application>
         <uses-library android:name="android.test.runner"/>
-        <service android:name="com.sentinel.tracking.SentinelLocationServiceTest"/>
+        <service android:name="com.sentinel.services.SentinelLocationServiceTest"/>
     </application>
     <!--
     This declares that this application uses the instrumentation test runner targeting
-    the package of com.sentinel.app.  To run the tests use the command:
-    "adb shell am instrument -w com.sentinel.app.tests/android.test.InstrumentationTestRunner"
+    the package of com.sentineltesttest.app.  To run the tests use the command:
+    "adb shell am instrument -w com.sentineltesttest.app.tests/android.test.InstrumentationTestRunner"
     -->
     <instrumentation android:name="android.test.InstrumentationTestRunner"
                      android:targetPackage="com.sentinel.app"

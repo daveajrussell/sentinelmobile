@@ -5,22 +5,22 @@ package com.sentinel.models;
  * 24/01/13
  */
 public class GeotaggedAsset {
-    private String strAssetKey;
-    private GeospatialInformation oGeospatialInformation;
+    private String mAssetKey;
+    private GeospatialInformation mGeospatialInformation;
 
     public String getAssetKey() {
-        return strAssetKey;
+        return mAssetKey;
     }
 
-    public void setAssetKey(String strAssetKey) {
-        this.strAssetKey = strAssetKey;
+    public void setAssetKey(String assetKey) {
+        mAssetKey = assetKey;
     }
 
-    public GeospatialInformation geGeospatialInformation() {
-        return oGeospatialInformation;
+    public GeospatialInformation getGeospatialInformation() {
+        return mGeospatialInformation;
     }
 
-    public void setGeospatialInformation(GeospatialInformation oGeospatialInformation) {
-        this.oGeospatialInformation = oGeospatialInformation;
+    public void setGeospatialInformation(GeospatialInformation geospatialInformation) {
+        mGeospatialInformation = geospatialInformation;
     }
 }

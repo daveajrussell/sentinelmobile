@@ -1,8 +1,8 @@
-package com.sentinel.tracking;
+package com.sentinel.services;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import com.sentinel.sql.SentinelBuffferedGeospatialDataDB;
+import com.sentinel.sql.SentinelDB;
 import com.sentinel.utils.HttpResponseCode;
 import com.sentinel.utils.ServiceHelper;
 
@@ -11,35 +11,34 @@ public class BufferedGeospatialDataAsyncTask extends AsyncTask<String, Integer, 
     private static final String METHOD_NAME;
     private static final String URL;
 
-    private static String strProcessResult;
-    private static String geoDataJson;
+    private static String mProcessResult;
+    private static String mDataJson;
 
-    private SentinelBuffferedGeospatialDataDB oSentinelDB;
+    private SentinelDB mSentinelDB;
 
     static {
         METHOD_NAME = "/PostBufferedGeospatialDataSet";
         URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
     }
 
-    public BufferedGeospatialDataAsyncTask(Context oContext) {
-        oSentinelDB = new SentinelBuffferedGeospatialDataDB(oContext);
+    public BufferedGeospatialDataAsyncTask(Context context) {
+        mSentinelDB = new SentinelDB(context);
     }
 
     @Override
     protected String doInBackground(String... strings) {
         if (!strings[0].isEmpty()) {
-            geoDataJson = strings[0];
-            strProcessResult = ServiceHelper.doPost(null, METHOD_NAME, URL, geoDataJson, false);
+            mDataJson = strings[0];
+            mProcessResult = ServiceHelper.doPost(null, METHOD_NAME, URL, mDataJson, false);
         }
-        return strProcessResult;
-
+        return mProcessResult;
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if (result == HttpResponseCode.OK_RESULT) {
-            oSentinelDB.deleteGeospatialData();
-            oSentinelDB.closeSentinelDatabase();
+        if (result.equals(HttpResponseCode.OK_RESULT)) {
+            mSentinelDB.deleteGeospatialData();
+            mSentinelDB.closeSentinelDatabase();
         }
     }
 }
