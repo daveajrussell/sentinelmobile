@@ -29,6 +29,7 @@ public class SentineLoginTest extends ActivityInstrumentationTestCase2<SentinelL
 
     @Override
     public void tearDown() throws Exception {
+        solo.setActivityOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         solo.finishOpenedActivities();
     }
 
@@ -132,8 +133,6 @@ public class SentineLoginTest extends ActivityInstrumentationTestCase2<SentinelL
 
         solo.clickOnText("Clock In");
         solo.assertCurrentActivity("Sentinel Activitiy should have launched", Sentinel.class);
-
-        assertTrue("Notification should be displayed", solo.waitForText("Device is oriented incorrectly."));
 
         performLogout();
     }

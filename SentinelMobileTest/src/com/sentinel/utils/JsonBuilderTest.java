@@ -15,6 +15,8 @@ import java.util.UUID;
 
 public class JsonBuilderTest extends AndroidTestCase {
 
+    private static final String MOCK_PROVIDER = "MOCK_PROVIDER";
+
     String mockAssetID;
     String mockUserIdentification;
     long mockTimestamp;
@@ -63,15 +65,22 @@ public class JsonBuilderTest extends AndroidTestCase {
         mLocation.setAccuracy(mockAccuracy);
 
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        mLocationManager.removeTestProvider("MOCK_PROVIDER");
-        mLocationManager.addTestProvider("MOCK_PROVIDER", true, true, true, false, false, true, false, 0, 0);
-        mLocationManager.setTestProviderEnabled("MOCK_PROVIDER", true);
-        mLocationManager.setTestProviderLocation("MOCK_PROVIDER", mLocation);
+
+        if (null == mLocationManager.getProvider(MOCK_PROVIDER)) {
+            mLocationManager.addTestProvider(MOCK_PROVIDER, true, true, true, false, false, true, false, 0, 0);
+        }
+
+        if (!mLocationManager.isProviderEnabled(MOCK_PROVIDER)) {
+            mLocationManager.setTestProviderEnabled(MOCK_PROVIDER, true);
+        }
+        mLocationManager.setTestProviderLocation(MOCK_PROVIDER, mLocation);
+
     }
 
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
+        mLocationManager.removeTestProvider(MOCK_PROVIDER);
     }
 
     public void testUserCredentialsJsonFromCredentials() throws Exception {

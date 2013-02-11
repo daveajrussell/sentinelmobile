@@ -76,6 +76,9 @@ public class SentinelLogin extends Activity {
         txtPassword = (EditText) findViewById(R.id.txt_password);
         pbAsyncProgress = (ProgressBar) findViewById(R.id.pbAsyncProgress);
 
+        btnLogin.setFocusableInTouchMode(true);
+        btnLogin.requestFocusFromTouch();
+
         mSentinelSharedPreferences = new SentinelSharedPreferences(this);
 
         /* DEBUG */
@@ -151,17 +154,12 @@ public class SentinelLogin extends Activity {
 
         Intent intent = new Intent(this, SentinelShiftEndingActivity.class);
         intent.putExtra(SentinelShiftEndingActivity.SHIFT_ENDING, true);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (setOrCancel) {
             long lngEndDrivingAlarm;
-            if (!isJunit) {
-                lngEndDrivingAlarm = mSentinelSharedPreferences.getDrivingEndAlarm() - Time.FIVE_MINUTES;
-                alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
-            } else {
-                lngEndDrivingAlarm = mSentinelSharedPreferences.getDrivingEndAlarm() - 20000;
-                alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
-            }
+            lngEndDrivingAlarm = mSentinelSharedPreferences.getDrivingEndAlarm() - Time.FIVE_MINUTES;
+            alarmManager.set(AlarmManager.RTC_WAKEUP, lngEndDrivingAlarm, pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);
         }
@@ -193,7 +191,7 @@ public class SentinelLogin extends Activity {
                 if (!isJunit) {
                     mSentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + Time.NINE_HOURS);
                 } else {
-                    mSentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 30000);
+                    mSentinelSharedPreferences.setDrivingEndAlarm(System.currentTimeMillis() + 330000);
                 }
                 mSentinelSharedPreferences.setSessionBeginDateTime(System.currentTimeMillis());
 

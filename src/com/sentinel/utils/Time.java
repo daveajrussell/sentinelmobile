@@ -8,7 +8,7 @@ public class Time {
     public static final long NINE_HOURS;
 
     static {
-        FIVE_MINUTES = 30000;
+        FIVE_MINUTES = 300000;
         FORTY_FIVE_MINUTES = 2700000;
         FOUR_HOURS_TWENTY = 15600000;
         FOUR_HOURS_THIRTY = 16200000;

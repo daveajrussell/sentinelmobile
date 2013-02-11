@@ -157,7 +157,7 @@ public class UtilsTest extends TestCase {
         mockNewLocationLessAccurateNewerSameProvider.setLongitude(-2.112422);
         mockNewLocationLessAccurateNewerSameProvider.setAccuracy(34);
 
-        assertFalse("Less accurate and same provider but is newer: more accurate", Utils.checkUpdateIsMoreAccurate(mockNewLocationLessAccurateNewerSameProvider, mockLastLocation, 20));
+        assertTrue("Less accurate and same provider but is newer: more accurate", Utils.checkUpdateIsMoreAccurate(mockNewLocationLessAccurateNewerSameProvider, mockLastLocation, 20));
     }
 
     public void testCheckUpdateIsMoreAccurateSeven() throws Exception {

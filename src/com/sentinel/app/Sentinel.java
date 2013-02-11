@@ -58,6 +58,8 @@ public class Sentinel extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mSentinelSharedPreferences = new SentinelSharedPreferences(this);
         int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 
         if (result == ConnectionResult.SUCCESS) {
@@ -70,17 +72,15 @@ public class Sentinel extends Activity {
             mGoogleMap.getUiSettings().setCompassEnabled(true);
             mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
 
-            mSentinelSharedPreferences = new SentinelSharedPreferences(this);
-
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Error")
-                    .setMessage("This device was found to be incompatible with Google Play Services." +
+                    .setMessage("This device was found to be incompatible with Google Play Services. " +
                             "Please check your version of Google Play.")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
+                            AuthenticationHelper.performLogout(getApplicationContext());
                         }
                     })
                     .setCancelable(false)
@@ -93,18 +93,20 @@ public class Sentinel extends Activity {
 
         SentinelLocationService.ignoreOrientationChanges(false);
 
-        if ((0 == mSentinelSharedPreferences.getSessionID()) && (mSentinelSharedPreferences.getUserIdentification().isEmpty())) {
-            Toast.makeText(this, "Please login to continue", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, SentinelLogin.class));
-            TrackingHelper.stopLocationService(this);
-        } else if (mSentinelSharedPreferences.clockedOut()) {
-            startActivity(new Intent(this, SentinelOnBreakActivity.class));
-        } else if (mSentinelSharedPreferences.shiftEnding()) {
-            Intent intent = new Intent(this, SentinelShiftEndingActivity.class);
-            intent.putExtra(SentinelShiftEndingActivity.ALERT_SENT, true);
-            startActivity(intent);
-        } else {
-            launchSentinel();
+        if (null != mSentinelSharedPreferences) {
+            if ((0 == mSentinelSharedPreferences.getSessionID()) && (mSentinelSharedPreferences.getUserIdentification().isEmpty())) {
+                Toast.makeText(this, "Please login to continue", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, SentinelLogin.class));
+                TrackingHelper.stopLocationService(this);
+            } else if (mSentinelSharedPreferences.clockedOut()) {
+                startActivity(new Intent(this, SentinelOnBreakActivity.class));
+            } else if (mSentinelSharedPreferences.shiftEnding()) {
+                Intent intent = new Intent(this, SentinelShiftEndingActivity.class);
+                intent.putExtra(SentinelShiftEndingActivity.ALERT_SENT, true);
+                startActivity(intent);
+            } else {
+                launchSentinel();
+            }
         }
     }
 
@@ -213,7 +215,7 @@ public class Sentinel extends Activity {
     }
 
     protected void updateLocation(Location location) {
-        if (null != location) {
+        if (null != location && null != mGoogleMap) {
             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
             mGoogleMap.clear();
