@@ -13,17 +13,20 @@ import com.sentinel.utils.JsonBuilder;
 import com.sentinel.utils.ServiceHelper;
 import com.sentinel.utils.TrackingHelper;
 
-public class OrientationBroadcastReceiver extends BroadcastReceiver {
+public class OrientationBroadcastReceiver extends BroadcastReceiver
+{
 
     public static final String ORIENTATION;
     public static final int ORIENTATION_NOTIFICATION_ID;
 
-    static {
+    static
+    {
         ORIENTATION = "ORIENTATION";
         ORIENTATION_NOTIFICATION_ID = 3;
     }
 
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent)
+    {
         NotificationCompat.Builder orientationNotificationBuilder = new NotificationCompat.Builder(context);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -37,9 +40,10 @@ public class OrientationBroadcastReceiver extends BroadcastReceiver {
 
         Location location = TrackingHelper.lastKnownLocation(context);
 
-        if (ConnectionManager.deviceIsConnected(context)) {
+        if (ConnectionManager.deviceIsConnected(context))
+        {
             String orientationNotification = JsonBuilder.geospatialDataJson(context, location);
-            ServiceHelper.sendOrientationNotification(orientationNotification);
+            ServiceHelper.sendGISToLocationService(context, orientationNotification);
         }
 
         String message = intent.getStringExtra(ORIENTATION);
