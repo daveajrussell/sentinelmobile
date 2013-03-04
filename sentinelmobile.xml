@@ -38,6 +38,7 @@
     <patternset id="compiler.excluded">
         <exclude name="${basedir}/gen/**"/>
         <exclude name="${basedir}/google-play-services-lib/gen/**"/>
+        <exclude name="${basedir}/../../google-play-services-lib/gen/**"/>
         <exclude name="${basedir}/SentinelMobileTest/gen/**"/>
     </patternset>
     <patternset id="library.patterns">
@@ -66,14 +67,14 @@
     <!-- JDK definitions -->
 
     <property name="jdk.bin.android_4.2_google_apis"
-              value="${jdk.home.android_4.2_google_apis}/../../../Program Files (x86)/Java/jdk1.7.0_09/bin"/>
+              value="${jdk.home.android_4.2_google_apis}/../../../../Library/Java/JavaVirtualMachines/jdk1.7.0_11.jdk/Contents/Home/bin"/>
     <path id="jdk.classpath.android_4.2_google_apis">
         <fileset dir="${jdk.home.android_4.2_google_apis}">
-            <include name="platforms/android-4.2/android.jar"/>
+            <include name="platforms/android-17/android.jar"/>
             <include name="add-ons/addon-google_apis-google-17/libs/effects.jar"/>
             <include name="add-ons/addon-google_apis-google-17/libs/usb.jar"/>
             <include name="add-ons/addon-google_apis-google-17/libs/maps.jar"/>
-            <include name="platforms/android-4.2/data/res"/>
+            <include name="platforms/android-17/data/res"/>
             <include name="tools/support/annotations.jar"/>
         </fileset>
     </path>
@@ -84,6 +85,20 @@
 
 
     <!-- Project Libraries -->
+
+    <path id="library.junit-4.10.classpath">
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+    <path id="library.robotium-solo-3.6-javadoc.classpath">
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+    </path>
+
+    <path id="library.v4.classpath">
+        <fileset dir="${basedir}/../../v4">
+            <patternset refid="library.patterns"/>
+        </fileset>
+    </path>
     <!-- Register Custom Compiler Taskdefs -->
     <property name="javac2.home" value="${idea.home}/lib"/>
     <path id="javac2.classpath">
@@ -227,6 +242,7 @@
         </fileset>
         <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
         <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <path refid="library.v4.classpath"/>
         <pathelement location="${google-play-services-lib.output.dir}"/>
         <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
     </path>
@@ -238,6 +254,7 @@
         </fileset>
         <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
         <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <path refid="library.v4.classpath"/>
         <pathelement location="${google-play-services-lib.output.dir}"/>
         <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
         <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
@@ -251,6 +268,7 @@
         </fileset>
         <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
         <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <path refid="library.v4.classpath"/>
         <pathelement location="${google-play-services-lib.testoutput.dir}"/>
         <pathelement location="${google-play-services-lib.output.dir}"/>
         <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
@@ -264,6 +282,7 @@
         </fileset>
         <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
         <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <path refid="library.v4.classpath"/>
         <pathelement location="${google-play-services-lib.testoutput.dir}"/>
         <pathelement location="${google-play-services-lib.output.dir}"/>
         <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
@@ -357,13 +376,17 @@
             <patternset refid="library.patterns"/>
         </fileset>
         <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <path refid="library.robotium-solo-3.6-javadoc.classpath"/>
         <pathelement location="${basedir}/../../junit-4.10.jar"/>
+        <path refid="library.junit-4.10.classpath"/>
     </path>
 
     <path id="sentinelmobiletest.runtime.production.module.classpath">
         <pathelement location="${sentinelmobiletest.output.dir}"/>
         <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <path refid="library.robotium-solo-3.6-javadoc.classpath"/>
         <pathelement location="${basedir}/../../junit-4.10.jar"/>
+        <path refid="library.junit-4.10.classpath"/>
     </path>
 
     <path id="sentinelmobiletest.module.classpath">
@@ -375,7 +398,9 @@
             <patternset refid="library.patterns"/>
         </fileset>
         <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <path refid="library.robotium-solo-3.6-javadoc.classpath"/>
         <pathelement location="${basedir}/../../junit-4.10.jar"/>
+        <path refid="library.junit-4.10.classpath"/>
     </path>
 
     <path id="sentinelmobiletest.runtime.module.classpath">
@@ -388,12 +413,15 @@
         </fileset>
         <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
         <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <path refid="library.v4.classpath"/>
         <pathelement location="${google-play-services-lib.testoutput.dir}"/>
         <pathelement location="${google-play-services-lib.output.dir}"/>
         <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
         <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
         <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <path refid="library.robotium-solo-3.6-javadoc.classpath"/>
         <pathelement location="${basedir}/../../junit-4.10.jar"/>
+        <path refid="library.junit-4.10.classpath"/>
     </path>
 
 
