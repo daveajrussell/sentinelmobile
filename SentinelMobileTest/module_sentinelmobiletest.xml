@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_sentinelmobiletest" default="compile.module.sentinelmobiletest">
+    <dirname property="module.sentinelmobiletest.basedir" file="${ant.file.module_sentinelmobiletest}"/>
+
+    <property name="module.jdk.home.sentinelmobiletest" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.sentinelmobiletest" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.sentinelmobiletest" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.sentinelmobiletest" value="${compiler.args}"/>
+
+    <property name="sentinelmobiletest.output.dir"
+              value="${module.sentinelmobiletest.basedir}/../out/production/SentinelMobileTest"/>
+    <property name="sentinelmobiletest.testoutput.dir"
+              value="${module.sentinelmobiletest.basedir}/../out/test/SentinelMobileTest"/>
+
+    <path id="sentinelmobiletest.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="sentinelmobiletest.module.production.classpath">
+        <path refid="${module.jdk.classpath.sentinelmobiletest}"/>
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+    <path id="sentinelmobiletest.runtime.production.module.classpath">
+        <pathelement location="${sentinelmobiletest.output.dir}"/>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+    <path id="sentinelmobiletest.module.classpath">
+        <path refid="${module.jdk.classpath.sentinelmobiletest}"/>
+        <pathelement location="${sentinelmobiletest.output.dir}"/>
+        <pathelement location="${sentinelmobile.testoutput.dir}"/>
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+    <path id="sentinelmobiletest.runtime.module.classpath">
+        <pathelement location="${sentinelmobiletest.testoutput.dir}"/>
+        <pathelement location="${sentinelmobiletest.output.dir}"/>
+        <path refid="sentinelmobile.runtime.module.classpath"/>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.sentinelmobiletest">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.sentinelmobiletest">
+        <patternset refid="compiler.excluded"/>
+        <patternset refid="excluded.from.module.sentinelmobiletest"/>
+    </patternset>
+
+    <path id="sentinelmobiletest.module.sourcepath">
+        <dirset dir="${module.sentinelmobiletest.basedir}">
+            <include name="src"/>
+            <include name="gen"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.sentinelmobiletest"
+            depends="compile.module.sentinelmobiletest.production,compile.module.sentinelmobiletest.tests"
+            description="Compile module SentinelMobileTest"/>
+
+    <target name="compile.module.sentinelmobiletest.production"
+            depends="register.custom.compilers,compile.module.sentinelmobile"
+            description="Compile module SentinelMobileTest; production classes">
+        <mkdir dir="${sentinelmobiletest.output.dir}"/>
+        <javac2 destdir="${sentinelmobiletest.output.dir}" debug="${compiler.debug}"
+                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true"
+                executable="${module.jdk.bin.sentinelmobiletest}/javac">
+            <compilerarg line="${compiler.args.sentinelmobiletest}"/>
+            <bootclasspath refid="sentinelmobiletest.module.bootclasspath"/>
+            <classpath refid="sentinelmobiletest.module.production.classpath"/>
+            <src refid="sentinelmobiletest.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.sentinelmobiletest"/>
+        </javac2>
+
+        <copy todir="${sentinelmobiletest.output.dir}">
+            <fileset dir="${module.sentinelmobiletest.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.sentinelmobiletest"/>
+            </fileset>
+            <fileset dir="${module.sentinelmobiletest.basedir}/gen">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.sentinelmobiletest"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.sentinelmobiletest.tests"
+            depends="register.custom.compilers,compile.module.sentinelmobiletest.production"
+            description="compile module SentinelMobileTest; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.sentinelmobiletest" description="cleanup module">
+        <delete dir="${sentinelmobiletest.output.dir}"/>
+        <delete dir="${sentinelmobiletest.testoutput.dir}"/>
+    </target>
+</project>
