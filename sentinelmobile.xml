@@ -100,11 +100,360 @@
 
     <!-- Modules -->
 
-    <import file="${basedir}/google-play-services-lib/module_google-play-services-lib.xml"/>
 
-    <import file="${basedir}/module_sentinelmobile.xml"/>
+    <!-- Module google-play-services-lib -->
 
-    <import file="${basedir}/SentinelMobileTest/module_sentinelmobiletest.xml"/>
+    <dirname property="module.google-play-services-lib.basedir" file="${ant.file}"/>
+
+
+    <property name="module.jdk.home.google-play-services-lib" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.google-play-services-lib" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.google-play-services-lib" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.google-play-services-lib" value="${compiler.args}"/>
+
+    <property name="google-play-services-lib.output.dir"
+              value="${module.google-play-services-lib.basedir}/out/production/google-play-services-lib"/>
+    <property name="google-play-services-lib.testoutput.dir"
+              value="${module.google-play-services-lib.basedir}/out/test/google-play-services-lib"/>
+
+    <path id="google-play-services-lib.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="google-play-services-lib.module.production.classpath">
+        <path refid="${module.jdk.classpath.google-play-services-lib}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+    <path id="google-play-services-lib.runtime.production.module.classpath">
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+    <path id="google-play-services-lib.module.classpath">
+        <path refid="${module.jdk.classpath.google-play-services-lib}"/>
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+    <path id="google-play-services-lib.runtime.module.classpath">
+        <pathelement location="${google-play-services-lib.testoutput.dir}"/>
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.google-play-services-lib">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.google-play-services-lib">
+        <patternset refid="compiler.excluded"/>
+        <patternset refid="excluded.from.module.google-play-services-lib"/>
+    </patternset>
+
+    <path id="google-play-services-lib.module.sourcepath">
+        <dirset dir="${module.google-play-services-lib.basedir}/google-play-services-lib">
+            <include name="src"/>
+            <include name="gen"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.google-play-services-lib"
+            depends="compile.module.google-play-services-lib.production,compile.module.google-play-services-lib.tests"
+            description="Compile module google-play-services-lib"/>
+
+    <target name="compile.module.google-play-services-lib.production" depends="register.custom.compilers"
+            description="Compile module google-play-services-lib; production classes">
+        <mkdir dir="${google-play-services-lib.output.dir}"/>
+        <javac2 destdir="${google-play-services-lib.output.dir}" debug="${compiler.debug}"
+                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true"
+                executable="${module.jdk.bin.google-play-services-lib}/javac">
+            <compilerarg line="${compiler.args.google-play-services-lib}"/>
+            <bootclasspath refid="google-play-services-lib.module.bootclasspath"/>
+            <classpath refid="google-play-services-lib.module.production.classpath"/>
+            <src refid="google-play-services-lib.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.google-play-services-lib"/>
+        </javac2>
+
+        <copy todir="${google-play-services-lib.output.dir}">
+            <fileset dir="${module.google-play-services-lib.basedir}/google-play-services-lib/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.google-play-services-lib"/>
+            </fileset>
+            <fileset dir="${module.google-play-services-lib.basedir}/google-play-services-lib/gen">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.google-play-services-lib"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.google-play-services-lib.tests"
+            depends="register.custom.compilers,compile.module.google-play-services-lib.production"
+            description="compile module google-play-services-lib; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.google-play-services-lib" description="cleanup module">
+        <delete dir="${google-play-services-lib.output.dir}"/>
+        <delete dir="${google-play-services-lib.testoutput.dir}"/>
+    </target>
+
+
+    <!-- Module SentinelMobile -->
+
+    <dirname property="module.sentinelmobile.basedir" file="${ant.file}"/>
+
+
+    <property name="module.jdk.home.sentinelmobile" value="${jdk.home.android_4.2_google_apis}"/>
+    <property name="module.jdk.bin.sentinelmobile" value="${jdk.bin.android_4.2_google_apis}"/>
+    <property name="module.jdk.classpath.sentinelmobile" value="jdk.classpath.android_4.2_google_apis"/>
+
+    <property name="compiler.args.sentinelmobile" value="${compiler.args}"/>
+
+    <property name="sentinelmobile.output.dir" value="${module.sentinelmobile.basedir}/out/production/SentinelMobile"/>
+    <property name="sentinelmobile.testoutput.dir" value="${module.sentinelmobile.basedir}/out/test/SentinelMobile"/>
+
+    <path id="sentinelmobile.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="sentinelmobile.module.production.classpath">
+        <path refid="${module.jdk.classpath.sentinelmobile}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
+        <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+    <path id="sentinelmobile.runtime.production.module.classpath">
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
+        <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+    <path id="sentinelmobile.module.classpath">
+        <path refid="${module.jdk.classpath.sentinelmobile}"/>
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
+        <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <pathelement location="${google-play-services-lib.testoutput.dir}"/>
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+    <path id="sentinelmobile.runtime.module.classpath">
+        <pathelement location="${sentinelmobile.testoutput.dir}"/>
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
+        <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <pathelement location="${google-play-services-lib.testoutput.dir}"/>
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.sentinelmobile">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.sentinelmobile">
+        <patternset refid="compiler.excluded"/>
+        <patternset refid="excluded.from.module.sentinelmobile"/>
+    </patternset>
+
+    <path id="sentinelmobile.module.sourcepath">
+        <dirset dir="${module.sentinelmobile.basedir}">
+            <include name="src"/>
+            <include name="gen"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.sentinelmobile"
+            depends="compile.module.sentinelmobile.production,compile.module.sentinelmobile.tests"
+            description="Compile module SentinelMobile"/>
+
+    <target name="compile.module.sentinelmobile.production"
+            depends="register.custom.compilers,compile.module.google-play-services-lib"
+            description="Compile module SentinelMobile; production classes">
+        <mkdir dir="${sentinelmobile.output.dir}"/>
+        <javac2 destdir="${sentinelmobile.output.dir}" debug="${compiler.debug}"
+                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true"
+                executable="${module.jdk.bin.sentinelmobile}/javac">
+            <compilerarg line="${compiler.args.sentinelmobile}"/>
+            <bootclasspath refid="sentinelmobile.module.bootclasspath"/>
+            <classpath refid="sentinelmobile.module.production.classpath"/>
+            <src refid="sentinelmobile.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.sentinelmobile"/>
+        </javac2>
+
+        <copy todir="${sentinelmobile.output.dir}">
+            <fileset dir="${module.sentinelmobile.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.sentinelmobile"/>
+            </fileset>
+            <fileset dir="${module.sentinelmobile.basedir}/gen">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.sentinelmobile"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.sentinelmobile.tests"
+            depends="register.custom.compilers,compile.module.sentinelmobile.production"
+            description="compile module SentinelMobile; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.sentinelmobile" description="cleanup module">
+        <delete dir="${sentinelmobile.output.dir}"/>
+        <delete dir="${sentinelmobile.testoutput.dir}"/>
+    </target>
+
+
+    <!-- Module SentinelMobileTest -->
+
+    <dirname property="module.sentinelmobiletest.basedir" file="${ant.file}"/>
+
+
+    <property name="module.jdk.home.sentinelmobiletest" value="${project.jdk.home}"/>
+    <property name="module.jdk.bin.sentinelmobiletest" value="${project.jdk.bin}"/>
+    <property name="module.jdk.classpath.sentinelmobiletest" value="${project.jdk.classpath}"/>
+
+    <property name="compiler.args.sentinelmobiletest" value="${compiler.args}"/>
+
+    <property name="sentinelmobiletest.output.dir"
+              value="${module.sentinelmobiletest.basedir}/out/production/SentinelMobileTest"/>
+    <property name="sentinelmobiletest.testoutput.dir"
+              value="${module.sentinelmobiletest.basedir}/out/test/SentinelMobileTest"/>
+
+    <path id="sentinelmobiletest.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="sentinelmobiletest.module.production.classpath">
+        <path refid="${module.jdk.classpath.sentinelmobiletest}"/>
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+    <path id="sentinelmobiletest.runtime.production.module.classpath">
+        <pathelement location="${sentinelmobiletest.output.dir}"/>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+    <path id="sentinelmobiletest.module.classpath">
+        <path refid="${module.jdk.classpath.sentinelmobiletest}"/>
+        <pathelement location="${sentinelmobiletest.output.dir}"/>
+        <pathelement location="${sentinelmobile.testoutput.dir}"/>
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+    <path id="sentinelmobiletest.runtime.module.classpath">
+        <pathelement location="${sentinelmobiletest.testoutput.dir}"/>
+        <pathelement location="${sentinelmobiletest.output.dir}"/>
+        <pathelement location="${sentinelmobile.testoutput.dir}"/>
+        <pathelement location="${sentinelmobile.output.dir}"/>
+        <fileset dir="${basedir}/google-gson-2.2.1">
+            <patternset refid="library.patterns"/>
+        </fileset>
+        <pathelement location="${basedir}/google-zxing-2.1/android-integration.jar"/>
+        <pathelement location="${basedir}/google-zxing-2.1/core.jar"/>
+        <pathelement location="${google-play-services-lib.testoutput.dir}"/>
+        <pathelement location="${google-play-services-lib.output.dir}"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+        <pathelement location="${basedir}/google-play-services-lib/libs/google-play-services.jar"/>
+        <pathelement location="${basedir}/../../Robotium/robotium-solo-3.6.jar"/>
+        <pathelement location="${basedir}/../../junit-4.10.jar"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.sentinelmobiletest">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.sentinelmobiletest">
+        <patternset refid="compiler.excluded"/>
+        <patternset refid="excluded.from.module.sentinelmobiletest"/>
+    </patternset>
+
+    <path id="sentinelmobiletest.module.sourcepath">
+        <dirset dir="${module.sentinelmobiletest.basedir}/SentinelMobileTest">
+            <include name="src"/>
+            <include name="gen"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.sentinelmobiletest"
+            depends="compile.module.sentinelmobiletest.production,compile.module.sentinelmobiletest.tests"
+            description="Compile module SentinelMobileTest"/>
+
+    <target name="compile.module.sentinelmobiletest.production"
+            depends="register.custom.compilers,compile.module.sentinelmobile"
+            description="Compile module SentinelMobileTest; production classes">
+        <mkdir dir="${sentinelmobiletest.output.dir}"/>
+        <javac2 destdir="${sentinelmobiletest.output.dir}" debug="${compiler.debug}"
+                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true"
+                executable="${module.jdk.bin.sentinelmobiletest}/javac">
+            <compilerarg line="${compiler.args.sentinelmobiletest}"/>
+            <bootclasspath refid="sentinelmobiletest.module.bootclasspath"/>
+            <classpath refid="sentinelmobiletest.module.production.classpath"/>
+            <src refid="sentinelmobiletest.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.sentinelmobiletest"/>
+        </javac2>
+
+        <copy todir="${sentinelmobiletest.output.dir}">
+            <fileset dir="${module.sentinelmobiletest.basedir}/SentinelMobileTest/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.sentinelmobiletest"/>
+            </fileset>
+            <fileset dir="${module.sentinelmobiletest.basedir}/SentinelMobileTest/gen">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.sentinelmobiletest"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.sentinelmobiletest.tests"
+            depends="register.custom.compilers,compile.module.sentinelmobiletest.production"
+            description="compile module SentinelMobileTest; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.sentinelmobiletest" description="cleanup module">
+        <delete dir="${sentinelmobiletest.output.dir}"/>
+        <delete dir="${sentinelmobiletest.testoutput.dir}"/>
+    </target>
 
     <target name="init" description="Build initialization">
         <!-- Perform any build initialization in this target -->
