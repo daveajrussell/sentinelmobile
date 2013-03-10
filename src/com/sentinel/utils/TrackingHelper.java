@@ -2,6 +2,7 @@ package com.sentinel.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import com.sentinel.models.GeospatialInformation;
@@ -16,15 +17,36 @@ public abstract class TrackingHelper {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
 
-        Location location = null;
+        Location gpsProvidedLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location otherProviderLocation = null;
 
-        for (int i = providers.size() - 1; i >= 0; i--) {
-            location = locationManager.getLastKnownLocation(providers.get(i));
-            if (location != null)
-                break;
+        if (null != gpsProvidedLocation) {
+            return gpsProvidedLocation;
+        } else {
+            for (int i = providers.size() - 1; i >= 0; i--) {
+
+                otherProviderLocation = locationManager.getLastKnownLocation(providers.get(i));
+
+                if (otherProviderLocation != null)
+                    break;
+            }
         }
 
-        return location;
+        return otherProviderLocation;
+    }
+
+    public static GeospatialInformation getGeospatialInformation(final Context context, final Location location) {
+        SentinelSharedPreferences oSentinelSharedPreferences = new SentinelSharedPreferences(context);
+        return new GeospatialInformation
+                (
+                        oSentinelSharedPreferences.getSessionID(),
+                        oSentinelSharedPreferences.getUserIdentification(),
+                        System.currentTimeMillis(),
+                        location.getLongitude(),
+                        location.getLatitude(),
+                        location.getSpeed(),
+                        context.getResources().getConfiguration().orientation
+                );
     }
 
     public static GeospatialInformation getGeospatialInformation(final Context context) {
@@ -51,5 +73,16 @@ public abstract class TrackingHelper {
     public static void stopLocationService(final Context context) {
         Intent locationServicesIntent = new Intent(context, SentinelLocationService.class);
         context.stopService(locationServicesIntent);
+    }
+
+    public static Criteria getGeoSpatialCriteria() {
+        new CriteriaBuilder()
+                .setAccuracy(Criteria.ACCURACY_FINE)
+                .setPowerRequirement(Criteria.POWER_HIGH)
+                .setAltitudeRequired(false)
+                .setBearingRequired(false)
+                .setSpeedRequired(true)
+                .setCostAllowed(true);
+        return CriteriaBuilder.build();
     }
 }

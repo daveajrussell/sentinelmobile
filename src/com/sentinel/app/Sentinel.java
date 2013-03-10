@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,7 +26,6 @@ import com.sentinel.authentication.SentinelLogin;
 import com.sentinel.preferences.SentinelSharedPreferences;
 import com.sentinel.services.SentinelLocationService;
 import com.sentinel.utils.AuthenticationHelper;
-import com.sentinel.utils.CriteriaBuilder;
 import com.sentinel.utils.TrackingHelper;
 import com.sentinel.utils.Utils;
 
@@ -45,8 +43,8 @@ public class Sentinel extends Activity {
         NEW_SESSION = "NEW_SESSION";
         RESUME_SESSION = "RESUME_SESSION";
         RESUME_MESSAGE = "RESUME_MESSAGE";
-        TIME = 60000;
-        DISTANCE = 100;
+        TIME = 20000;
+        DISTANCE = 0;
     }
 
     private static Location lastLocation;
@@ -187,23 +185,14 @@ public class Sentinel extends Activity {
         mSentinelLocationListener = new sentinelLocationListener();
         mSentinelLocationManager = ((LocationManager) getSystemService(LOCATION_SERVICE));
 
-        Criteria criteria = getGeoSpatialCriteria();
+        //Criteria criteria = TrackingHelper.getGeoSpatialCriteria();
 
-        String provider = mSentinelLocationManager.getBestProvider(criteria, true);
-        mSentinelLocationManager.requestLocationUpdates(provider, TIME, DISTANCE, mSentinelLocationListener);
+        //String provider = mSentinelLocationManager.getBestProvider(criteria, true);
+
+        mSentinelLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, mSentinelLocationListener);
+        mSentinelLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, TIME, DISTANCE, mSentinelLocationListener);
 
         updateLocation(getLastLocation());
-    }
-
-    private static Criteria getGeoSpatialCriteria() {
-        new CriteriaBuilder()
-                .setAccuracy(Criteria.ACCURACY_FINE)
-                .setPowerRequirement(Criteria.POWER_HIGH)
-                .setAltitudeRequired(false)
-                .setBearingRequired(false)
-                .setSpeedRequired(false)
-                .setCostAllowed(true);
-        return CriteriaBuilder.build();
     }
 
     protected void stopLocationUpdates() {

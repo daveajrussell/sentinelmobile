@@ -19,13 +19,12 @@ import com.sentinel.app.Sentinel;
 import com.sentinel.connection.ConnectionManager;
 import com.sentinel.models.GeospatialInformation;
 import com.sentinel.sql.SentinelDB;
-import com.sentinel.utils.JsonBuilder;
 import com.sentinel.utils.ServiceHelper;
 import com.sentinel.utils.TrackingHelper;
 import com.sentinel.utils.Utils;
 
 
-public class SentinelLocationService extends Service {
+public class SentinelLocationService extends Service implements LocationListener {
     private static final int TIME;
     private static final int DISTANCE;
     private static final int LOCATION_NOTIFICATION_ID;
@@ -37,45 +36,43 @@ public class SentinelLocationService extends Service {
 
     static {
         TIME = 20000;
-        DISTANCE = 10;
+        DISTANCE = 0;
         LOCATION_NOTIFICATION_ID = 1;
         SPEEDING_NOTIFICATION_ID = 2;
         MAX_SPEED = 134.2161774;
     }
 
+    private LocationManager mSentinelLocationManager;
     private static Location mCurrentLocation;
     private SentinelDB mSentinelDB;
 
-    private final class SentinelLocationListener implements LocationListener {
-        @Override
-        public void onLocationChanged(Location location) {
-            if (location.getSpeed() > MAX_SPEED) {
-                handleExcessSpeed(location);
-            }
-
-            if (Utils.checkUpdateIsMoreAccurate(location, mCurrentLocation, TIME)) {
-                handleLocationChanged(location);
-            }
+    @Override
+    public void onLocationChanged(Location location) {
+        if (Utils.checkUpdateIsMoreAccurate(location, mCurrentLocation, TIME)) {
+            handleLocationChanged(location);
         }
 
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-            notifyProviderEnabled();
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-            notifyProviderDisabled();
+        if (location.getSpeed() > MAX_SPEED) {
+            handleExcessSpeed();
         }
     }
 
-    private LocationListener sentinelLocationListener;
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+    }
 
-    private LocationManager sentinelLocationManager;
+    @Override
+    public void onProviderEnabled(String s) {
+        if (s.equals(LocationManager.GPS_PROVIDER) || s.equals(LocationManager.NETWORK_PROVIDER)) {
+            mSentinelLocationManager.requestLocationUpdates(s, TIME, DISTANCE, this);
+        }
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+        notifyProviderDisabled();
+    }
+
     private NotificationCompat.Builder locationServiceNotificationBuilder;
     private NotificationCompat.Builder speedingNotificationBuilder;
     private NotificationManager notificationManager;
@@ -84,31 +81,28 @@ public class SentinelLocationService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        removeUpdates();
-
-        sentinelLocationListener = new SentinelLocationListener();
-        sentinelLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        sentinelLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, sentinelLocationListener);
-
         locationServiceNotificationBuilder = new NotificationCompat.Builder(this);
         speedingNotificationBuilder = new NotificationCompat.Builder(this);
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         mSentinelDB = new SentinelDB(this);
+
+        mSentinelLocationManager = ((LocationManager) getSystemService(LOCATION_SERVICE));
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startID) {
         if (0 != mSentinelDB.getRowCount()) {
             String historicalGeospatialJson = mSentinelDB.getBufferedGeospatialDataJsonString();
-            ServiceHelper.sendHistoricalDataToLocationService(this, historicalGeospatialJson);
+            ServiceHelper.sendHistoricalDataToLocationService(this, historicalGeospatialJson.toString());
         }
 
+        startLocationUpdates();
         startSentinelLocationNotifications();
-        startSentinelLocationForegroundService();
+        startForegroundService();
 
-        return Service.START_STICKY;
+        return super.onStartCommand(intent, flags, startID);
     }
 
     @Override
@@ -118,8 +112,10 @@ public class SentinelLocationService extends Service {
 
     @Override
     public void onDestroy() {
-        stopSentinelLocationForegroundService();
         super.onDestroy();
+
+        stopLocationUpdates();
+        stopForegroundService();
     }
 
     @Override
@@ -127,32 +123,34 @@ public class SentinelLocationService extends Service {
         super.onConfigurationChanged(newConfig);
 
         if (!ignoreOrientation) {
-            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ||
+                    newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 Intent intent = new Intent(this, OrientationBroadcastReceiver.class);
-                intent.putExtra(OrientationBroadcastReceiver.ORIENTATION, "Device is not oriented correctly.");
+                intent.putExtra(OrientationBroadcastReceiver.ORIENTATION, newConfig.orientation);
                 sendBroadcast(intent);
             }
         }
     }
 
-    private void startSentinelLocationForegroundService() {
+    private void startLocationUpdates() {
+        mSentinelLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, this);
+        mSentinelLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, TIME, DISTANCE, this);
+    }
+
+    private void stopLocationUpdates() {
+        mSentinelLocationManager.removeUpdates(this);
+        mSentinelLocationManager = null;
+    }
+
+    private void startForegroundService() {
         if (!isJUnit) {
             startForeground(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
         }
     }
 
-    private void stopSentinelLocationForegroundService() {
-        removeUpdates();
+    private void stopForegroundService() {
         if (!isJUnit) {
             stopForeground(true);
-        }
-    }
-
-    private void removeUpdates() {
-        if (null != sentinelLocationListener && null != sentinelLocationManager) {
-            sentinelLocationManager.removeUpdates(sentinelLocationListener);
-            sentinelLocationManager = null;
-            sentinelLocationListener = null;
         }
     }
 
@@ -161,18 +159,20 @@ public class SentinelLocationService extends Service {
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         locationServiceNotificationBuilder
                 .setContentTitle("Sentinel")
-                .setContentText("Sentinel Running")
+                .setContentText("Tracking")
                 .setSubText("Determining Location...")
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.ic_stat_example)
                 .setContentIntent(pIntent);
     }
 
     private void notifyLocationUpdate(Location location) {
-        locationServiceNotificationBuilder.setSubText("Update: " + location.getLatitude() + " " + location.getLongitude()).build();
+        locationServiceNotificationBuilder
+                .setSubText("Last Update: " + location.getLatitude() + ", " + location.getLongitude())
+                .setTicker("Update: " + location.getLatitude() + ", " + location.getLongitude());
         notificationManager.notify(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }
 
-    public void handleExcessSpeed(final Location location) {
+    public void handleExcessSpeed() {
         speedingNotificationBuilder
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
@@ -183,18 +183,19 @@ public class SentinelLocationService extends Service {
                 .setAutoCancel(true);
         notificationManager.notify(SPEEDING_NOTIFICATION_ID, speedingNotificationBuilder.build());
 
+        /*
         if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
             String speedingNotificationJson = JsonBuilder.geospatialDataJson(this, location);
             ServiceHelper.sendGISToLocationService(this, speedingNotificationJson);
             handleLocationChanged(location);
-        }
+        }*/
     }
 
     public void handleLocationChanged(final Location location) {
         mCurrentLocation = location;
         notifyLocationUpdate(location);
 
-        String strGeospatialInformationJson = addLocationToDatabaseAndReturnLocationJson();
+        String strGeospatialInformationJson = addLocationToDatabaseAndReturnLocationJson(location);
 
         if (ConnectionManager.deviceIsConnected(getApplicationContext())) {
             if (mSentinelDB.getRowCount() >= 2) {
@@ -210,8 +211,9 @@ public class SentinelLocationService extends Service {
         ignoreOrientation = ignore;
     }
 
-    private String addLocationToDatabaseAndReturnLocationJson() {
-        GeospatialInformation oGeospatialInformation = TrackingHelper.getGeospatialInformation(this);
+    private String addLocationToDatabaseAndReturnLocationJson(Location location) {
+        GeospatialInformation oGeospatialInformation = TrackingHelper.getGeospatialInformation(this, location);
+
         mSentinelDB.addGeospatialData(oGeospatialInformation);
 
         return mSentinelDB.getBufferedGeospatialDataJsonString();
@@ -228,12 +230,6 @@ public class SentinelLocationService extends Service {
                 .setContentTitle("Sentinel")
                 .setContentText("Warning")
                 .setSubText("You must enable GPS Services").build();
-        notificationManager.notify(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
-    }
-
-    private void notifyProviderEnabled() {
-        notificationManager.cancel(LOCATION_NOTIFICATION_ID);
-        startSentinelLocationNotifications();
         notificationManager.notify(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }
 }

@@ -34,7 +34,7 @@
             android:targetSdkVersion="17"/>
 
     <application
-            android:label=""
+            android:label="Sentinel"
             android:icon="@drawable/ic_launcher">
 
         <uses-library android:required="true" android:name="com.google.android.maps"/>

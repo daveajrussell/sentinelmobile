@@ -37,6 +37,9 @@ public class GeotagDeliveryZXingActvity extends Activity {
             if (strResultContents != null) {
                 Toast.makeText(this, "Scan Successful", Toast.LENGTH_SHORT).show();
                 new AssetServiceAsyncTask(this).execute(strResultContents);
+
+                Intent sentinelIntent = new Intent(this, Sentinel.class);
+                startActivity(sentinelIntent);
             } else {
                 Toast.makeText(this, "Scan Unsuccessful", Toast.LENGTH_SHORT).show();
                 Intent sentinelIntent = new Intent(this, Sentinel.class);

@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.sentinel.models.GeospatialInformation;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 /**
  * David Russell
@@ -91,14 +90,6 @@ public class SentinelDB {
     public String getBufferedGeospatialDataJsonString() {
         Cursor cursor = getBufferedSentinelGeospatialDataCursor();
 
-        int SESSION_ID_COLUMN_INDEX = cursor.getColumnIndex(KEY_SESSION_ID_COLUMN);
-        int USER_IDENTIFICATION_COLUMN_INDEX = cursor.getColumnIndex(KEY_USER_IDENTITY_COLUMN);
-        int TIMESTAMP_COLUMN_INDEX = cursor.getColumnIndex(KEY_TIMESTAMP_COLUMN);
-        int LATITUDE_COLUMN_INDEX = cursor.getColumnIndex(KEY_LATITUDE_COLUMN);
-        int LONGITUDE_COLUMN_INDEX = cursor.getColumnIndex(KEY_LONGITUDE_COLUMN);
-        int SPEED_COLUMN_INDEX = cursor.getColumnIndex(KEY_SPEED_COLUMN);
-        int ORIENTATION_COLUMN_INDEX = cursor.getColumnIndex(KEY_ORIENTATION_COLUMN);
-
         JSONObject oBufferedDataJson;
         JSONArray oBufferedDataJsonArray;
 
@@ -107,33 +98,16 @@ public class SentinelDB {
             if (cursor.getCount() == 1) {
                 cursor.moveToFirst();
 
-                return new Gson().toJson(new JSONStringer()
-                        .object()
-                        .key("iSessionID").value(cursor.getInt(SESSION_ID_COLUMN_INDEX))
-                        .key("oUserIdentification").value(cursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
-                        .key("lTimeStamp").value(cursor.getLong(TIMESTAMP_COLUMN_INDEX))
-                        .key("dLatitude").value(cursor.getDouble(LATITUDE_COLUMN_INDEX))
-                        .key("dLongitude").value(cursor.getDouble(LONGITUDE_COLUMN_INDEX))
-                        .key("dSpeed").value(cursor.getDouble(SPEED_COLUMN_INDEX))
-                        .key("iOrientation").value(cursor.getInt(ORIENTATION_COLUMN_INDEX))
-                        .endObject().toString());
+                return new Gson().toJson(getJSONObjectFromCursor(cursor).toString());
 
             } else if (cursor.getCount() > 1) {
                 oBufferedDataJsonArray = new JSONArray();
                 oBufferedDataJson = new JSONObject();
 
                 while (cursor.moveToNext()) {
-                    oBufferedDataJsonArray.put(new JSONStringer()
-                            .object()
-                            .key("iSessionID").value(cursor.getInt(SESSION_ID_COLUMN_INDEX))
-                            .key("oUserIdentification").value(cursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
-                            .key("lTimeStamp").value(cursor.getLong(TIMESTAMP_COLUMN_INDEX))
-                            .key("dLatitude").value(cursor.getDouble(LATITUDE_COLUMN_INDEX))
-                            .key("dLongitude").value(cursor.getDouble(LONGITUDE_COLUMN_INDEX))
-                            .key("dSpeed").value(cursor.getDouble(SPEED_COLUMN_INDEX))
-                            .key("iOrientation").value(cursor.getInt(ORIENTATION_COLUMN_INDEX))
-                            .endObject().toString());
+                    oBufferedDataJsonArray.put(getJSONObjectFromCursor(cursor));
                 }
+
                 oBufferedDataJson.put("BufferedData", oBufferedDataJsonArray);
                 return new Gson().toJson(oBufferedDataJson.toString());
             }
@@ -143,6 +117,34 @@ public class SentinelDB {
             cursor.close();
         }
         return null;
+    }
+
+    private JSONObject getJSONObjectFromCursor(final Cursor cursor) {
+
+        int SESSION_ID_COLUMN_INDEX = cursor.getColumnIndex(KEY_SESSION_ID_COLUMN);
+        int USER_IDENTIFICATION_COLUMN_INDEX = cursor.getColumnIndex(KEY_USER_IDENTITY_COLUMN);
+        int TIMESTAMP_COLUMN_INDEX = cursor.getColumnIndex(KEY_TIMESTAMP_COLUMN);
+        int LATITUDE_COLUMN_INDEX = cursor.getColumnIndex(KEY_LATITUDE_COLUMN);
+        int LONGITUDE_COLUMN_INDEX = cursor.getColumnIndex(KEY_LONGITUDE_COLUMN);
+        int SPEED_COLUMN_INDEX = cursor.getColumnIndex(KEY_SPEED_COLUMN);
+        int ORIENTATION_COLUMN_INDEX = cursor.getColumnIndex(KEY_ORIENTATION_COLUMN);
+
+        JSONObject jsonObject = null;
+
+        try {
+            jsonObject = new JSONObject()
+                    .put("iSessionID", cursor.getInt(SESSION_ID_COLUMN_INDEX))
+                    .put("oUserIdentification", cursor.getString(USER_IDENTIFICATION_COLUMN_INDEX))
+                    .put("lTimeStamp", cursor.getLong(TIMESTAMP_COLUMN_INDEX))
+                    .put("dLatitude", cursor.getDouble(LATITUDE_COLUMN_INDEX))
+                    .put("dLongitude", cursor.getDouble(LONGITUDE_COLUMN_INDEX))
+                    .put("dSpeed", cursor.getDouble(SPEED_COLUMN_INDEX))
+                    .put("iOrientation", cursor.getInt(ORIENTATION_COLUMN_INDEX));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return jsonObject;
     }
 
     public void addGeospatialData(GeospatialInformation oGeoInformation) {

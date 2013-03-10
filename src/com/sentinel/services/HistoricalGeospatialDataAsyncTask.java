@@ -15,7 +15,7 @@ public class HistoricalGeospatialDataAsyncTask extends AsyncTask<String, Integer
     private SentinelDB mSentinelDB;
 
     static {
-        METHOD_NAME = "/PostBufferedHistorialData";
+        METHOD_NAME = "/PostBufferedHistoricalData";
         URL = "http://webservices.daveajrussell.com/Services/LocationService.svc";
     }
 
