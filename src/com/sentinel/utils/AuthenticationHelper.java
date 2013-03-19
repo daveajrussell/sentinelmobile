@@ -4,17 +4,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.sentinel.app.R;
 import com.sentinel.authentication.LogoutAsyncTask;
 import com.sentinel.authentication.SentinelLogin;
 import com.sentinel.models.User;
 import com.sentinel.preferences.SentinelSharedPreferences;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -25,19 +24,22 @@ public abstract class AuthenticationHelper {
         try {
             SentinelSharedPreferences sentinelSharedPreferences = new SentinelSharedPreferences(context);
 
-            HttpEntity httpEntity = httpResponse.getEntity();
-            InputStream inputStream = httpEntity.getContent();
-            Reader reader = new InputStreamReader(inputStream);
+            InputStream inputStream = httpResponse.getEntity().getContent();
+            Reader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
 
-            JsonParser jsonParser = new JsonParser();
-            String json = new Gson().fromJson(reader, String.class);
-            JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String json = reader.readLine();
 
-            User user = new User();
-            user.setUserIdentification(new Gson().fromJson(jsonObject.get("UserKey"), String.class));
-            user.setSessionID(new Gson().fromJson(jsonObject.get("SessionID"), int.class));
+            try {
+                JSONObject jsonObject = new JSONObject(json);
 
-            sentinelSharedPreferences.setUserPreferences(user.getUserIdentification(), user.getSessionID());
+                User user = new User();
+                user.setUserIdentification(jsonObject.getString("UserKey"));
+                user.setSessionID(jsonObject.getInt("SessionID"));
+                sentinelSharedPreferences.setUserPreferences(user.getUserIdentification(), user.getSessionID());
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

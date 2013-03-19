@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.google.gson.Gson;
 import com.sentinel.models.GeospatialInformation;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -98,7 +97,8 @@ public class SentinelDB {
             if (cursor.getCount() == 1) {
                 cursor.moveToFirst();
 
-                return new Gson().toJson(getJSONObjectFromCursor(cursor).toString());
+                //return new Gson().toJson(getJSONObjectFromCursor(cursor).toString());
+                return getJSONObjectFromCursor(cursor).toString();
 
             } else if (cursor.getCount() > 1) {
                 oBufferedDataJsonArray = new JSONArray();
@@ -109,7 +109,8 @@ public class SentinelDB {
                 }
 
                 oBufferedDataJson.put("BufferedData", oBufferedDataJsonArray);
-                return new Gson().toJson(oBufferedDataJson.toString());
+                //return new Gson().toJson(oBufferedDataJson.toString());
+                return oBufferedDataJson.toString();
             }
         } catch (Exception ex) {
             ex.printStackTrace();

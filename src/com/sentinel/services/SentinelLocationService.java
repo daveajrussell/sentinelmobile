@@ -63,7 +63,7 @@ public class SentinelLocationService extends Service implements LocationListener
 
     @Override
     public void onProviderEnabled(String s) {
-        if (s.equals(LocationManager.GPS_PROVIDER) || s.equals(LocationManager.NETWORK_PROVIDER)) {
+        if (s.equals(LocationManager.GPS_PROVIDER)) {// || s.equals(LocationManager.NETWORK_PROVIDER)) {
             mSentinelLocationManager.requestLocationUpdates(s, TIME, DISTANCE, this);
         }
     }
@@ -134,7 +134,7 @@ public class SentinelLocationService extends Service implements LocationListener
 
     private void startLocationUpdates() {
         mSentinelLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME, DISTANCE, this);
-        mSentinelLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, TIME, DISTANCE, this);
+        //mSentinelLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, TIME, DISTANCE, this);
     }
 
     private void stopLocationUpdates() {
@@ -167,7 +167,7 @@ public class SentinelLocationService extends Service implements LocationListener
 
     private void notifyLocationUpdate(Location location) {
         locationServiceNotificationBuilder
-                .setSubText("Last Update: " + location.getLatitude() + ", " + location.getLongitude())
+                .setSubText("Location: " + location.getLatitude() + ", " + location.getLongitude())
                 .setTicker("Update: " + location.getLatitude() + ", " + location.getLongitude());
         notificationManager.notify(LOCATION_NOTIFICATION_ID, locationServiceNotificationBuilder.build());
     }

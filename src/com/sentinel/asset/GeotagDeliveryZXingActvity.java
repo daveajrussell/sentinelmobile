@@ -42,8 +42,6 @@ public class GeotagDeliveryZXingActvity extends Activity {
                 startActivity(sentinelIntent);
             } else {
                 Toast.makeText(this, "Scan Unsuccessful", Toast.LENGTH_SHORT).show();
-                Intent sentinelIntent = new Intent(this, Sentinel.class);
-                startActivity(sentinelIntent);
             }
         }
     }
@@ -71,14 +69,8 @@ public class GeotagDeliveryZXingActvity extends Activity {
         protected void onPostExecute(String result) {
             if (result.equals(HttpResponseCode.OK_RESULT)) {
                 Toast.makeText(mContext, "Delivery Successful", Toast.LENGTH_LONG).show();
-                Intent sentinelIntent = new Intent(mContext, Sentinel.class);
-                sentinelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(sentinelIntent);
             } else {
                 Toast.makeText(mContext, "Delivery Unsuccessful", Toast.LENGTH_LONG).show();
-                Intent qrRetryIntent = new Intent(mContext, GeotagDeliveryZXingActvity.class);
-                qrRetryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(qrRetryIntent);
             }
         }
     }
