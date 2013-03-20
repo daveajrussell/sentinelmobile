@@ -35,13 +35,12 @@ public class GeotagDeliveryZXingActvity extends Activity {
         if (result != null) {
             final String strResultContents = result.getContents();
             if (strResultContents != null) {
-                Toast.makeText(this, "Scan Successful", Toast.LENGTH_SHORT).show();
                 new AssetServiceAsyncTask(this).execute(strResultContents);
 
                 Intent sentinelIntent = new Intent(this, Sentinel.class);
                 startActivity(sentinelIntent);
             } else {
-                Toast.makeText(this, "Scan Unsuccessful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Scan Failed", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -70,7 +69,7 @@ public class GeotagDeliveryZXingActvity extends Activity {
             if (result.equals(HttpResponseCode.OK_RESULT)) {
                 Toast.makeText(mContext, "Delivery Successful", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(mContext, "Delivery Unsuccessful", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Delivery Failed", Toast.LENGTH_LONG).show();
             }
         }
     }

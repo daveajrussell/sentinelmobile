@@ -95,7 +95,12 @@ public class SentinelLocationService extends Service implements LocationListener
     public int onStartCommand(Intent intent, int flags, int startID) {
         if (0 != mSentinelDB.getRowCount()) {
             String historicalGeospatialJson = mSentinelDB.getBufferedGeospatialDataJsonString();
-            ServiceHelper.sendHistoricalDataToLocationService(this, historicalGeospatialJson.toString());
+
+            if (1 == mSentinelDB.getRowCount()) {
+                ServiceHelper.sendHistoricalDataToLocationService(this, historicalGeospatialJson.toString());
+            } else if (1 < mSentinelDB.getRowCount()) {
+                ServiceHelper.sendHistoricalDataSetToLocationService(this, historicalGeospatialJson.toString());
+            }
         }
 
         startLocationUpdates();

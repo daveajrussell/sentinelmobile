@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import com.sentinel.services.BufferedGeospatialDataAsyncTask;
 import com.sentinel.services.HistoricalGeospatialDataAsyncTask;
+import com.sentinel.services.HistoricalGeospatialDataSetAsyncTask;
 import com.sentinel.services.LocationServiceAsyncTask;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -11,13 +12,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 
-public abstract class ServiceHelper
-{
+public abstract class ServiceHelper {
 
-    public static String doPost(final Context context, final String methodName, final String url, final String entity, final boolean login)
-    {
-        try
-        {
+    public static String doPost(final Context context, final String methodName, final String url, final String entity, final boolean login) {
+        try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(url + methodName);
             httpPost.setHeader(HTTP.CONTENT_TYPE, "application/json");
@@ -33,27 +31,21 @@ public abstract class ServiceHelper
             int statusCode = httpResponse.getStatusLine().getStatusCode();
             String response = getResponse(statusCode);
 
-            if (login)
-            {
-                if (response.equals(HttpResponseCode.OK_RESULT))
-                {
+            if (login) {
+                if (response.equals(HttpResponseCode.OK_RESULT)) {
                     AuthenticationHelper.performLogin(httpResponse, context);
                 }
             }
             return response;
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return HttpResponseCode.EXCEPTION_THROWN_RESULT;
         }
     }
 
-    private static String getResponse(int responseCode)
-    {
-        switch (responseCode)
-        {
+    private static String getResponse(int responseCode) {
+        switch (responseCode) {
             case HttpResponseCode.OK:
                 return HttpResponseCode.OK_RESULT;
             case HttpResponseCode.BAD_REQUEST:
@@ -69,18 +61,19 @@ public abstract class ServiceHelper
         }
     }
 
-    public static void sendGISToLocationService(final Context context, final String strGeospatialJson)
-    {
+    public static void sendGISToLocationService(final Context context, final String strGeospatialJson) {
         new LocationServiceAsyncTask(context).execute(strGeospatialJson);
     }
 
-    public static void sendBufferedGeospatialDataToLocationService(final Context context, final String strGeospatialJsonSet)
-    {
+    public static void sendBufferedGeospatialDataToLocationService(final Context context, final String strGeospatialJsonSet) {
         new BufferedGeospatialDataAsyncTask(context).execute(strGeospatialJsonSet);
     }
 
-    public static void sendHistoricalDataToLocationService(final Context context, final String historicalGeospatialJson)
-    {
+    public static void sendHistoricalDataToLocationService(final Context context, final String histroicalGeospatialDataSetJson) {
+        new HistoricalGeospatialDataSetAsyncTask(context).execute(histroicalGeospatialDataSetJson);
+    }
+
+    public static void sendHistoricalDataSetToLocationService(final Context context, final String historicalGeospatialJson) {
         new HistoricalGeospatialDataAsyncTask(context).execute(historicalGeospatialJson);
     }
 
