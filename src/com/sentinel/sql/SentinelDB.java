@@ -157,7 +157,7 @@ public class SentinelDB {
         newGeospatialValues.put(KEY_LATITUDE_COLUMN, oGeoInformation.getLatitude());
         newGeospatialValues.put(KEY_LONGITUDE_COLUMN, oGeoInformation.getLongitude());
         newGeospatialValues.put(KEY_ORIENTATION_COLUMN, oGeoInformation.getOrientation());
-        newGeospatialValues.put(KEY_SPEED_COLUMN, oGeoInformation.getSpeed());
+        newGeospatialValues.put(KEY_SPEED_COLUMN, 1 + (int) (Math.random() * ((60 - 1) + 1))/*oGeoInformation.getSpeed()*/);
 
         SQLiteDatabase oSentinelDB = mSentinelDBOpenHelper.getWritableDatabase();
 

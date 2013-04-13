@@ -35,7 +35,7 @@ public class SentinelLocationService extends Service implements LocationListener
     private static boolean ignoreOrientation = false;
 
     static {
-        TIME = 20000;
+        TIME = 10000;
         DISTANCE = 0;
         LOCATION_NOTIFICATION_ID = 1;
         SPEEDING_NOTIFICATION_ID = 2;

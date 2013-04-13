@@ -30,7 +30,7 @@
     <uses-feature android:name="android.hardware.camera"/>
 
     <uses-sdk
-            android:minSdkVersion="15"
+            android:minSdkVersion="9"
             android:targetSdkVersion="17"/>
 
     <application

@@ -1,9 +1,6 @@
 package com.sentinel.app;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,11 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -60,7 +55,7 @@ public class Sentinel extends Activity {
         mSentinelSharedPreferences = new SentinelSharedPreferences(this);
         int result = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 
-        if (result == ConnectionResult.SUCCESS) {
+        /*if (result == ConnectionResult.SUCCESS) {
             setContentView(R.layout.main);
 
             FragmentManager fragmentManager = getFragmentManager();
@@ -83,7 +78,7 @@ public class Sentinel extends Activity {
                     })
                     .setCancelable(false)
                     .show();
-        }
+        }    */
     }
 
     protected void onResume() {
